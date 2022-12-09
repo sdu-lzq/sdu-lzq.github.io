@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SM4www.gmbz.org.cn&#x2F;main&#x2F;viewfile&#x2F;20180108015408199368.html 加解密运算1.首先将输入的128bit明文分成 4个32bit的数据$x_{0},x_{1},x_{2},x_{3}$,并作32轮轮变换.2.$x_{i}$暂时不做处理，将$x_{i+1},x_{i+2},x_{i+3}$和轮密钥$rk_{i}$异或得到一个32bit都数据，作为S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2022/12/08/SM4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="SM4www.gmbz.org.cn&#x2F;main&#x2F;viewfile&#x2F;20180108015408199368.html 加解密运算1.首先将输入的128bit明文分成 4个32bit的数据$x_{0},x_{1},x_{2},x_{3}$,并作32轮轮变换.2.$x_{i}$暂时不做处理，将$x_{i+1},x_{i+2},x_{i+3}$和轮密钥$rk_{i}$异或得到一个32bit都数据，作为S">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:/Users/lc-lzq/AppData/Roaming/Typora/typora-user-images/image-20220730143943862.png">
+<meta property="og:image" content="c:/Users/lc-lzq/AppData/Roaming/Typora/typora-user-images/image-20220730145131205.png">
+<meta property="og:image" content="c:/Users/lc-lzq/AppData/Roaming/Typora/typora-user-images/image-20220730145117591.png">
+<meta property="og:image" content="c:/Users/lc-lzq/AppData/Roaming/Typora/typora-user-images/image-20220730145608565.png">
+<meta property="article:published_time" content="2022-12-08T13:37:03.601Z">
+<meta property="article:modified_time" content="2022-07-30T06:56:22.586Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/lc-lzq/AppData/Roaming/Typora/typora-user-images/image-20220730143943862.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SM4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/12/08/SM4/" class="article-date">
+  <time datetime="2022-12-08T13:37:03.601Z" itemprop="datePublished">2022-12-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="SM4"><a href="#SM4" class="headerlink" title="SM4"></a>SM4</h2><p><a target="_blank" rel="noopener" href="http://www.gmbz.org.cn/main/viewfile/20180108015408199368.html">www.gmbz.org.cn/main/viewfile/20180108015408199368.html</a></p>
+<p>加解密运算<br>1.首先将输入的128bit明文分成 4个32bit的数据$x_{0},x_{1},x_{2},x_{3}$,并作32轮轮变换.<br>2.$x_{i}$暂时不做处理，将$x_{i+1},x_{i+2},x_{i+3}$和轮密钥$rk_{i}$异或得到一个32bit都数据，作为S盒变换的输入.<br>3.下面进行S盒变换的过程，每个S盒的输入都是8位的一个字节，将这8位的前4位对应的16进制数作为行编号，后4位作为列编号，然后用S盒中对应位置的数进行代替.<br>4.然后将刚才Sbox的结果分别循环左移2，10，18，24位，得到的数与Sbox的输出进行异或然后得到$x_{i+4}$.<br>5.将最后输出的$x_{35},x_{34},x_{33},x_{32}$合并成一个128bit都数据，最为最后的结果进行输出.<br>6.解密的过程和加密的过程其实没有本质区别，由于是对称密码方案，在解密时我们只需要将32轮的轮密钥反序使用即可。</p>
+<p>我们按照SM4实现的相关步骤首先实现了SM4的基础实现版本，下面我们对SM4进行加速优化</p>
+<h5 id="P1-查表优化"><a href="#P1-查表优化" class="headerlink" title="P1 查表优化"></a>P1 查表优化</h5><p>为了提升效率，我们可以将S盒和后续的循环移位运算进行合并</p>
+<p>1.预计算，生成查找表</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//4个T表</span></span><br><span class="line"><span class="type">static</span> <span class="type">uint32_t</span> Table0[<span class="number">256</span>];</span><br><span class="line"><span class="type">static</span> <span class="type">uint32_t</span> Table1[<span class="number">256</span>];</span><br><span class="line"><span class="type">static</span> <span class="type">uint32_t</span> Table2[<span class="number">256</span>];</span><br><span class="line"><span class="type">static</span> <span class="type">uint32_t</span> Table3[<span class="number">256</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">uint8_t</span> <span class="title function_">S_replace</span><span class="params">(<span class="type">uint8_t</span> in)</span> &#123;</span><br><span class="line">    <span class="type">uint8_t</span> xlable = in &gt;&gt; <span class="number">4</span>;</span><br><span class="line">    <span class="type">uint8_t</span> ylable = in &lt;&lt; <span class="number">4</span>;</span><br><span class="line">    ylable = ylable &gt;&gt; <span class="number">4</span>;</span><br><span class="line">    <span class="type">int</span> index = xlable * <span class="number">16</span> + ylable;</span><br><span class="line">    <span class="keyword">return</span> SBox[index];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">uint32_t</span> <span class="title function_">Cycle_shift_left</span><span class="params">(<span class="type">uint32_t</span> num, <span class="type">int</span> shift)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (num &lt;&lt; shift) ^ (num &gt;&gt; (<span class="number">32</span> - shift));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">uint32_t</span> <span class="title function_">L</span><span class="params">(<span class="type">uint32_t</span> num)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> num = Cycle_shift_left(num, <span class="number">2</span>) ^ Cycle_shift_left(num, <span class="number">10</span>) ^ Cycle_shift_left(num, <span class="number">18</span>) ^ Cycle_shift_left(num, <span class="number">24</span>)^num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">generate_table</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">256</span>; i++) &#123;</span><br><span class="line">        Table0[i] = L(((<span class="type">uint32_t</span>)S_replace((<span class="type">uint8_t</span>)i)) &lt;&lt;<span class="number">24</span>);</span><br><span class="line">        Table1[i] = L(((<span class="type">uint32_t</span>)S_replace((<span class="type">uint8_t</span>)i)) &lt;&lt; <span class="number">16</span>);</span><br><span class="line">        Table2[i] = L(((<span class="type">uint32_t</span>)S_replace((<span class="type">uint8_t</span>)i)) &lt;&lt; <span class="number">8</span>);</span><br><span class="line">        Table3[i] = L(((<span class="type">uint32_t</span>)S_replace((<span class="type">uint8_t</span>)i)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将最后32bit合并成4个表进行操作，在T操作中将最后的结果进行异或合并</p>
+<p>2.在加密过程中应用查表</p>
+<h5 id="P2-查表优化-SIMD单指令多数据优化"><a href="#P2-查表优化-SIMD单指令多数据优化" class="headerlink" title="P2 查表优化+SIMD单指令多数据优化"></a>P2 查表优化+SIMD单指令多数据优化</h5><p>具体实现如下，这里我们结合了查表优化策略</p>
+<p>1.加载8组消息至$imm_{i},is \in [0,3]$</p>
+<p>2.通过pack进行打包，使得$X_{i}$对应第i个小分组<br>3.迭代32轮</p>
+<p>4.$K_{i}$是轮密钥，$Temp \leftarrow X_{1} \oplus X_{2}\oplus X_{3}\oplus K_{i} $,$Temp \leftarrow T(Temp)\oplus X_{0}$</p>
+<p>5.$X_{0},X_{1},X_{2},X_{3}\leftarrow X_{1},X_{2},X_{3},Temp$</p>
+<p>6.$X_{0},X_{1},X_{2},X_{3} \leftarrow  X_{3},X_{2},X_{1},X_{0}$</p>
+<p>7.unpack，将$X_{i}$打包回原始的状态$imm_{i}$</p>
+<p>8.存储$imm_{i}$到对应的内存</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">SM4_encryption</span><span class="params">(<span class="type">uint8_t</span>* ciphertext)</span> &#123;</span><br><span class="line">    <span class="type">uint32_t</span> k[<span class="number">36</span>];</span><br><span class="line">    k[<span class="number">0</span>] = MK[<span class="number">0</span>] ^ FK[<span class="number">0</span>]; k[<span class="number">1</span>] = MK[<span class="number">1</span>] ^ FK[<span class="number">1</span>]; k[<span class="number">2</span>] = MK[<span class="number">2</span>] ^ FK[<span class="number">2</span>]; k[<span class="number">3</span>] = MK[<span class="number">3</span>] ^ FK[<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">        rK[i] = k[i + <span class="number">4</span>] = k[i] ^ RoundK(k[i + <span class="number">3</span>] ^ k[i + <span class="number">2</span>] ^ k[i + <span class="number">1</span>] ^ CK[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    __m256i X[<span class="number">4</span>], Temp[<span class="number">4</span>], Mask;</span><br><span class="line">    Mask = _mm256_set1_epi32(<span class="number">0xFF</span>);</span><br><span class="line">    <span class="comment">//加载数据</span></span><br><span class="line">    Temp[<span class="number">0</span>] = _mm256_loadu_si256((<span class="type">const</span> __m256i*)plaintext + <span class="number">0</span>);</span><br><span class="line">    Temp[<span class="number">1</span>] = _mm256_loadu_si256((<span class="type">const</span> __m256i*)plaintext + <span class="number">1</span>);</span><br><span class="line">    Temp[<span class="number">2</span>] = _mm256_loadu_si256((<span class="type">const</span> __m256i*)plaintext + <span class="number">2</span>);</span><br><span class="line">    Temp[<span class="number">3</span>] = _mm256_loadu_si256((<span class="type">const</span> __m256i*)plaintext + <span class="number">3</span>);</span><br><span class="line">    <span class="comment">//合并每组128bit数据的某32bit字</span></span><br><span class="line">    X[<span class="number">0</span>] = MM256_PACK0_EPI32(Temp[<span class="number">0</span>], Temp[<span class="number">1</span>], Temp[<span class="number">2</span>], Temp[<span class="number">3</span>]);</span><br><span class="line">    X[<span class="number">1</span>] = MM256_PACK1_EPI32(Temp[<span class="number">0</span>], Temp[<span class="number">1</span>], Temp[<span class="number">2</span>], Temp[<span class="number">3</span>]);</span><br><span class="line">    X[<span class="number">2</span>] = MM256_PACK2_EPI32(Temp[<span class="number">0</span>], Temp[<span class="number">1</span>], Temp[<span class="number">2</span>], Temp[<span class="number">3</span>]);</span><br><span class="line">    X[<span class="number">3</span>] = MM256_PACK3_EPI32(Temp[<span class="number">0</span>], Temp[<span class="number">1</span>], Temp[<span class="number">2</span>], Temp[<span class="number">3</span>]);</span><br><span class="line"></span><br><span class="line">    __m256i vindex =</span><br><span class="line">        _mm256_setr_epi8(<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">11</span>, <span class="number">10</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">14</span>, <span class="number">13</span>, <span class="number">12</span>,</span><br><span class="line">            <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">11</span>, <span class="number">10</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">14</span>, <span class="number">13</span>, <span class="number">12</span>);</span><br><span class="line">    X[<span class="number">0</span>] = _mm256_shuffle_epi8(X[<span class="number">0</span>], vindex);</span><br><span class="line">    X[<span class="number">1</span>] = _mm256_shuffle_epi8(X[<span class="number">1</span>], vindex);</span><br><span class="line">    X[<span class="number">2</span>] = _mm256_shuffle_epi8(X[<span class="number">2</span>], vindex);</span><br><span class="line">    X[<span class="number">3</span>] = _mm256_shuffle_epi8(X[<span class="number">3</span>], vindex);</span><br><span class="line">    <span class="comment">// 32轮迭代</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">        __m256i k =</span><br><span class="line">            _mm256_set1_epi32(rK[i]);</span><br><span class="line">        Temp[<span class="number">0</span>] = _mm256_xor_si256(_mm256_xor_si256(X[<span class="number">1</span>], X[<span class="number">2</span>]),</span><br><span class="line">            _mm256_xor_si256(X[<span class="number">3</span>], k));</span><br><span class="line">        <span class="comment">//查表</span></span><br><span class="line">        Temp[<span class="number">1</span>] = _mm256_xor_si256(</span><br><span class="line">            X[<span class="number">0</span>], _mm256_i32gather_epi32((<span class="type">const</span> <span class="type">int</span>*)Table0,</span><br><span class="line">                _mm256_and_si256(Temp[<span class="number">0</span>], Mask), <span class="number">4</span>));</span><br><span class="line">        Temp[<span class="number">0</span>] = _mm256_srli_epi32(Temp[<span class="number">0</span>], <span class="number">8</span>);</span><br><span class="line">        Temp[<span class="number">1</span>] = _mm256_xor_si256(</span><br><span class="line">            Temp[<span class="number">1</span>], _mm256_i32gather_epi32(</span><br><span class="line">                (<span class="type">const</span> <span class="type">int</span>*)Table1, _mm256_and_si256(Temp[<span class="number">0</span>], Mask), <span class="number">4</span>));</span><br><span class="line">        Temp[<span class="number">0</span>] = _mm256_srli_epi32(Temp[<span class="number">0</span>], <span class="number">8</span>);</span><br><span class="line">        Temp[<span class="number">1</span>] = _mm256_xor_si256(</span><br><span class="line">            Temp[<span class="number">1</span>], _mm256_i32gather_epi32(</span><br><span class="line">                (<span class="type">const</span> <span class="type">int</span>*)Table2, _mm256_and_si256(Temp[<span class="number">0</span>], Mask), <span class="number">4</span>));</span><br><span class="line">        Temp[<span class="number">0</span>] = _mm256_srli_epi32(Temp[<span class="number">0</span>], <span class="number">8</span>);</span><br><span class="line">        Temp[<span class="number">1</span>] = _mm256_xor_si256(</span><br><span class="line">            Temp[<span class="number">1</span>], _mm256_i32gather_epi32(</span><br><span class="line">                (<span class="type">const</span> <span class="type">int</span>*)Table3, _mm256_and_si256(Temp[<span class="number">0</span>], Mask), <span class="number">4</span>));</span><br><span class="line"></span><br><span class="line">        X[<span class="number">0</span>] = X[<span class="number">1</span>];</span><br><span class="line">        X[<span class="number">1</span>] = X[<span class="number">2</span>];</span><br><span class="line">        X[<span class="number">2</span>] = X[<span class="number">3</span>];</span><br><span class="line">        X[<span class="number">3</span>] = Temp[<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//转化端序</span></span><br><span class="line">    X[<span class="number">0</span>] = _mm256_shuffle_epi8(X[<span class="number">0</span>], vindex);</span><br><span class="line">    X[<span class="number">1</span>] = _mm256_shuffle_epi8(X[<span class="number">1</span>], vindex);</span><br><span class="line">    X[<span class="number">2</span>] = _mm256_shuffle_epi8(X[<span class="number">2</span>], vindex);</span><br><span class="line">    X[<span class="number">3</span>] = _mm256_shuffle_epi8(X[<span class="number">3</span>], vindex);</span><br><span class="line">    <span class="comment">//恢复分组并装填</span></span><br><span class="line">    _mm256_storeu_si256((__m256i*)ciphertext + <span class="number">0</span>,</span><br><span class="line">        MM256_PACK0_EPI32(X[<span class="number">3</span>], X[<span class="number">2</span>], X[<span class="number">1</span>], X[<span class="number">0</span>]));</span><br><span class="line">    _mm256_storeu_si256((__m256i*)ciphertext + <span class="number">1</span>,</span><br><span class="line">        MM256_PACK1_EPI32(X[<span class="number">3</span>], X[<span class="number">2</span>], X[<span class="number">1</span>], X[<span class="number">0</span>]));</span><br><span class="line">    _mm256_storeu_si256((__m256i*)ciphertext + <span class="number">2</span>,</span><br><span class="line">        MM256_PACK2_EPI32(X[<span class="number">3</span>], X[<span class="number">2</span>], X[<span class="number">1</span>], X[<span class="number">0</span>]));</span><br><span class="line">    _mm256_storeu_si256((__m256i*)ciphertext + <span class="number">3</span>,</span><br><span class="line">        MM256_PACK3_EPI32(X[<span class="number">3</span>], X[<span class="number">2</span>], X[<span class="number">1</span>], X[<span class="number">0</span>]));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="代码运行和结果验证"><a href="#代码运行和结果验证" class="headerlink" title="代码运行和结果验证"></a>代码运行和结果验证</h4><p>这里分别对相应代码进行运行即可</p>
+<p><img src="C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20220730143943862.png" alt="image-20220730143943862"></p>
+<p><img src="C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20220730145131205.png" alt="image-20220730145131205"></p>
+<p><img src="C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20220730145117591.png" alt="image-20220730145117591"></p>
+<p>最终优化结果和时间</p>
+<p>一种python实现方案</p>
+<p><img src="C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20220730145608565.png" alt="image-20220730145608565"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/12/08/SM4/" data-id="clbg8pzpa000158mk7l9j6xf9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/12/08/new/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          new
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/12/08/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">December 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/12/08/new/">new</a>
+          </li>
+        
+          <li>
+            <a href="/2022/12/08/SM4/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/12/08/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
