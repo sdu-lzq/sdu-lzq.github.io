@@ -17,16 +17,16 @@
 <meta property="og:site_name" content="Strider&#39;s blog">
 <meta property="og:description" content="因子分解实现1.设$p-q&#x3D;2d&gt;0$,且$n&#x3D; pq$. p &#x3D; 2d+q\\ n&#x3D;pq&#x3D;(2d+q)q&#x3D;2dq+q^2\\ n+d^2&#x3D;d^2+2dq+q^2&#x3D;(d+q)^2\\ 所以n+d^2是完全平方数2. 设n+d^2&#x3D;m^2\\ n &#x3D; m^2-d^2\\ n&#x3D;(m+d)(m-d)这就找到了n的两个因子m+d和m-d 3.基于d很小和sqrt算法是很快的多项式时间算法我们构造程序">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="c:/Users/lc-lzq/AppData/Roaming/Typora/typora-user-images/image-20220423212649826.png">
-<meta property="og:image" content="c:/Users/lc-lzq/AppData/Roaming/Typora/typora-user-images/image-20220429160914660.png">
-<meta property="og:image" content="c:/Users/lc-lzq/AppData/Roaming/Typora/typora-user-images/image-20220429162249212.png">
-<meta property="og:image" content="c:/Users/lc-lzq/AppData/Roaming/Typora/typora-user-images/image-20220429161533171.png">
-<meta property="og:image" content="c:/Users/lc-lzq/AppData/Roaming/Typora/typora-user-images/image-20220429161914465.png">
+<meta property="og:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220423212649826.png">
+<meta property="og:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429160914660.png">
+<meta property="og:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429162249212.png">
+<meta property="og:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429161533171.png">
+<meta property="og:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429161914465.png">
 <meta property="article:published_time" content="2022-12-10T13:57:05.838Z">
-<meta property="article:modified_time" content="2022-04-29T08:23:06.952Z">
+<meta property="article:modified_time" content="2022-12-10T14:47:15.506Z">
 <meta property="article:author" content="Stider">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:/Users/lc-lzq/AppData/Roaming/Typora/typora-user-images/image-20220423212649826.png">
+<meta name="twitter:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220423212649826.png">
   
     <link rel="alternative" href="/atom.xml" title="Strider&#39;s blog" type="application/atom+xml">
   
@@ -236,22 +236,22 @@ n+d^2=d^2+2dq+q^2=(d+q)^2\\
 n = m^2-d^2\\
 n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
 <h5 id="3-基于d很小和sqrt算法是很快的多项式时间算法我们构造程序"><a href="#3-基于d很小和sqrt算法是很快的多项式时间算法我们构造程序" class="headerlink" title="3.基于d很小和sqrt算法是很快的多项式时间算法我们构造程序"></a>3.基于d很小和sqrt算法是很快的多项式时间算法我们构造程序</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">attack</span>():</span><br><span class="line">    <span class="keyword">for</span> d <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">20</span>):<span class="comment">#traverse the d</span></span><br><span class="line">        h = n + <span class="built_in">pow</span>(d,<span class="number">2</span>) <span class="comment">#calulate the n+d^2</span></span><br><span class="line">        m = <span class="built_in">pow</span>(h,<span class="number">0.5</span>)</span><br><span class="line">        text = (<span class="built_in">int</span>)(m+d)*(<span class="built_in">int</span>)(m-d) <span class="comment">#verify the correct of m</span></span><br><span class="line">        <span class="keyword">if</span>(text == n):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;p=&#123;&#125;,q=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(m+d,m-d))</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20220423212649826.png" alt="image-20220423212649826" style="zoom:50%;" /></p>
+<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220423212649826.png" alt="image-20220423212649826" style="zoom:50%;" /></p>
 <h5 id="4-这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。"><a href="#4-这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。" class="headerlink" title="4.这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。"></a>4.这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。</h5><p>在30bit中选择：246d5fd1 </p>
 <p>在40bit中选择：59a38fdedb</p>
 <p>在50bit中选择：25220f2a4ab77</p>
-<p><img src="C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20220429160914660.png" alt="image-20220429160914660" style="zoom:50%;" /></p>
+<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429160914660.png" alt="image-20220429160914660" style="zoom:50%;" /></p>
 <p>利用平方和的方式进行破解，我们发现d的规模越大，所花费的CPU时间也就越多。</p>
 <h5 id="下面我们再利用试除法进行破解"><a href="#下面我们再利用试除法进行破解" class="headerlink" title="下面我们再利用试除法进行破解"></a>下面我们再利用试除法进行破解</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Basic_fac</span>(<span class="params">n</span>):</span><br><span class="line">    level = <span class="built_in">int</span>(<span class="built_in">pow</span>(n,<span class="number">0.5</span>))+<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,level):</span><br><span class="line">        <span class="keyword">if</span> n%i == <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;p=&#123;&#125;,q=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(<span class="built_in">hex</span>(i),<span class="built_in">hex</span>(<span class="built_in">int</span>(n/i))))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">continue</span>   </span><br></pre></td></tr></table></figure>
 <p>这里我们可以发现，试除法的效率和数据规模有直接关系，当数据规模越大时，试除法的效率也越低</p>
-<p><img src="C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20220429162249212.png" alt="image-20220429162249212" style="zoom:50%;" /></p>
+<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429162249212.png" alt="image-20220429162249212" style="zoom:50%;" /></p>
 <p>下面我们利用Pollard p-1方法进行因子分解</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Pollard p-1</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Pollard_p</span>(<span class="params">n,B</span>):<span class="comment">#give a level B</span></span><br><span class="line">    a = <span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,B):</span><br><span class="line">        a = power_mod(a,j,n)</span><br><span class="line">        d = gcd(a-<span class="number">1</span>,n)</span><br><span class="line">        <span class="keyword">if</span> <span class="number">1</span>&lt;d&lt;n:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">hex</span>(d),<span class="built_in">hex</span>(n/d)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-<p><img src="C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20220429161533171.png" alt="image-20220429161533171" style="zoom:50%;" /></p>
+<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429161533171.png" alt="image-20220429161533171" style="zoom:50%;" /></p>
 <p>相较于试除法效率有了很大的提升</p>
 <p>我们接下来利用Pollard  $\rho$方法对因子进行分解</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">f</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">int</span>(power(x,<span class="number">2</span>)+<span class="number">1</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Rho</span>(<span class="params">n,x1</span>):</span><br><span class="line">    x = x1</span><br><span class="line">    _x = f(x)%n</span><br><span class="line">    p = gcd(x-_x,n)</span><br><span class="line">    <span class="keyword">while</span> p == <span class="number">1</span>:</span><br><span class="line">        x = f(x)%n</span><br><span class="line">        _x = f(f(_x)%n)%n</span><br><span class="line">        p = gcd(x-_x,n)</span><br><span class="line">        <span class="keyword">if</span> p == n:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">hex</span>(p),<span class="built_in">hex</span>(n/p)</span><br></pre></td></tr></table></figure>
-<p><img src="C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20220429161914465.png" alt="image-20220429161914465" style="zoom:50%;" /></p>
+<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429161914465.png" alt="image-20220429161914465" style="zoom:50%;" /></p>
 <p>可以发现Pollord $\rho$算法效率也很高，在50bit因子分解规模下超过了p-1算法</p>
 
     
@@ -770,22 +770,6 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
   
   
   
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
 
 </html>

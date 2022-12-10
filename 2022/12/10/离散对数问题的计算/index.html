@@ -17,12 +17,10 @@
 <meta property="og:site_name" content="Strider&#39;s blog">
 <meta property="og:description" content="离散对数问题的计算1.p &#x3D; 41,$\alpha$ &#x3D; 6,$\beta$ &#x3D; 29 n &#x3D; p-1 &#x3D;40&#x3D;2^3\times5\\ 计算a &#x3D; lb29,首先计算a\ mod \ 8然后计算a \ mod\ 5\\ 取q&#x3D;2,c&#x3D;3\\ n\equiv0\pmod {2^3}\\ n \not\equiv 0\pmod {2^4}\\ \beta_{0} &#x3D; 29,\beta_{0}^{n&#x2F;">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220430105841934.png">
 <meta property="article:published_time" content="2022-12-10T13:57:15.739Z">
-<meta property="article:modified_time" content="2022-12-10T14:09:10.673Z">
+<meta property="article:modified_time" content="2022-12-10T14:41:39.560Z">
 <meta property="article:author" content="Stider">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220430105841934.png">
   
     <link rel="alternative" href="/atom.xml" title="Strider&#39;s blog" type="application/atom+xml">
   
@@ -271,7 +269,6 @@ a \equiv 21 \pmod {36}</script><p>经验证$2^{21}\equiv29 \pmod {37}$</p>
 <p>我们根据上述利用Pohlig-Hellman解离散对数问题的原理，也可以编程进行求解。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Pohlig_Hellman</span>(<span class="params">p,n,a,b,q,c</span>):</span><br><span class="line">    ai = <span class="number">0</span></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    bj = b</span><br><span class="line">    <span class="keyword">while</span> j&lt;=c-<span class="number">1</span>:</span><br><span class="line">        t = power_mod(bj,<span class="built_in">int</span>(n/<span class="built_in">pow</span>(q,j+<span class="number">1</span>)),p)</span><br><span class="line">        k = power_mod(a,<span class="built_in">int</span>(n/q),p)</span><br><span class="line">        i = <span class="number">1</span></span><br><span class="line">        w = k</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">if</span> w == t:</span><br><span class="line">                ai+=i*<span class="built_in">pow</span>(q,j)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                w = w*k%p</span><br><span class="line">                i+=<span class="number">1</span></span><br><span class="line">        bj = bj*power_mod(a,-i*<span class="built_in">pow</span>(q,j),p)</span><br><span class="line">        j+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ai%<span class="built_in">pow</span>(q,c)</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">attack</span>(<span class="params">a,b,p</span>):</span><br><span class="line">    n = p-<span class="number">1</span></span><br><span class="line">    ai = []</span><br><span class="line">    m =[]</span><br><span class="line">    result = factor(n)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> result:</span><br><span class="line">        q = i[<span class="number">0</span>]</span><br><span class="line">        c = i[<span class="number">1</span>]</span><br><span class="line">        ai.append(Pohlig_Hellman(p,n,a,b,q,c))</span><br><span class="line">        m.append(<span class="built_in">pow</span>(q,c)) </span><br><span class="line">    <span class="built_in">print</span>(crt(ai,m))</span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220430105841934.png" alt="img"></p>
 
     
 
@@ -780,22 +777,6 @@ a \equiv 21 \pmod {36}</script><p>经验证$2^{21}\equiv29 \pmod {37}$</p>
   
   
   
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
 
 </html>
