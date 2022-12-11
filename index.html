@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="Strider&#39;s blog">
 <meta property="og:description" content="A blog">
 <meta property="og:locale" content="en_US">
-<meta property="article:author" content="Stider">
+<meta property="article:author" content="Strider">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Strider&#39;s blog" type="application/atom+xml">
@@ -68,7 +68,7 @@
 			<img src="/img/header.jpg" class="js-avatar">
 		</a>
 		<hgroup>
-			<h1 class="header-author"><a href="/">Stider</a></h1>
+			<h1 class="header-author"><a href="/">Strider</a></h1>
 		</hgroup>
 		
 
@@ -77,9 +77,9 @@
 			
 				<li><a href="/" target="_blank">主页</a></li>
 			
-				<li><a href="https://zhousiwei.gitee.io/ibooks/" target="_blank">技术笔记</a></li>
+				<li><a href="/categories" target="_blank">分类</a></li>
 			
-				<li><a href="/tags/%E9%9A%8F%E7%AC%94/" target="_blank">随笔</a></li>
+				<li><a href="/archives/" target="_blank">归档</a></li>
 			
 			</ul>
 		</nav>
@@ -155,7 +155,7 @@
 				</a>
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">Stider</h1>
+			  <h1 class="header-author js-header-author">Strider</h1>
 			</hgroup>
 			
 			
@@ -200,9 +200,9 @@
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a target="_blank" rel="noopener" href="https://zhousiwei.gitee.io/ibooks/">技术笔记</a></li>
+					<li style="width: 33.333333333333336%"><a href="/categories">分类</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 33.333333333333336%"><a href="/archives/">归档</a></li>
 		        
 				</ul>
 			</nav>
@@ -221,104 +221,6 @@
             
 
   
-    <article id="post-离散对数问题的计算" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-  <div class="article-entry" itemprop="articleBody">
-    
-    <h3 id="离散对数问题的计算"><a href="#离散对数问题的计算" class="headerlink" title="离散对数问题的计算"></a><center>离散对数问题的计算</center></h3><h5 id="1-p-41-alpha-6-beta-29"><a href="#1-p-41-alpha-6-beta-29" class="headerlink" title="1.p = 41,$\alpha$ = 6,$\beta$ = 29"></a>1.p = 41,$\alpha$ = 6,$\beta$ = 29</h5><script type="math/tex; mode=display">
-n = p-1 =40=2^3\times5\\
-计算a = lb29,首先计算a\ mod \ 8然后计算a \ mod\ 5\\
-取q=2,c=3\\
-n\equiv0\pmod {2^3}\\
-n \not\equiv 0\pmod {2^4}\\
-\beta_{0} = 29,\beta_{0}^{n/q} = -1\pmod {41}\\
-\alpha^{a_{0}n/q} \equiv -1\pmod {41}\\
-a_{0}=1\\
-\beta_{1} = \beta_{0}\alpha^{-a_{0}q^0}\equiv-1\pmod {41}\\
-\alpha^{a_{1}n/q} \equiv -1\pmod {41}\\
-a_{1}=1\\
-\beta_{2} = \beta_{1}\alpha^{-a_{1}q^1}\equiv-1\pmod {41}\\
-\alpha^{a_{2}n/q} \equiv -1\pmod {41}\\
-a_{2}=1\\
-a \equiv 2^0+2^1+2^2=7\pmod8\\
-再取q= 5，c=1同理可得
-a \equiv 2\times5^0=2\pmod 5\\
-\left\{\begin{matrix} 
-  a \equiv 7\pmod8 \\  
-  a \equiv 2\pmod 5 
-\end{matrix}\right. \\
-由中国剩余定理可得
-a \equiv 7 \pmod {40}</script><p>经验证$5^7\equiv29\pmod{41}$</p>
-<h5 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h5><script type="math/tex; mode=display">
-n = p-1 =36=2^2\times3^2\\
-计算a = lb29,首先计算a\ mod \ 4然后计算a \ mod\ 9\\
-取q=2,c=2\\
-n\equiv0\pmod {2^2}\\
-n \not\equiv 0\pmod {2^3}\\
-\beta_{0} = 29,\beta_{0}^{n/q} = -1\pmod {37}\\
-\alpha^{a_{0}n/q} \equiv -1\pmod {37}\\
-a_{0}=1\\
-\beta_{1} = \beta_{0}\alpha^{-a_{0}q^0}\equiv1\pmod {37}\\
-\alpha^{a_{1}n/q} \equiv 1\pmod {37}\\
-a_{1}=2\\
-a \equiv 2^0+2\times2^1=1\pmod{4}\\
-再取q= 3，c=2同理可得
-a \equiv 3\times3^0+3\times3^1\equiv3\pmod 9\\
-\left\{\begin{matrix} 
-  a \equiv 1\pmod4 \\  
-  a \equiv 3\pmod 9 
-\end{matrix}\right. \\
-由中国剩余定理可得
-a \equiv 21 \pmod {36}</script><p>经验证$2^{21}\equiv29 \pmod {37}$</p>
-<p>我们根据上述利用Pohlig-Hellman解离散对数问题的原理，也可以编程进行求解。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Pohlig_Hellman</span>(<span class="params">p,n,a,b,q,c</span>):</span><br><span class="line">    ai = <span class="number">0</span></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    bj = b</span><br><span class="line">    <span class="keyword">while</span> j&lt;=c-<span class="number">1</span>:</span><br><span class="line">        t = power_mod(bj,<span class="built_in">int</span>(n/<span class="built_in">pow</span>(q,j+<span class="number">1</span>)),p)</span><br><span class="line">        k = power_mod(a,<span class="built_in">int</span>(n/q),p)</span><br><span class="line">        i = <span class="number">1</span></span><br><span class="line">        w = k</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">if</span> w == t:</span><br><span class="line">                ai+=i*<span class="built_in">pow</span>(q,j)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                w = w*k%p</span><br><span class="line">                i+=<span class="number">1</span></span><br><span class="line">        bj = bj*power_mod(a,-i*<span class="built_in">pow</span>(q,j),p)</span><br><span class="line">        j+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ai%<span class="built_in">pow</span>(q,c)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">attack</span>(<span class="params">a,b,p</span>):</span><br><span class="line">    n = p-<span class="number">1</span></span><br><span class="line">    ai = []</span><br><span class="line">    m =[]</span><br><span class="line">    result = factor(n)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> result:</span><br><span class="line">        q = i[<span class="number">0</span>]</span><br><span class="line">        c = i[<span class="number">1</span>]</span><br><span class="line">        ai.append(Pohlig_Hellman(p,n,a,b,q,c))</span><br><span class="line">        m.append(<span class="built_in">pow</span>(q,c)) </span><br><span class="line">    <span class="built_in">print</span>(crt(ai,m))</span><br></pre></td></tr></table></figure>
-
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
-
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/2022/12/10/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%A1%E7%AE%97/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-因子分解实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -333,18 +235,17 @@ n+d^2=d^2+2dq+q^2=(d+q)^2\\
 n = m^2-d^2\\
 n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
 <h5 id="3-基于d很小和sqrt算法是很快的多项式时间算法我们构造程序"><a href="#3-基于d很小和sqrt算法是很快的多项式时间算法我们构造程序" class="headerlink" title="3.基于d很小和sqrt算法是很快的多项式时间算法我们构造程序"></a>3.基于d很小和sqrt算法是很快的多项式时间算法我们构造程序</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">attack</span>():</span><br><span class="line">    <span class="keyword">for</span> d <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">20</span>):<span class="comment">#traverse the d</span></span><br><span class="line">        h = n + <span class="built_in">pow</span>(d,<span class="number">2</span>) <span class="comment">#calulate the n+d^2</span></span><br><span class="line">        m = <span class="built_in">pow</span>(h,<span class="number">0.5</span>)</span><br><span class="line">        text = (<span class="built_in">int</span>)(m+d)*(<span class="built_in">int</span>)(m-d) <span class="comment">#verify the correct of m</span></span><br><span class="line">        <span class="keyword">if</span>(text == n):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;p=&#123;&#125;,q=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(m+d,m-d))</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220423212649826.png" alt="image-20220423212649826" style="zoom:50%;" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20220423212649826.png" alt="image-20220423212649826" style="zoom:50%;" /></p>
 <h5 id="4-这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。"><a href="#4-这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。" class="headerlink" title="4.这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。"></a>4.这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。</h5><p>在30bit中选择：246d5fd1 </p>
 <p>在40bit中选择：59a38fdedb</p>
 <p>在50bit中选择：25220f2a4ab77</p>
-<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429160914660.png" alt="image-20220429160914660" style="zoom:50%;" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20220429160914660.png" alt="image-20220429160914660" style="zoom:50%;" /></p>
 <p>利用平方和的方式进行破解，我们发现d的规模越大，所花费的CPU时间也就越多。</p>
 <h5 id="下面我们再利用试除法进行破解"><a href="#下面我们再利用试除法进行破解" class="headerlink" title="下面我们再利用试除法进行破解"></a>下面我们再利用试除法进行破解</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Basic_fac</span>(<span class="params">n</span>):</span><br><span class="line">    level = <span class="built_in">int</span>(<span class="built_in">pow</span>(n,<span class="number">0.5</span>))+<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,level):</span><br><span class="line">        <span class="keyword">if</span> n%i == <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;p=&#123;&#125;,q=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(<span class="built_in">hex</span>(i),<span class="built_in">hex</span>(<span class="built_in">int</span>(n/i))))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">continue</span>   </span><br></pre></td></tr></table></figure>
 <p>这里我们可以发现，试除法的效率和数据规模有直接关系，当数据规模越大时，试除法的效率也越低</p>
 <p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429162249212.png" alt="image-20220429162249212" style="zoom:50%;" /></p>
 <p>下面我们利用Pollard p-1方法进行因子分解</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Pollard p-1</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Pollard_p</span>(<span class="params">n,B</span>):<span class="comment">#give a level B</span></span><br><span class="line">    a = <span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,B):</span><br><span class="line">        a = power_mod(a,j,n)</span><br><span class="line">        d = gcd(a-<span class="number">1</span>,n)</span><br><span class="line">        <span class="keyword">if</span> <span class="number">1</span>&lt;d&lt;n:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">hex</span>(d),<span class="built_in">hex</span>(n/d)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429161533171.png" alt="image-20220429161533171" style="zoom:50%;" /></p>
 <p>相较于试除法效率有了很大的提升</p>
 <p>我们接下来利用Pollard  $\rho$方法对因子进行分解</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">f</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">int</span>(power(x,<span class="number">2</span>)+<span class="number">1</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Rho</span>(<span class="params">n,x1</span>):</span><br><span class="line">    x = x1</span><br><span class="line">    _x = f(x)%n</span><br><span class="line">    p = gcd(x-_x,n)</span><br><span class="line">    <span class="keyword">while</span> p == <span class="number">1</span>:</span><br><span class="line">        x = f(x)%n</span><br><span class="line">        _x = f(f(_x)%n)%n</span><br><span class="line">        p = gcd(x-_x,n)</span><br><span class="line">        <span class="keyword">if</span> p == n:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">hex</span>(p),<span class="built_in">hex</span>(n/p)</span><br></pre></td></tr></table></figure>
@@ -403,7 +304,7 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/2022/12/08/new/" target="_blank">new</a>
+	  <a class="article-title" href="/2022/12/08/new/" target="_blank">机器学习ML1</a>
   
     </h1>
   
@@ -424,7 +325,94 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
   
   <div class="article-entry" itemprop="articleBody">
     
-    
+    <h1 id="ML-Homework1"><a href="#ML-Homework1" class="headerlink" title="ML Homework1"></a>ML Homework1</h1><p>[TOC]</p>
+<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>​    用 linear regression 预测出空气污染指数(即PM2.5) 的数值，采用多种方式对模型进行优化，提升模型的准确度。</p>
+<h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p>​    <strong>Host:</strong>win11;kaggle;python3.9</p>
+<h2 id="实验方法"><a href="#实验方法" class="headerlink" title="实验方法"></a>实验方法</h2><h3 id="1-Module1"><a href="#1-Module1" class="headerlink" title="1.Module1"></a>1.Module1</h3><p>​        首先准备先从一个比较简单的模型进行入手，这里我们只考虑PM2.5一种参数，并使用传统的梯度下降方式进行求解。</p>
+<h4 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h4><p>​        这里我们使用kaggle进行代码编写，首先创建了一个dataset，然后从dataset中读取csv文件作为数据内容，然后我们打印前18行，也就是一天的数据集合。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>]=[<span class="string">&#x27;SimHei&#x27;</span>] <span class="comment">#用来正常显示中文标签</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>]=<span class="literal">False</span> <span class="comment">#用来正常显示</span></span><br><span class="line"></span><br><span class="line">path = <span class="string">&#x27;../input/train111/train.csv&#x27;</span></span><br><span class="line">data = pd.read_csv(path)</span><br><span class="line">data.head(<span class="number">18</span>)</span><br><span class="line"><span class="comment">#使用data.describe()对数据进行统计性的描述</span></span><br><span class="line">data.describe()</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221016162939156.png" alt="image-20221016162939156"></p>
+<p>​    可以看到一共有4320条数据，每天18条，也就是一共240天，feature是18。</p>
+<p>下面进行训练</p>
+<p>1.将一天分为15组，前9个小时对第10个小时的浓度进行预测。</p>
+<p>2.首先建立一个x_list，一共有3600 = 15*240组数据。每一组数据中feature=9，也就是PM2.5的9小时数据。</p>
+<p>3.y_list就是一位数据，就是PM2.5的实际值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#处理数据，取3-27行</span></span><br><span class="line">data_train = data.iloc[:,<span class="number">3</span>:]</span><br><span class="line">data_train = data_train.replace([<span class="string">&#x27;NR&#x27;</span>],[-<span class="number">1</span>])</span><br><span class="line"><span class="comment">#将RAINFALL中的NR转化为-1</span></span><br><span class="line"><span class="comment">#将表中数据转换为二维数组格式，数据类型为浮点型</span></span><br><span class="line">data2 = np.array(data_train).astype(<span class="built_in">float</span>)</span><br><span class="line"><span class="built_in">print</span>(data2)</span><br><span class="line"><span class="built_in">print</span>(data2.shape[<span class="number">0</span>])</span><br><span class="line"><span class="built_in">print</span>(data2.shape[<span class="number">1</span>])</span><br><span class="line">x_list = []</span><br><span class="line">y_list = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">4320</span>,<span class="number">18</span>):</span><br><span class="line">    <span class="comment">#遍历每一天的所有数据</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">15</span>):</span><br><span class="line">        <span class="comment">#取前15组训练集的开始</span></span><br><span class="line">        x_slide = data2[i:i+<span class="number">18</span>,j:j+<span class="number">9</span>]</span><br><span class="line">        y_slide = data2[i+<span class="number">9</span>,j+<span class="number">9</span>]</span><br><span class="line">        <span class="comment">#y是9小时以后的PM2.5的值</span></span><br><span class="line">        x_list.append(x_slide)</span><br><span class="line">        y_list.append(y_slide)</span><br><span class="line">X = np.array(x_list)</span><br><span class="line">y = np.array(y_list)</span><br><span class="line"><span class="comment">#将x_list和y_list转化为np数组类型</span></span><br><span class="line"><span class="built_in">print</span>(X.shape)</span><br><span class="line"><span class="built_in">print</span>(y.shape)</span><br><span class="line"><span class="comment">#(3600, 18, 9)</span></span><br><span class="line"><span class="comment">#(3600,)</span></span><br></pre></td></tr></table></figure>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>​        这里我们对模型进行一定的优化</p>
+<h5 id="1-Regularized-Linear-Regreeion"><a href="#1-Regularized-Linear-Regreeion" class="headerlink" title="1.Regularized Linear Regreeion"></a>1.Regularized Linear Regreeion</h5><p>​        可以引入正则化系数对模型进行优化，能够方式过拟合现象的发生，但是我们训练模型时发现加入正则化系数对损失函数结果影响比较小，由于我们采用线性模型的情况下，feature的指数都是1，不太会出现过拟合现象，因此引入正则化系数意义并不大。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221016171611519.png" alt="image-20221016171611519" style="zoom:67%;" /></p>
+<h5 id="2-Cross-Vaildation"><a href="#2-Cross-Vaildation" class="headerlink" title="2.Cross-Vaildation"></a>2.Cross-Vaildation</h5><p>​        通过交叉验证的方式对模型进行训练，在模型中选取一部分数据作为验证集进行处理，通过训练集进行模型的训练，并用验证集计算LOSS损失函数，选择最小的损失率进行全数据的训练。在module1里面，一共存在3600条数据，这里我们选择前3000项数据作为训练集合，后600项数据作为验证集合进行验证。</p>
+<h5 id="3-Adagradient"><a href="#3-Adagradient" class="headerlink" title="3.Adagradient"></a>3.Adagradient</h5><p>​    采用动态学习率的情况进行训练，用来解决下降率不均匀的情况，首先是一个较大 的学习率，然后学习率随迭代次数增加逐渐减小。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wry789/p/12988629.html">李宏毅深度学习笔记-Adagrad算法 - yueqiudian - 博客园 (cnblogs.com)</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/1242619-20200529172525755-459858040.png" alt="image-20200529133550548" style="zoom:67%;" /></p>
+<p><img src="https://img2020.cnblogs.com/blog/1242619/202005/1242619-20200529172525996-327788208.png" alt="image-20200529133816227" style="zoom:67%;" /></p>
+<p>​    $\sigma^t$是之前所有微分均方根，这里能够约掉学习率下降公式中的系数。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/1242619-20200529172526464-1528145217.png" alt="image-20200529134059096" style="zoom:67%;" /></p>
+<p>解释：最佳微分其实近似是一次微分和二次微分的比值，而所有梯度的均方根可以近似为二次微分。</p>
+<h4 id="梯度下降求解"><a href="#梯度下降求解" class="headerlink" title="梯度下降求解"></a>梯度下降求解</h4><p>​    下面进行梯度下降求解，这里前3000项数据我们选做训练集，后600项数据为验证集计算损失函数。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221016170909834.png" alt="image-20221016170909834" style="zoom:67%;" /></p>
+<p>​    这里是传统梯度下降算法的实现公式，其中的m表示训练数据集中数据项的个数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">loss</span>(<span class="params">X,y,w,b</span>):</span><br><span class="line">    loss = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">600</span>):</span><br><span class="line">        loss += (y[<span class="number">3000</span>+i]-(b+np.dot(w,X[i+<span class="number">3000</span>,<span class="number">9</span>,:])))**<span class="number">2</span></span><br><span class="line">    loss/=<span class="number">600</span></span><br><span class="line">    <span class="keyword">return</span> loss</span><br><span class="line"><span class="comment">#这里采用多变量的梯度下降方法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">GradientDecent</span>(<span class="params">X,y,w,b</span>):</span><br><span class="line">    reg_rate = <span class="number">0.0001</span> <span class="comment">#正则化系数</span></span><br><span class="line">    <span class="comment">#下面两个比较关键，用来暂时存储w和b，保证w和b是同时进行下降的</span></span><br><span class="line">    grad_b = <span class="number">0</span> </span><br><span class="line">    grad_w = np.zeros(<span class="number">9</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3000</span>):</span><br><span class="line">        grad_b += -<span class="number">2</span>*(y[i]-(b+np.dot(w,X[i,<span class="number">9</span>,:])))</span><br><span class="line">        <span class="comment">#这一步 是更新b的值，将方程求导，然后求内积，这里取的是第i组数组的PM2.5</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">9</span>):</span><br><span class="line">            grad_w[j] += -<span class="number">2</span>*(X[i,<span class="number">9</span>,j])*(y[i]-(b+np.dot(w,X[i,<span class="number">9</span>,:])))</span><br><span class="line">            <span class="comment">#这里是对参数w的更新，这里是对9个小时的方程求导    </span></span><br><span class="line">    <span class="comment">#这里是求导以后的，所以不用加上平方</span></span><br><span class="line">    grad_b/=<span class="number">3000</span></span><br><span class="line">    grad_w/=<span class="number">3000</span></span><br><span class="line">    <span class="comment">#print(grad_w)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#下面我们可以加入Regularization正则化系数进行处理</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">9</span>):</span><br><span class="line">        grad_w[k] += (reg_rate*w[k])/<span class="number">3000</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> grad_w,grad_b</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">GD_iter</span>(<span class="params">X,y,w,b</span>):</span><br><span class="line">    loss_list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(iteration):</span><br><span class="line">        <span class="comment">#get the new w_grad and w_grad</span></span><br><span class="line">        grad_w,grad_b = GradientDecent(X,y,w,b)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#update the b and w</span></span><br><span class="line">        b -= lr*grad_b</span><br><span class="line">        w -= lr*grad_w</span><br><span class="line">        loss_list.append(loss(X,y,w,b))</span><br><span class="line">    <span class="keyword">return</span> w,b,loss_list</span><br><span class="line">    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>​    训练结果如下图所示，在进行10000次迭代的情况下在验证集上最终平均Loss = 41，损失函数下降情况如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221016171928681.png" alt="image-20221016171928681"  /></p>
+<p>​    在引入正则化系数的情况下进行10000次迭代</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221016172157898.png" alt="image-20221016172157898"></p>
+<p>通过Adagradient进行梯度下降</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#采用更加优化的AdaGrad进行梯度下降</span></span><br><span class="line"><span class="comment">#Adagrad是梯度下降的一种改进形式，是包含着学习率下降的方式</span></span><br><span class="line"><span class="comment">#采用一次导数/二次导数的形式，g2之和是二次导数的近似</span></span><br><span class="line"><span class="keyword">def</span>  <span class="title function_">Adagrad</span>(<span class="params">X,y,w,b</span>):</span><br><span class="line">    loss_list = []</span><br><span class="line">    <span class="comment">#损失函数</span></span><br><span class="line">    lr_w = <span class="number">0</span></span><br><span class="line">    lr_b = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(iteration):</span><br><span class="line">        grad_w,grad_b = GradientDecent(X,y,w,b)</span><br><span class="line">        <span class="comment">#这里注意grad_w是一个向量</span></span><br><span class="line">        lr_b =  lr_b+(grad_b**<span class="number">2</span>)</span><br><span class="line">        lr_w = lr_w +(grad_w**<span class="number">2</span>)   </span><br><span class="line">        w = w-(lr/(lr_w**<span class="number">0.5</span>))*grad_w</span><br><span class="line">        <span class="comment">#print(lr/(lr_w**0.5))</span></span><br><span class="line">        b = b-(lr/(lr_b**<span class="number">0.5</span>))*grad_b</span><br><span class="line">        loss_list.append(loss(X,y,w,b))</span><br><span class="line">    <span class="keyword">return</span> w,b,loss_list</span><br></pre></td></tr></table></figure>
+<p>可以看到在5000次迭代的情况下，Loss = 38，获得了更好的下降效果。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221016172916467.png" alt="image-20221016172916467"> <a href="train.csv">train.csv</a> </p>
+<h4 id="Problem："><a href="#Problem：" class="headerlink" title="Problem："></a>Problem：</h4><p>​    上述模型存在的比较大的问题是时间太长，在5000次下降的情况下都要进行5min以上，不满足3min模型训练的要求，需要进一步在梯度下降算法上进行优化。</p>
+<h3 id="2-Module2"><a href="#2-Module2" class="headerlink" title="2.Module2"></a>2.Module2</h3><p>​    module2我们想要考虑更多的parameters,这里对相关变量的相关性进行确定，我们选择相对性相对较高的几个parameters进行数据建模。</p>
+<p>​    首先进行数据处理，这里我们把每个参数纵向排列，然后将各个参量列在column中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">train_dict = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> idx, col <span class="keyword">in</span> <span class="built_in">enumerate</span>(data[<span class="string">&#x27;测项&#x27;</span>].unique()):</span><br><span class="line">    <span class="keyword">if</span> idx == <span class="number">0</span>:</span><br><span class="line">        train_dict[<span class="string">&#x27;date&#x27;</span>] = pd.to_datetime(np.repeat(data[data[<span class="string">&#x27;测项&#x27;</span>] == col][<span class="string">&#x27;日期&#x27;</span>].values, <span class="number">24</span>))</span><br><span class="line">        train_dict[<span class="string">&#x27;hour&#x27;</span>] = pd.to_numeric(np.tile(data[data[<span class="string">&#x27;测项&#x27;</span>] == col].columns[<span class="number">3</span>:],<span class="number">240</span>)) </span><br><span class="line">    <span class="keyword">if</span> col == <span class="string">&#x27;RAINFALL&#x27;</span>:</span><br><span class="line">        tmp_array = data[data[<span class="string">&#x27;测项&#x27;</span>] == col].T.iloc[<span class="number">3</span>:].values.flatten(order=<span class="string">&#x27;F&#x27;</span>)</span><br><span class="line">        tmp_array[tmp_array==<span class="string">&#x27;NR&#x27;</span>] = -<span class="number">1</span></span><br><span class="line">        train_dict[col] = pd.to_numeric(tmp_array)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        train_dict[col] = pd.to_numeric(data[data[<span class="string">&#x27;测项&#x27;</span>] == col].T.iloc[<span class="number">3</span>:].values.flatten(order=<span class="string">&#x27;F&#x27;</span>))</span><br><span class="line">        </span><br><span class="line">train_data = pd.DataFrame(train_dict)</span><br><span class="line">corr = train_data.corr()<span class="comment">#求皮尔森相关系数</span></span><br><span class="line">corr[<span class="string">&#x27;PM2.5&#x27;</span>].sort_values()<span class="comment">#将PM2.5相关系数进行排序</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221016192131205.png" alt="image-20221016192131205" style="zoom:67%;" /></p>
+<p>​    可以看到和PM2.5相关性系数比较高的几个，这里我们选择相关性前3的参数进行建模(PM2.5,PM10,NO2)。</p>
+<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><h5 id="1-优化验证集分布"><a href="#1-优化验证集分布" class="headerlink" title="1.优化验证集分布"></a>1.优化验证集分布</h5><p>​    在上一个module中，我们选择3600个数据的前3000个数据作为训练数据，选择后600个数据作为验证集，但是这样会让验证集过于集中，从而有失一般性。一个更好的方案是将验证集均匀的进行选取，这里我们每10个数据选择一个验证数据添加进数据集，让验证数据在一年之中均匀的进行分布。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">t_x= []</span><br><span class="line">v_x = []</span><br><span class="line">t_y = []</span><br><span class="line">v_y = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3600</span>):</span><br><span class="line">    temp = []</span><br><span class="line">    <span class="keyword">if</span> i%<span class="number">10</span> == <span class="number">0</span>:</span><br><span class="line">        temp = np.append(X[i,<span class="number">5</span>,:],X[i,<span class="number">8</span>:<span class="number">10</span>,:])</span><br><span class="line">        v_x.append(temp)</span><br><span class="line">        v_y.append(y[i])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        temp = np.append(X[i,<span class="number">5</span>,:],X[i,<span class="number">8</span>:<span class="number">10</span>,:])</span><br><span class="line">        t_x.append(temp)</span><br><span class="line">        t_y.append(y[i])</span><br><span class="line">t_x = np.array(t_x)</span><br><span class="line">t_y = np.array(t_y)</span><br><span class="line">v_x = np.array(v_x)</span><br><span class="line">v_y = np.array(v_y)</span><br><span class="line"><span class="built_in">print</span>(t_x.shape)</span><br><span class="line"><span class="built_in">print</span>(t_y.shape)</span><br><span class="line"><span class="built_in">print</span>(v_x.shape)</span><br><span class="line"><span class="built_in">print</span>(v_y.shape)</span><br><span class="line"><span class="comment">#我们间隔抽取一些validation set,每隔10个数均匀选取</span></span><br><span class="line"><span class="comment">#然后剩下的加入train set</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">(3240, 27)</span></span><br><span class="line"><span class="string">(3240,)</span></span><br><span class="line"><span class="string">(360, 27)</span></span><br><span class="line"><span class="string">(360,)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+<h5 id="2-Adagradient"><a href="#2-Adagradient" class="headerlink" title="2.Adagradient"></a>2.Adagradient</h5><p>​    经过验证，在3个feature的情况下，依然是采用Adagradient的方式在相同iteration的情况下收敛的更快。因此训练module2我们继续使用Adagradient。</p>
+<h5 id="3-矩阵运算加速-important"><a href="#3-矩阵运算加速-important" class="headerlink" title="3.矩阵运算加速(important)"></a>3.矩阵运算加速(important)</h5><p>​    在module1中一个很大的问题是梯度下降过程太慢，每一个paremeter的偏导都需要单独的进行运算，module2我们采用矩阵运算对梯度下降算法进行加速处理，将梯度下降过程统一到矩阵运算中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221017161744832.png" alt="image-20221017161744832" style="zoom: 50%;" /></p>
+<p>​    我们按西瓜书上的描述进行优化运算，将w和b吸收入向量形式w，然后将m个训练数据样本处理成矩阵的形式，将偏导运算转化成矩阵的运算。</p>
+<h4 id="梯度下降求解-1"><a href="#梯度下降求解-1" class="headerlink" title="梯度下降求解"></a>梯度下降求解</h4><p>​    我们按照上面的加速优化方式实现Adagradient的梯度下降算法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Adagrad</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Adagradient</span>(<span class="params">t_x,t_y,v_x,v_y,w</span>):</span><br><span class="line">    loss_list = []</span><br><span class="line">    <span class="comment">#损失函数</span></span><br><span class="line">    lr_w = np.zeros(<span class="number">3</span>*<span class="number">9</span>+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(iteration):</span><br><span class="line">        <span class="comment">#求出偏差的数组</span></span><br><span class="line">        loss_v = np.dot(t_x,w)-t_y</span><br><span class="line">        <span class="comment">#np.dot如果是同一维就是内积运算，不同维度是矩阵运算</span></span><br><span class="line">        <span class="comment">#print(loss_v.shape[0])</span></span><br><span class="line">        <span class="comment">#求出偏导的数组</span></span><br><span class="line">        grad_w  = (<span class="number">2</span>*np.dot(t_x.T,loss_v))/t_x.shape[<span class="number">0</span>]</span><br><span class="line">        lr_w += grad_w**<span class="number">2</span></span><br><span class="line">        sqrt_v = np.sqrt(lr_w)</span><br><span class="line">        <span class="comment">#使用sqrt方法计算</span></span><br><span class="line">        w = w-lr*(grad_w/sqrt_v)</span><br><span class="line">        loss_list.append(loss2(v_x,v_y,w))</span><br><span class="line">    <span class="keyword">return</span> w,loss_list</span><br></pre></td></tr></table></figure>
+<p>​    我们选取learning rate = 2,iteration=20000的情况下，训练可以在3min之内完成，但是最终验证集的Loss = 49，并没有达到预期的效果。我猜想是这次样本点的选择更加的均匀但是模型的复杂度不足以支撑导致的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221017163245588.png" alt="image-20221017163245588"></p>
+<h3 id="3-Module3"><a href="#3-Module3" class="headerlink" title="3.Module3"></a>3.Module3</h3><p>​    在module2上进行模型训练并没有很好的达到预期效果，但是在训练时间的优化上大幅度提升。训练时间上的大幅度提升能够让我们选择更多的feature训练更加复杂的module。这次在模型3上我选择了全部18种参数进行训练。</p>
+<h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><h5 id="1-cross-vaildation数据集更加合理"><a href="#1-cross-vaildation数据集更加合理" class="headerlink" title="1.cross-vaildation数据集更加合理"></a>1.cross-vaildation数据集更加合理</h5><p>​    这次我考虑到PM2.5在时间变化上的连续性，不再采用天作为数据集的分割单位，而是采用月份作为数据集的分割单位，一年一共12个月，每个月20*24=480个小时，前面471个小时都可以作为一个数据样本的起始点。</p>
+<p>1.首先按照18个feature进行分割，将各个小时的数据添加到相应feature的后面。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">data_train = data.iloc[:,<span class="number">3</span>:]</span><br><span class="line">data_train = data_train.replace([<span class="string">&#x27;NR&#x27;</span>],[-<span class="number">1</span>])</span><br><span class="line">data2 = np.array(data_train).astype(<span class="built_in">float</span>)</span><br><span class="line">feature_arr = [[] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">18</span>)]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">4320</span>,<span class="number">18</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">18</span>):</span><br><span class="line">        feature_arr[j].extend(data2[i+j])</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(feature_arr[<span class="number">1</span>]))</span><br><span class="line"><span class="comment">#5760</span></span><br><span class="line"><span class="comment">#(18, 5760)</span></span><br></pre></td></tr></table></figure>
+<p>2.然后在每个feature对应位置中取数据，放入到12*471=5652个数据集中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">12</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">471</span>):</span><br><span class="line">        <span class="comment">#12个月每月471天</span></span><br><span class="line">        temp = []</span><br><span class="line">        <span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">18</span>):</span><br><span class="line">            <span class="comment">#每个数据18个paremeter</span></span><br><span class="line">            <span class="keyword">if</span> row == <span class="number">9</span>:</span><br><span class="line">                y_data2.append(feature_arr[row][i*<span class="number">480</span>+j+<span class="number">9</span>])</span><br><span class="line">                <span class="comment">#i月 j小时</span></span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">9</span>):</span><br><span class="line">                temp.append(feature_arr[row][i*<span class="number">480</span>+j+k])</span><br><span class="line">        train_data2.append(temp)</span><br></pre></td></tr></table></figure>
+<p>3.添加b的系数1，每12小时取一个数据作为验证集。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(train_data.shape[<span class="number">0</span>]):</span><br><span class="line">    temp = []</span><br><span class="line">    <span class="keyword">if</span> i%<span class="number">12</span> == <span class="number">0</span>:</span><br><span class="line">        temp = np.append(train_data2[i],<span class="number">1</span>)</span><br><span class="line">        v_x.append(temp)</span><br><span class="line">        v_y.append(y_data2[i])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        temp = np.append(train_data2[i],<span class="number">1</span>)</span><br><span class="line">        t_x.append(temp)</span><br><span class="line">        t_y.append(y_data2[i])</span><br></pre></td></tr></table></figure>
+<h5 id="2-数据归一化处理"><a href="#2-数据归一化处理" class="headerlink" title="2.数据归一化处理"></a>2.数据归一化处理</h5><p>​    为了防止梯度下降过程中出现波动，能够让梯度下降更加迅速，我们将样本集作归一化处理，用每一个feature的值减去feature的均值，然后除以feature的标准差，这样能够让每一个feature区间大致相同，不会出现梯度相差过大的情况。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#归一化</span></span><br><span class="line">feature2 = np.array(feature_arr)</span><br><span class="line">means = np.mean(feature2,axis = <span class="number">1</span>)</span><br><span class="line">std = np.std(feature2,axis=<span class="number">1</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">18</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5760</span>):</span><br><span class="line">        feature2[i][j] = (feature2[i][j]-means[i])/std[i]</span><br></pre></td></tr></table></figure>
+<h5 id="3-随机梯度下降（stochastic-gradient-descent，SGD）"><a href="#3-随机梯度下降（stochastic-gradient-descent，SGD）" class="headerlink" title="3.随机梯度下降（stochastic gradient descent，SGD）"></a>3.随机梯度下降（stochastic gradient descent，SGD）</h5><p>​    在每次更新时用1个样本，随机也就是说我们用样本中的一个例子来近似我所有的样本，来调整<em>θ</em>，但是随机梯度下降可能会带来一定的问题，计算得到的并不是准确的一个梯度。但对于最优化问题，凸问题，虽然不是每次迭代得到的损失函数都向着全局最优方向， 但是大的整体的方向是向全局最优解的，最终的结果往往是在全局最优解附近。但是相比于批量梯度，这样的方法更快，更快收敛，虽然不是全局最优，但很多时候是我们可以接受的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Stochastic_iter</span>(<span class="params">t_x,t_y,v_x,v_y,w</span>):</span><br><span class="line">    loss_list2 = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(iteration):</span><br><span class="line">        temp=np.random.randint(<span class="number">0</span>,t_x.shape[<span class="number">0</span>])</span><br><span class="line">        loss_vector = np.dot(t_x,w)-t_y</span><br><span class="line">        grad = (t_x[temp]*loss_vector[temp])/t_x.shape[<span class="number">0</span>]</span><br><span class="line">        <span class="comment">#print(grad)</span></span><br><span class="line">        w=w-lr*grad</span><br><span class="line">        loss_list2.append(loss(v_x,v_y,w))</span><br><span class="line">    <span class="keyword">return</span> w,loss_list2</span><br></pre></td></tr></table></figure>
+<p>​    但是在我们数据样本集的测试中，随机梯度下降不如dagrad的收敛效果，因此我们在最终模型中并未选择随机梯度下降。</p>
+<h5 id="4-优化学习率"><a href="#4-优化学习率" class="headerlink" title="4.优化学习率"></a>4.优化学习率</h5><p>​    我测试了5个adagradient的学习率，比较他们的收敛效果，选择一个最优化的learning rate。可以看到在Adagradient情况下首先排除lr=0.01的曲线，然后我们放大局部做进一步的排除。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221017191534099.png" alt="image-20221017191534099"></p>
+<p>​    可以看到lr=0.5的时候收敛率还是相对慢了一些</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221017192006029.png" alt="image-20221017192006029"></p>
+<p>​    继续放大局部，可以看到在lr=2的时候收敛速度最快，但是在迭代次数很大的情况下，最终训练效果和lr=5,lr=10应该差别不大。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221017192255304.png" alt="image-20221017192255304"></p>
+<h4 id="梯度下降求解-2"><a href="#梯度下降求解-2" class="headerlink" title="梯度下降求解"></a>梯度下降求解</h4><p>​    我们依然是采用Adagradient作为梯度下降算法进行梯度下降。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Adagradient</span>(<span class="params">t_x,t_y,v_x,v_y,w,lr</span>):</span><br><span class="line">    loss_list = []</span><br><span class="line">    <span class="comment">#损失函数</span></span><br><span class="line">    lr_w = np.zeros(<span class="number">18</span>*<span class="number">9</span>+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(iteration):</span><br><span class="line">        <span class="comment">#求出偏差的数组</span></span><br><span class="line">        loss_v = np.dot(t_x,w)-t_y</span><br><span class="line">        <span class="comment">#print(loss_v.shape[0])</span></span><br><span class="line">        <span class="comment">#求出偏导的数组</span></span><br><span class="line">        grad_w  = (<span class="number">2</span>*np.dot(t_x.T,loss_v))/t_x.shape[<span class="number">0</span>]</span><br><span class="line">        lr_w += grad_w**<span class="number">2</span></span><br><span class="line">        sqrt_v = np.sqrt(lr_w)</span><br><span class="line">        w = w-lr*(grad_w/sqrt_v)</span><br><span class="line">        loss_list.append(loss(v_x,v_y,w))</span><br><span class="line">    <span class="keyword">return</span> w,loss_list</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221018220059705.png" alt="image-20221018220059705" style="zoom: 67%;" /></p>
+<h3 id="4-模型优化方向"><a href="#4-模型优化方向" class="headerlink" title="4.模型优化方向"></a>4.模型优化方向</h3><p>​    由于每个月只取了前20天的数据，因此想要按全年连续分割并不成立。可以对预测时间段进行季节分类，每个季度建立不同的训练模型，虽然季节的部分信息已经涵盖在气象观测指数当中，但可能还存在忽略因素，因此按季节划分是理论上可行的。另一个优化方向是增加高次项，提升模型复杂程度，但要防止过拟合现象的产生。</p>
+<p>​    我增加了x的平方项，增加维度进行测试</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">train_data = np.empty([<span class="number">12</span>*<span class="number">471</span>,<span class="number">18</span>*<span class="number">9</span>*<span class="number">2</span>],dtype=<span class="built_in">float</span>)</span><br><span class="line">y_data = np.empty(<span class="number">12</span>*<span class="number">471</span>)</span><br><span class="line"><span class="comment">#轴1是18个feature,轴2是240天24h</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">12</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">471</span>):</span><br><span class="line">    <span class="comment">#数据的一共总组数</span></span><br><span class="line">        y_data[i*<span class="number">471</span>+j] = feature_arr[<span class="number">9</span>][i*<span class="number">480</span>+j+<span class="number">9</span>]</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">18</span>):</span><br><span class="line">            train_data[i*<span class="number">471</span>+j][k*<span class="number">9</span>:<span class="number">9</span>*k+<span class="number">9</span>] = feature_arr[k][i*<span class="number">480</span>+j:i*<span class="number">480</span>+j+<span class="number">9</span>]</span><br><span class="line">        train_data[i*<span class="number">471</span>+j][<span class="number">18</span>*<span class="number">9</span>:<span class="number">18</span>*<span class="number">9</span>*<span class="number">2</span>] = np.power(train_data[i*<span class="number">471</span>+j][:<span class="number">18</span>*<span class="number">9</span>],<span class="number">2</span>)</span><br><span class="line">      <span class="comment">#加入平方项</span></span><br><span class="line"><span class="built_in">print</span>(train_data.shape)</span><br><span class="line"><span class="built_in">print</span>(train_data[<span class="number">1</span>])</span><br><span class="line"><span class="built_in">print</span>(y_data[<span class="number">1</span>])</span><br><span class="line"><span class="built_in">print</span>(y_data.shape)</span><br></pre></td></tr></table></figure>
+<p>​    测试loss的值还是比较高，且收敛的速度比较慢。</p>
+<h2 id="结果分析和评估"><a href="#结果分析和评估" class="headerlink" title="结果分析和评估"></a>结果分析和评估</h2><p>​    下面的过程使用训练模型对text进行预测。这里我们选择loss较小的module3进行模型训练，在模型训练时，我们将考虑train-set中的所有数据，利用所有数据生成训练模型。</p>
+<p>​    在没有loss计算的情况下，模型的训练速度很快，我适当提高了迭代的轮数，最终训练时间和参数如下。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221017195156047.png" alt="image-20221017195156047"></p>
+<p>​    下面对data进行预测，我编写了一个预测函数，并将预测结果输入到.csv文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">da_t = da.iloc[:,<span class="number">2</span>:]</span><br><span class="line"><span class="built_in">print</span>(da_t)</span><br><span class="line">da_t = da_t.replace([<span class="string">&#x27;NR&#x27;</span>],[-<span class="number">1</span>])</span><br><span class="line">da2 = np.array(da_t).astype(<span class="built_in">float</span>)</span><br><span class="line"><span class="built_in">print</span>(da2.shape)</span><br><span class="line">predict_data = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">240</span>):</span><br><span class="line">    temp = []</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">18</span>):</span><br><span class="line">        temp.extend(da2[i*<span class="number">18</span>+j])</span><br><span class="line">    temp.extend([<span class="number">1</span>])</span><br><span class="line">    predict_data.append(temp)</span><br><span class="line">p_d = np.array(predict_data)</span><br><span class="line">data_pre = &#123;</span><br><span class="line">    <span class="string">&#x27;id&#x27;</span>:[],</span><br><span class="line">    <span class="string">&#x27;value&#x27;</span>:[]</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">w,p_d,data_pre</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">240</span>):</span><br><span class="line">        data_pre[<span class="string">&#x27;id&#x27;</span>].append(<span class="string">&#x27;id_&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(i))</span><br><span class="line">        data_pre[<span class="string">&#x27;value&#x27;</span>].append(w.dot(p_d[i]))</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">240</span>):</span><br><span class="line">        <span class="keyword">if</span> data_pre[<span class="string">&#x27;value&#x27;</span>][j]&lt;<span class="number">0</span>:</span><br><span class="line">            data_pre[<span class="string">&#x27;value&#x27;</span>][j]=<span class="number">0</span></span><br><span class="line">    <span class="comment">#将小于0的数据转化为0</span></span><br><span class="line">    df = pd.DataFrame(data_pre)</span><br><span class="line">    df.to_csv(<span class="string">&#x27;predict.csv&#x27;</span>,mode=<span class="string">&#x27;w&#x27;</span>,index=<span class="literal">False</span>,header=<span class="literal">False</span>)</span><br><span class="line">    <span class="comment">#w采用覆盖，a是追加</span></span><br><span class="line">    <span class="keyword">return</span> data_pre</span><br></pre></td></tr></table></figure>
+<p>​    下面展示部分预测数据和预测数据的直观分布。</p>
+<p><strong>module3</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221017202419184.png" alt="image-20221017202419184"><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221017202939765.png" alt="image-20221017202939765"></p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>​    实验中我们采用了多种方式对模型进行了优化，通过对比选择了loss最低的方案进行了建模，并对结果进行了预测。通过这次实验，进一步提升了我对liner Regression方法的认识。并学会使用优化方法提升回归效率，优化feature分布，使回归能够达到更好的效果，在实验中提升知识应用和实作能力。</p>
+
     
 
     
@@ -435,7 +423,29 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
   <div class="article-info article-info-index">
     
     
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">linear regression</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
     
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Machine-Learning//" class="article-tag-list-link color2">Machine Learning</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
     
     <p class="article-more-link">
@@ -507,6 +517,7 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>在搭建过程中遇到了gitee图床检查referer header来防止外链访问的问题，不得不说还是GitHub好用，使用CDN加速后基本没区别。</p>
 
     
 
@@ -552,6 +563,150 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
 
 
   
+    <article id="post-离散对数问题的计算" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2022/12/08/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%A1%E7%AE%97/" target="_blank">离散对数计算</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2022/12/08/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%A1%E7%AE%97/" class="archive-article-date">
+        <time datetime="2022-12-08T08:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-08</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h3 id="离散对数问题的计算"><a href="#离散对数问题的计算" class="headerlink" title="离散对数问题的计算"></a><center>离散对数问题的计算</center></h3><h5 id="1-p-41-alpha-6-beta-29"><a href="#1-p-41-alpha-6-beta-29" class="headerlink" title="1.p = 41,$\alpha$ = 6,$\beta$ = 29"></a>1.p = 41,$\alpha$ = 6,$\beta$ = 29</h5><script type="math/tex; mode=display">
+n = p-1 =40=2^3\times5\\
+计算a = lb29,首先计算a\ mod \ 8然后计算a \ mod\ 5\\
+取q=2,c=3\\
+n\equiv0\pmod {2^3}\\
+n \not\equiv 0\pmod {2^4}\\
+\beta_{0} = 29,\beta_{0}^{n/q} = -1\pmod {41}\\
+\alpha^{a_{0}n/q} \equiv -1\pmod {41}\\
+a_{0}=1\\
+\beta_{1} = \beta_{0}\alpha^{-a_{0}q^0}\equiv-1\pmod {41}\\
+\alpha^{a_{1}n/q} \equiv -1\pmod {41}\\
+a_{1}=1\\
+\beta_{2} = \beta_{1}\alpha^{-a_{1}q^1}\equiv-1\pmod {41}\\
+\alpha^{a_{2}n/q} \equiv -1\pmod {41}\\
+a_{2}=1\\
+a \equiv 2^0+2^1+2^2=7\pmod8\\
+再取q= 5，c=1同理可得
+a \equiv 2\times5^0=2\pmod 5\\
+\left\{\begin{matrix} 
+  a \equiv 7\pmod8 \\  
+  a \equiv 2\pmod 5 
+\end{matrix}\right. \\
+由中国剩余定理可得
+a \equiv 7 \pmod {40}</script><p>经验证$5^7\equiv29\pmod{41}$</p>
+<h5 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h5><script type="math/tex; mode=display">
+n = p-1 =36=2^2\times3^2\\
+计算a = lb29,首先计算a\ mod \ 4然后计算a \ mod\ 9\\
+取q=2,c=2\\
+n\equiv0\pmod {2^2}\\
+n \not\equiv 0\pmod {2^3}\\
+\beta_{0} = 29,\beta_{0}^{n/q} = -1\pmod {37}\\
+\alpha^{a_{0}n/q} \equiv -1\pmod {37}\\
+a_{0}=1\\
+\beta_{1} = \beta_{0}\alpha^{-a_{0}q^0}\equiv1\pmod {37}\\
+\alpha^{a_{1}n/q} \equiv 1\pmod {37}\\
+a_{1}=2\\
+a \equiv 2^0+2\times2^1=1\pmod{4}\\
+再取q= 3，c=2同理可得
+a \equiv 3\times3^0+3\times3^1\equiv3\pmod 9\\
+\left\{\begin{matrix} 
+  a \equiv 1\pmod4 \\  
+  a \equiv 3\pmod 9 
+\end{matrix}\right. \\
+由中国剩余定理可得
+a \equiv 21 \pmod {36}</script><p>经验证$2^{21}\equiv29 \pmod {37}$</p>
+<p>我们根据上述利用Pohlig-Hellman解离散对数问题的原理，也可以编程进行求解。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Pohlig_Hellman</span>(<span class="params">p,n,a,b,q,c</span>):</span><br><span class="line">    ai = <span class="number">0</span></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    bj = b</span><br><span class="line">    <span class="keyword">while</span> j&lt;=c-<span class="number">1</span>:</span><br><span class="line">        t = power_mod(bj,<span class="built_in">int</span>(n/<span class="built_in">pow</span>(q,j+<span class="number">1</span>)),p)</span><br><span class="line">        k = power_mod(a,<span class="built_in">int</span>(n/q),p)</span><br><span class="line">        i = <span class="number">1</span></span><br><span class="line">        w = k</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">if</span> w == t:</span><br><span class="line">                ai+=i*<span class="built_in">pow</span>(q,j)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                w = w*k%p</span><br><span class="line">                i+=<span class="number">1</span></span><br><span class="line">        bj = bj*power_mod(a,-i*<span class="built_in">pow</span>(q,j),p)</span><br><span class="line">        j+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ai%<span class="built_in">pow</span>(q,c)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">attack</span>(<span class="params">a,b,p</span>):</span><br><span class="line">    n = p-<span class="number">1</span></span><br><span class="line">    ai = []</span><br><span class="line">    m =[]</span><br><span class="line">    result = factor(n)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> result:</span><br><span class="line">        q = i[<span class="number">0</span>]</span><br><span class="line">        c = i[<span class="number">1</span>]</span><br><span class="line">        ai.append(Pohlig_Hellman(p,n,a,b,q,c))</span><br><span class="line">        m.append(<span class="built_in">pow</span>(q,c)) </span><br><span class="line">    <span class="built_in">print</span>(crt(ai,m))</span><br></pre></td></tr></table></figure>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">公钥密码</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Cryptography//" class="article-tag-list-link color3">Cryptography</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2022/12/08/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%A1%E7%AE%97/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
   
 
 
@@ -562,7 +717,7 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018-2022 <a href="http://example.com/" target="_blank">Stider</a>
+    		&copy; 2018-2022 <a href="http://example.com/" target="_blank">Strider</a>
     	</div>
       	<div class="footer-right">
 			
@@ -700,6 +855,14 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">linear regression</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">公钥密码</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>

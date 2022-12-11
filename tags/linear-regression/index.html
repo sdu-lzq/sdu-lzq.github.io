@@ -6,20 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Strider&#39;s blog</title>
+  <title>Tag: linear regression | Strider&#39;s blog</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="离散对数问题的计算1.p &#x3D; 41,$\alpha$ &#x3D; 6,$\beta$ &#x3D; 29 n &#x3D; p-1 &#x3D;40&#x3D;2^3\times5\\ 计算a &#x3D; lb29,首先计算a\ mod \ 8然后计算a \ mod\ 5\\ 取q&#x3D;2,c&#x3D;3\\ n\equiv0\pmod {2^3}\\ n \not\equiv 0\pmod {2^4}\\ \beta_{0} &#x3D; 29,\beta_{0}^{n&#x2F;">
-<meta property="og:type" content="article">
+  <meta name="description" content="A blog">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Strider&#39;s blog">
-<meta property="og:url" content="http://example.com/2022/12/10/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%A1%E7%AE%97/index.html">
+<meta property="og:url" content="http://example.com/tags/linear-regression/index.html">
 <meta property="og:site_name" content="Strider&#39;s blog">
-<meta property="og:description" content="离散对数问题的计算1.p &#x3D; 41,$\alpha$ &#x3D; 6,$\beta$ &#x3D; 29 n &#x3D; p-1 &#x3D;40&#x3D;2^3\times5\\ 计算a &#x3D; lb29,首先计算a\ mod \ 8然后计算a \ mod\ 5\\ 取q&#x3D;2,c&#x3D;3\\ n\equiv0\pmod {2^3}\\ n \not\equiv 0\pmod {2^4}\\ \beta_{0} &#x3D; 29,\beta_{0}^{n&#x2F;">
+<meta property="og:description" content="A blog">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-12-10T13:57:15.739Z">
-<meta property="article:modified_time" content="2022-12-10T14:41:39.560Z">
-<meta property="article:author" content="Stider">
+<meta property="article:author" content="Strider">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Strider&#39;s blog" type="application/atom+xml">
@@ -66,7 +64,7 @@
 			<img src="/img/header.jpg" class="js-avatar">
 		</a>
 		<hgroup>
-			<h1 class="header-author"><a href="/">Stider</a></h1>
+			<h1 class="header-author"><a href="/">Strider</a></h1>
 		</hgroup>
 		
 
@@ -75,9 +73,9 @@
 			
 				<li><a href="/" target="_blank">主页</a></li>
 			
-				<li><a href="https://zhousiwei.gitee.io/ibooks/" target="_blank">技术笔记</a></li>
+				<li><a href="/categories" target="_blank">分类</a></li>
 			
-				<li><a href="/tags/%E9%9A%8F%E7%AC%94/" target="_blank">随笔</a></li>
+				<li><a href="/archives/" target="_blank">归档</a></li>
 			
 			</ul>
 		</nav>
@@ -153,7 +151,7 @@
 				</a>
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">Stider</h1>
+			  <h1 class="header-author js-header-author">Strider</h1>
 			</hgroup>
 			
 			
@@ -198,9 +196,9 @@
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a target="_blank" rel="noopener" href="https://zhousiwei.gitee.io/ibooks/">技术笔记</a></li>
+					<li style="width: 33.333333333333336%"><a href="/categories">分类</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 33.333333333333336%"><a href="/archives/">归档</a></li>
 		        
 				</ul>
 			</nav>
@@ -216,223 +214,76 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-离散对数问题的计算" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
+            
+  
+  
     
-  <div class="article-entry" itemprop="articleBody">
     
-    <h3 id="离散对数问题的计算"><a href="#离散对数问题的计算" class="headerlink" title="离散对数问题的计算"></a><center>离散对数问题的计算</center></h3><h5 id="1-p-41-alpha-6-beta-29"><a href="#1-p-41-alpha-6-beta-29" class="headerlink" title="1.p = 41,$\alpha$ = 6,$\beta$ = 29"></a>1.p = 41,$\alpha$ = 6,$\beta$ = 29</h5><script type="math/tex; mode=display">
-n = p-1 =40=2^3\times5\\
-计算a = lb29,首先计算a\ mod \ 8然后计算a \ mod\ 5\\
-取q=2,c=3\\
-n\equiv0\pmod {2^3}\\
-n \not\equiv 0\pmod {2^4}\\
-\beta_{0} = 29,\beta_{0}^{n/q} = -1\pmod {41}\\
-\alpha^{a_{0}n/q} \equiv -1\pmod {41}\\
-a_{0}=1\\
-\beta_{1} = \beta_{0}\alpha^{-a_{0}q^0}\equiv-1\pmod {41}\\
-\alpha^{a_{1}n/q} \equiv -1\pmod {41}\\
-a_{1}=1\\
-\beta_{2} = \beta_{1}\alpha^{-a_{1}q^1}\equiv-1\pmod {41}\\
-\alpha^{a_{2}n/q} \equiv -1\pmod {41}\\
-a_{2}=1\\
-a \equiv 2^0+2^1+2^2=7\pmod8\\
-再取q= 5，c=1同理可得
-a \equiv 2\times5^0=2\pmod 5\\
-\left\{\begin{matrix} 
-  a \equiv 7\pmod8 \\  
-  a \equiv 2\pmod 5 
-\end{matrix}\right. \\
-由中国剩余定理可得
-a \equiv 7 \pmod {40}</script><p>经验证$5^7\equiv29\pmod{41}$</p>
-<h5 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h5><script type="math/tex; mode=display">
-n = p-1 =36=2^2\times3^2\\
-计算a = lb29,首先计算a\ mod \ 4然后计算a \ mod\ 9\\
-取q=2,c=2\\
-n\equiv0\pmod {2^2}\\
-n \not\equiv 0\pmod {2^3}\\
-\beta_{0} = 29,\beta_{0}^{n/q} = -1\pmod {37}\\
-\alpha^{a_{0}n/q} \equiv -1\pmod {37}\\
-a_{0}=1\\
-\beta_{1} = \beta_{0}\alpha^{-a_{0}q^0}\equiv1\pmod {37}\\
-\alpha^{a_{1}n/q} \equiv 1\pmod {37}\\
-a_{1}=2\\
-a \equiv 2^0+2\times2^1=1\pmod{4}\\
-再取q= 3，c=2同理可得
-a \equiv 3\times3^0+3\times3^1\equiv3\pmod 9\\
-\left\{\begin{matrix} 
-  a \equiv 1\pmod4 \\  
-  a \equiv 3\pmod 9 
-\end{matrix}\right. \\
-由中国剩余定理可得
-a \equiv 21 \pmod {36}</script><p>经验证$2^{21}\equiv29 \pmod {37}$</p>
-<p>我们根据上述利用Pohlig-Hellman解离散对数问题的原理，也可以编程进行求解。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Pohlig_Hellman</span>(<span class="params">p,n,a,b,q,c</span>):</span><br><span class="line">    ai = <span class="number">0</span></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    bj = b</span><br><span class="line">    <span class="keyword">while</span> j&lt;=c-<span class="number">1</span>:</span><br><span class="line">        t = power_mod(bj,<span class="built_in">int</span>(n/<span class="built_in">pow</span>(q,j+<span class="number">1</span>)),p)</span><br><span class="line">        k = power_mod(a,<span class="built_in">int</span>(n/q),p)</span><br><span class="line">        i = <span class="number">1</span></span><br><span class="line">        w = k</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">if</span> w == t:</span><br><span class="line">                ai+=i*<span class="built_in">pow</span>(q,j)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                w = w*k%p</span><br><span class="line">                i+=<span class="number">1</span></span><br><span class="line">        bj = bj*power_mod(a,-i*<span class="built_in">pow</span>(q,j),p)</span><br><span class="line">        j+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ai%<span class="built_in">pow</span>(q,c)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">attack</span>(<span class="params">a,b,p</span>):</span><br><span class="line">    n = p-<span class="number">1</span></span><br><span class="line">    ai = []</span><br><span class="line">    m =[]</span><br><span class="line">    result = factor(n)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> result:</span><br><span class="line">        q = i[<span class="number">0</span>]</span><br><span class="line">        c = i[<span class="number">1</span>]</span><br><span class="line">        ai.append(Pohlig_Hellman(p,n,a,b,q,c))</span><br><span class="line">        m.append(<span class="built_in">pow</span>(q,c)) </span><br><span class="line">    <span class="built_in">print</span>(crt(ai,m))</span><br></pre></td></tr></table></figure>
-
-    
-
-    
-    <div class="page-reward">
-      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
-        <div class="tooltip tooltip-east">
-          <span class="tooltip-item">
-            赏
-          </span>
-          <span class="tooltip-content">
-            <span class="tooltip-text">
-              <span class="tooltip-inner">
-                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
-                    class="icon icon-quo-right"></i></p>
-                <div class="reward-box">
-                  
-                  <div class="reward-box-item">
-                    <img class="reward-img" src="/img/alipay.jpg">
-                    <span class="reward-type">支付宝</span>
-                  </div>
-                  
-                  
-                  <div class="reward-box-item">
-                    <img class="reward-img" src="/img/weixin.png">
-                    <span class="reward-type">微信</span>
-                  </div>
-                  
-                </div>
-              </span>
-            </span>
-          </span>
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2022" class="archive-year">2022</a>
         </div>
-      </a>
-    </div>
+        <div class="archives">
     
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	
+<a href="/2022/12/08/new/" class="archive-article-date">
+        <time datetime="2022-12-08T14:08:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-08</time>
+</a>
 
-    
-    <div class="declare"> 
-      <ul class="post-copyright">
-        <li>
-          <strong>本文作者：</strong>
-          Stider
-        </li>
-        <li>
-          <strong>本文链接：</strong>
-          <a href="http://example.com/2022/12/10/离散对数问题的计算/" title="" target="_blank">http://example.com/2022/12/10/离散对数问题的计算/</a>
-        </li>
-        
-        <li>
-          <strong>版权声明： </strong>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+	
+	  <a class="archive-article-title" href="/2022/12/08/new/" target="_blank">机器学习ML1</a>
+  
+    </h1>
+  
+
+
+        <div class="article-info info-on-right">
           
-          本博客所有文章除特别声明外，均采用 <a href="https://github.com/JoeyBling/hexo-theme-yilia-plus/blob/master/LICENSE" rel="external nofollow" target="_blank">MIT</a> 许可协议。转载请注明出处！
-        </li>
-        
-      </ul>
-    </div>
-    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">linear regression</a>
+        		</li>
+      		
+		</ul>
+	</div>
 
-  </div>
-  <div class="article-info article-info-index">
-    
-    
-    
+          
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Machine-Learning//" class="article-tag-list-link color2">Machine Learning</a>
+        		</li>
+      		
+		</ul>
+	</div>
 
-    
 
-    
-    
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a> -->
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/12/10/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%A1%E7%AE%97/" alt="微信分享二维码"> -->
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-
-    
-    <div class="clearfix"></div>
-  </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-
-<nav id="article-nav">
   
   
-    <a href="/2022/12/10/%E5%9B%A0%E5%AD%90%E5%88%86%E8%A7%A3%E5%AE%9E%E7%8E%B0/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
-      <i class="icon-circle-right"></i>
-    </a>
+    </div></section>
   
-</nav>
 
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
           </div>
@@ -442,7 +293,7 @@ a \equiv 21 \pmod {36}</script><p>经验证$2^{21}\equiv29 \pmod {37}$</p>
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018-2022 <a href="http://example.com/" target="_blank">Stider</a>
+    		&copy; 2018-2022 <a href="http://example.com/" target="_blank">Strider</a>
     	</div>
       	<div class="footer-right">
 			
@@ -473,9 +324,9 @@ a \equiv 21 \pmod {36}</script><p>经验证$2^{21}\equiv29 \pmod {37}$</p>
 	var yiliaConfig = {
 		mathjax: [object Object],
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
@@ -580,6 +431,14 @@ a \equiv 21 \pmod {36}</script><p>经验证$2^{21}\equiv29 \pmod {37}$</p>
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">linear regression</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">公钥密码</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>

@@ -17,16 +17,15 @@
 <meta property="og:site_name" content="Strider&#39;s blog">
 <meta property="og:description" content="因子分解实现1.设$p-q&#x3D;2d&gt;0$,且$n&#x3D; pq$. p &#x3D; 2d+q\\ n&#x3D;pq&#x3D;(2d+q)q&#x3D;2dq+q^2\\ n+d^2&#x3D;d^2+2dq+q^2&#x3D;(d+q)^2\\ 所以n+d^2是完全平方数2. 设n+d^2&#x3D;m^2\\ n &#x3D; m^2-d^2\\ n&#x3D;(m+d)(m-d)这就找到了n的两个因子m+d和m-d 3.基于d很小和sqrt算法是很快的多项式时间算法我们构造程序">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220423212649826.png">
-<meta property="og:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429160914660.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20220423212649826.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20220429160914660.png">
 <meta property="og:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429162249212.png">
-<meta property="og:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429161533171.png">
 <meta property="og:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429161914465.png">
 <meta property="article:published_time" content="2022-12-10T13:57:05.838Z">
-<meta property="article:modified_time" content="2022-12-10T14:47:15.506Z">
-<meta property="article:author" content="Stider">
+<meta property="article:modified_time" content="2022-12-11T08:38:47.816Z">
+<meta property="article:author" content="Strider">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220423212649826.png">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20220423212649826.png">
   
     <link rel="alternative" href="/atom.xml" title="Strider&#39;s blog" type="application/atom+xml">
   
@@ -72,7 +71,7 @@
 			<img src="/img/header.jpg" class="js-avatar">
 		</a>
 		<hgroup>
-			<h1 class="header-author"><a href="/">Stider</a></h1>
+			<h1 class="header-author"><a href="/">Strider</a></h1>
 		</hgroup>
 		
 
@@ -81,9 +80,9 @@
 			
 				<li><a href="/" target="_blank">主页</a></li>
 			
-				<li><a href="https://zhousiwei.gitee.io/ibooks/" target="_blank">技术笔记</a></li>
+				<li><a href="/categories" target="_blank">分类</a></li>
 			
-				<li><a href="/tags/%E9%9A%8F%E7%AC%94/" target="_blank">随笔</a></li>
+				<li><a href="/archives/" target="_blank">归档</a></li>
 			
 			</ul>
 		</nav>
@@ -159,7 +158,7 @@
 				</a>
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">Stider</h1>
+			  <h1 class="header-author js-header-author">Strider</h1>
 			</hgroup>
 			
 			
@@ -204,9 +203,9 @@
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a target="_blank" rel="noopener" href="https://zhousiwei.gitee.io/ibooks/">技术笔记</a></li>
+					<li style="width: 33.333333333333336%"><a href="/categories">分类</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 33.333333333333336%"><a href="/archives/">归档</a></li>
 		        
 				</ul>
 			</nav>
@@ -236,18 +235,17 @@ n+d^2=d^2+2dq+q^2=(d+q)^2\\
 n = m^2-d^2\\
 n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
 <h5 id="3-基于d很小和sqrt算法是很快的多项式时间算法我们构造程序"><a href="#3-基于d很小和sqrt算法是很快的多项式时间算法我们构造程序" class="headerlink" title="3.基于d很小和sqrt算法是很快的多项式时间算法我们构造程序"></a>3.基于d很小和sqrt算法是很快的多项式时间算法我们构造程序</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">attack</span>():</span><br><span class="line">    <span class="keyword">for</span> d <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">20</span>):<span class="comment">#traverse the d</span></span><br><span class="line">        h = n + <span class="built_in">pow</span>(d,<span class="number">2</span>) <span class="comment">#calulate the n+d^2</span></span><br><span class="line">        m = <span class="built_in">pow</span>(h,<span class="number">0.5</span>)</span><br><span class="line">        text = (<span class="built_in">int</span>)(m+d)*(<span class="built_in">int</span>)(m-d) <span class="comment">#verify the correct of m</span></span><br><span class="line">        <span class="keyword">if</span>(text == n):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;p=&#123;&#125;,q=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(m+d,m-d))</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220423212649826.png" alt="image-20220423212649826" style="zoom:50%;" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20220423212649826.png" alt="image-20220423212649826" style="zoom:50%;" /></p>
 <h5 id="4-这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。"><a href="#4-这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。" class="headerlink" title="4.这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。"></a>4.这一问我们也可以利用前两问的思路进行分解，但是这里我们要增大d的范围。</h5><p>在30bit中选择：246d5fd1 </p>
 <p>在40bit中选择：59a38fdedb</p>
 <p>在50bit中选择：25220f2a4ab77</p>
-<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429160914660.png" alt="image-20220429160914660" style="zoom:50%;" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20220429160914660.png" alt="image-20220429160914660" style="zoom:50%;" /></p>
 <p>利用平方和的方式进行破解，我们发现d的规模越大，所花费的CPU时间也就越多。</p>
 <h5 id="下面我们再利用试除法进行破解"><a href="#下面我们再利用试除法进行破解" class="headerlink" title="下面我们再利用试除法进行破解"></a>下面我们再利用试除法进行破解</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Basic_fac</span>(<span class="params">n</span>):</span><br><span class="line">    level = <span class="built_in">int</span>(<span class="built_in">pow</span>(n,<span class="number">0.5</span>))+<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,level):</span><br><span class="line">        <span class="keyword">if</span> n%i == <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;p=&#123;&#125;,q=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(<span class="built_in">hex</span>(i),<span class="built_in">hex</span>(<span class="built_in">int</span>(n/i))))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">continue</span>   </span><br></pre></td></tr></table></figure>
 <p>这里我们可以发现，试除法的效率和数据规模有直接关系，当数据规模越大时，试除法的效率也越低</p>
 <p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429162249212.png" alt="image-20220429162249212" style="zoom:50%;" /></p>
 <p>下面我们利用Pollard p-1方法进行因子分解</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Pollard p-1</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Pollard_p</span>(<span class="params">n,B</span>):<span class="comment">#give a level B</span></span><br><span class="line">    a = <span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,B):</span><br><span class="line">        a = power_mod(a,j,n)</span><br><span class="line">        d = gcd(a-<span class="number">1</span>,n)</span><br><span class="line">        <span class="keyword">if</span> <span class="number">1</span>&lt;d&lt;n:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">hex</span>(d),<span class="built_in">hex</span>(n/d)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/Strider666/image_blog/raw/master/images/image-20220429161533171.png" alt="image-20220429161533171" style="zoom:50%;" /></p>
 <p>相较于试除法效率有了很大的提升</p>
 <p>我们接下来利用Pollard  $\rho$方法对因子进行分解</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">f</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">int</span>(power(x,<span class="number">2</span>)+<span class="number">1</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Rho</span>(<span class="params">n,x1</span>):</span><br><span class="line">    x = x1</span><br><span class="line">    _x = f(x)%n</span><br><span class="line">    p = gcd(x-_x,n)</span><br><span class="line">    <span class="keyword">while</span> p == <span class="number">1</span>:</span><br><span class="line">        x = f(x)%n</span><br><span class="line">        _x = f(f(_x)%n)%n</span><br><span class="line">        p = gcd(x-_x,n)</span><br><span class="line">        <span class="keyword">if</span> p == n:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">hex</span>(p),<span class="built_in">hex</span>(n/p)</span><br></pre></td></tr></table></figure>
@@ -295,7 +293,7 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
       <ul class="post-copyright">
         <li>
           <strong>本文作者：</strong>
-          Stider
+          Strider
         </li>
         <li>
           <strong>本文链接：</strong>
@@ -381,18 +379,9 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
 
 <nav id="article-nav">
   
-    <a href="/2022/12/10/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0%E9%97%AE%E9%A2%98%E7%9A%84%E8%AE%A1%E7%AE%97/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
-  
   
     <a href="/2022/12/08/new/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">new</div>
+      <div class="article-nav-title">机器学习ML1</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -435,7 +424,7 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018-2022 <a href="http://example.com/" target="_blank">Stider</a>
+    		&copy; 2018-2022 <a href="http://example.com/" target="_blank">Strider</a>
     	</div>
       	<div class="footer-right">
 			
@@ -573,6 +562,14 @@ n=(m+d)(m-d)</script><p>这就找到了n的两个因子m+d和m-d</p>
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">linear regression</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">公钥密码</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
