@@ -1,0 +1,306 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Reserve2 | Strider's blog</title><meta name="author" content="Strider"><meta name="copyright" content="Strider"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="逆向工程 一、 实验目的​    本次实验的实验目的为使用Linux下的二进制分析工具对文件进行分析，提取隐藏在二进制文件中的flag。 二、实验步骤和实验结果2.1 Task 1：使用file解决类型问题​    首先使用file命令来查看文件的类型，file工具是通过搜索文件中的其它指示模式来判断文件类型的(eg. magic number),而不是通过扩展名来判断。可以看到payload文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Reserve2">
+<meta property="og:url" content="http://example.com/2023/03/23/Reserve2/index.html">
+<meta property="og:site_name" content="Strider&#39;s blog">
+<meta property="og:description" content="逆向工程 一、 实验目的​    本次实验的实验目的为使用Linux下的二进制分析工具对文件进行分析，提取隐藏在二进制文件中的flag。 二、实验步骤和实验结果2.1 Task 1：使用file解决类型问题​    首先使用file命令来查看文件的类型，file工具是通过搜索文件中的其它指示模式来判断文件类型的(eg. magic number),而不是通过扩展名来判断。可以看到payload文件">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.pixabay.com/photo/2023/04/10/10/19/mountain-7913365_640.jpg">
+<meta property="article:published_time" content="2023-03-23T00:24:46.000Z">
+<meta property="article:modified_time" content="2023-04-26T03:43:08.210Z">
+<meta property="article:author" content="Strider">
+<meta property="article:tag" content="逆向工程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.pixabay.com/photo/2023/04/10/10/19/mountain-7913365_640.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/03/23/Reserve2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Reserve2',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-26 11:43:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.pixabay.com/photo/2023/04/10/10/19/mountain-7913365_640.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Strider's blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Reserve2</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-03-23T00:24:46.000Z" title="Created 2023-03-23 08:24:46">2023-03-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-04-26T03:43:08.210Z" title="Updated 2023-04-26 11:43:08">2023-04-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/">逆向工程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Reserve2"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="逆向工程"><a href="#逆向工程" class="headerlink" title="逆向工程"></a><center>逆向工程</center></h1><!--
+
+**课程名称：<u>          汇编语言和逆向工程      </u>    成绩评定  ：<u>                                                      </u>**
+
+**实验项目名称: <u>           </u>指导教师 ：<u>          刁文瑞               </u>**
+
+**实验项目编号  ：<u>         实验1      </u>    实验项目类型  ：<u>                         </u>**
+
+**实验地点 ：**<u>       淦昌苑 D226                   </u>
+
+**学生姓名 ：<u>           李卓群              </u> 学号  ：<u>       202000460041     </u>**
+
+**学院 ：<u>      网络空间安全学院                   </u>专业  ：<u>          网络空间安全              **</u>
+
+**实验时间 ：**<u>             2023         </u> 年  <u>   3  </u> 月  <u>  09</u> 日
+
+-->
+<h2 id="一、-实验目的"><a href="#一、-实验目的" class="headerlink" title="一、 实验目的"></a>一、 实验目的</h2><p>​    本次实验的实验目的为使用Linux下的二进制分析工具对文件进行分析，提取隐藏在二进制文件中的flag。</p>
+<h3 id="二、实验步骤和实验结果"><a href="#二、实验步骤和实验结果" class="headerlink" title="二、实验步骤和实验结果"></a>二、实验步骤和实验结果</h3><h3 id="2-1-Task-1：使用file解决类型问题"><a href="#2-1-Task-1：使用file解决类型问题" class="headerlink" title="2.1 Task 1：使用file解决类型问题"></a>2.1 Task 1：使用file解决类型问题</h3><p>​    首先使用file命令来查看文件的类型，file工具是通过搜索文件中的其它指示模式来判断文件类型的(eg. magic number),而不是通过扩展名来判断。可以看到payload文件是一个ASCII的文本文件，我们可以使用head命令查看文件中的前10行内容。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323083508195.png" alt="image-20230323083508195" style="zoom: 50%;" /></p>
+<h5 id="Q：文件使用了什么编码方式？"><a href="#Q：文件使用了什么编码方式？" class="headerlink" title="Q：文件使用了什么编码方式？"></a><strong>Q：</strong>文件使用了什么编码方式？</h5><p>​    这里我们使用实验手册中给出的在线文本分析工具，可以看到分析文件采用的是base64的编码方式</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323084014023.png" alt="image-20230323084014023" style="zoom: 50%;" /></p>
+<p>​    然后对文件内容进行解码，并将解码内容保存到新文件中，这里我们可以使用linux自带的base64解码指令来完成对payload的解码过程，使用file来查看解码后的文件类型，可以看到这是一个compressed的压缩文件</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323084421874.png" alt="image-20230323084421874" style="zoom: 50%;" /></p>
+<p>​    使用file -z 选项可以查看压缩文件，可以看到压缩文件里面还有一个用tar进行压缩的压缩文件</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323084624524.png" alt="image-20230323084624524" style="zoom: 33%;" /></p>
+<p>​    用tar解压缩对文件内同进行提取，可以得到：ctf和67b8601两个文件</p>
+<h5 id="Q-这两个文件分别是什么类型？"><a href="#Q-这两个文件分别是什么类型？" class="headerlink" title="Q:这两个文件分别是什么类型？"></a>Q:这两个文件分别是什么类型？</h5><p>​    从下图中可以看出ctf文件是一个ELF的可执行文件，不过调试信息已经被分离了。67b8601是一个PC bitmap文件，也就是一个位图文件。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323085047641.png" alt="image-20230323085047641" style="zoom: 50%;" /></p>
+<h3 id="2-2-Task-2：使用ldd探索依赖性"><a href="#2-2-Task-2：使用ldd探索依赖性" class="headerlink" title="2.2 Task 2：使用ldd探索依赖性"></a>2.2 Task 2：使用ldd探索依赖性</h3><p>​    直接运行ctf可以发现报错，会缺少某一个共享的链接库文件</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323085350574.png" alt="image-20230323085350574" style="zoom:50%;" /></p>
+<p>​    Linux操作系统自带一个名为ldd的程序，可以使用该程序找到文件依赖哪些共享库，ldd可能会运行二进制文件来找到依赖关系(可能不安全)</p>
+<h5 id="Q：这个文件存在哪些未解析的依赖项？"><a href="#Q：这个文件存在哪些未解析的依赖项？" class="headerlink" title="Q：这个文件存在哪些未解析的依赖项？"></a>Q：这个文件存在哪些未解析的依赖项？</h5><p>​    从ldd返回的结果可以看到，其中包括linux-vdso.so.1、lib5ae9b7f.so、libstdc++.sp.6、libgcc_s.so.6、libc.so.6、libm.so.6、/lib64/ld-linux-x86-64.so.2，其中其它依赖项都可以在系统中找到，只有lib5ae9b7f.so显示not found的状态</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323090006178.png" alt="image-20230323090006178" style="zoom: 50%;" /></p>
+<p>​    从库名称可以看出，无法在任何标准存储库中找到它，它必须位于目前提供文件的某个位置，所有ELF二进制文件和库文件都以魔数开头，且header中包含ELF的字段，因此可以使用grep命令来搜索字符串’ELF’，但是直接使用grep命令得到的内容太多，这里我们使用管道进行过滤</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323091652227.png" alt="image-20230323091652227" style="zoom:67%;" /></p>
+<p>​    可以看到“ELF”字符出现在了 67b8601 文件中，但这个并不是一个 ELF 文件，我们需要进一步分析。</p>
+<h3 id="2-3-Task-3：使用-xxd-查看文件内容"><a href="#2-3-Task-3：使用-xxd-查看文件内容" class="headerlink" title="2.3  Task 3：使用 xxd 查看文件内容"></a>2.3  Task 3：使用 xxd 查看文件内容</h3><p>​    使用xdd来分析文件的内容</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323092624499.png" alt="image-20230323092624499" style="zoom:50%;" /></p>
+<h5 id="Q：xxd默认每行显示多少字节的内容"><a href="#Q：xxd默认每行显示多少字节的内容" class="headerlink" title="Q：xxd默认每行显示多少字节的内容"></a>Q：xxd默认每行显示多少字节的内容</h5><p>​    第一列输出的是十六进制格式显示的文件偏移，两行之间差0x10，也就是每一行显示16个字节的内容。</p>
+<p>​    文件的 xxd 输出中，可以找到 ELF 魔数字节，我们可以合理猜测有一个 ELF 文件（即缺少的库文件） 被隐藏其中，ELF 魔数字节即为 ELF 文件的起始位置，但终止位置尚未确定。 接下来我们需要将这个 ELF 提取出来，并命名为缺少的库文件的名字。</p>
+<h3 id="2-4-Task-4：使用readelf解析并提取ELF文件"><a href="#2-4-Task-4：使用readelf解析并提取ELF文件" class="headerlink" title="2.4 Task 4：使用readelf解析并提取ELF文件"></a>2.4 Task 4：使用readelf解析并提取ELF文件</h3><p>​    根据上一问的分析我们可以发现ELF字段出现在第35个字节的位置，，那么我们就要将第0x35个字节后面的内容进行提取。这里0x35转化为十进制是53，然后可以使用readelf查看temp_elf的头部信息(可能又尾部尾部无效信息)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323093347647.png" alt="image-20230323093347647" style="zoom: 50%;" /></p>
+<p>​    ELF二进制文件最后一部分是节头表，节头表偏移temp_elf中指定了，我们还知道了表中每个节头的大小（每一 项的大小），以及节头的数量。这意味着我们可以通过以下公式计算完整 ELF 库文件的大小： size = x + y × z </p>
+<p>x = Start of section headers, y = Size of section headers, z = Number of section headers</p>
+<p>x = 8568 y = 64 z = 27</p>
+<p>size = 10296</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323094039208.png" alt="image-20230323094039208" style="zoom: 50%;" /></p>
+<p>​    此时将当前目录加入环境变量，再执行ctf文件，可以看到ctf文件正常执行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323094354119.png" alt="image-20230323094354119" style="zoom: 50%;" /></p>
+<h5 id="Q：是否一定要去除隐藏的ELF-文件的尾部无效部分？不去除的情况下这个库文件是否还有效？"><a href="#Q：是否一定要去除隐藏的ELF-文件的尾部无效部分？不去除的情况下这个库文件是否还有效？" class="headerlink" title="Q：是否一定要去除隐藏的ELF 文件的尾部无效部分？不去除的情况下这个库文件是否还有效？"></a>Q：是否一定要去除隐藏的ELF 文件的尾部无效部分？不去除的情况下这个库文件是否还有效？</h5><p>​    不一定要去除ELF文件的尾部无效部分的，我们直接将temp_elf的内容复制到lib5ae9b7f.so中，发现仍然可以正确的链接执行，说明ELF文件可以被解析，库文件还是有效的</p>
+<font color='red'>看到很多人直接使用head temp_elf > ??.so,这样是不对的，因为head命令默认情况下只是复制了前10行的内容</font>
+
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323100140919.png" alt="image-20230323100140919" style="zoom: 50%;" /></p>
+<h3 id="2-5-Task-5：使用nm解析符号"><a href="#2-5-Task-5：使用nm解析符号" class="headerlink" title="2.5 Task 5：使用nm解析符号"></a>2.5 Task 5：使用nm解析符号</h3><p>​    虽然 ctf 运行后没有报错，但似乎没有提示任何功能，$? 变量中包含的 ctf 退出状态为 1，表示有错 误。我们还需要进一步研究。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323100701335.png" alt="image-20230323100701335" style="zoom: 50%;" /></p>
+<p>我们可以继续使用 readelf 查看库文件的符号表，C++ 允许函数重载，意味着可以存在多个具有相同名称的函数，只要它们有不同的签名即可。不幸 的是，对链接程序来说，它对 C++ 一无所知。如果有多个名称为 foo 的函数，链接器将不知道如何解析 对 foo 的引用，也不知道要使用哪个版本的 foo 。为了消除重复的名称，C++ 编译器提出了符号修饰 （mangled name）。符号修饰实质上是原始函数名称与函数参数编码的组合。这样，函数的每个版本都会获 得唯一的名称，并且链接器也不会对重载的函数产生歧义</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323100846257.png" alt="image-20230323100846257" style="zoom: 50%;" /></p>
+<p>​    使用nm命令去解析静态符号表，发现是没有符号的，库文件应该也是被剥离了符号表的文件。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323101045839.png" alt="image-20230323101045689" style="zoom:67%;" /></p>
+<p>​    使用-D能够看到一些符号，但是符号被修饰了，并不利用观察</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323101351783.png" alt="image-20230323101351783" style="zoom: 50%;" /></p>
+<p>​    使用—demangle或者-C选项进行解析，可以变得易读</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323101515496.png" alt="image-20230323101515496" style="zoom:50%;" /></p>
+<h5 id="Q：是哪个加密算法？包含了这个加密算法的什么功能？"><a href="#Q：是哪个加密算法？包含了这个加密算法的什么功能？" class="headerlink" title="Q：是哪个加密算法？包含了这个加密算法的什么功能？"></a>Q：是哪个加密算法？包含了这个加密算法的什么功能？</h5><p>​    RC4算法，包含了RC4算法的加密、解密、以及初始化的功能。根据输入的参数有rc4_state_t的结构体，也有密钥、字符串等作为参数输入。</p>
+<h3 id="2-6-Task-6：使用strings查找Hints"><a href="#2-6-Task-6：使用strings查找Hints" class="headerlink" title="2.6 Task 6：使用strings查找Hints"></a>2.6 Task 6：使用strings查找Hints</h3><p>​    使用的是strings命令，来查看ctf的字符串信息，但是strings输出的字符串太多，我们可以使用grep命令来排查一些关键的字段</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323102258800.png" alt="image-20230323102258800" style="zoom:50%;" /></p>
+<p>​    尝试添加相关字段为参数，感觉逻辑中又一种字符串检查机制在里面，但是都返回了执行错误</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323102602396.png" alt="image-20230323102602396" style="zoom: 50%;" /></p>
+<h3 id="2-7-Task-7：使用-strace-和-ltrace-跟踪系统调用和库文件调用"><a href="#2-7-Task-7：使用-strace-和-ltrace-跟踪系统调用和库文件调用" class="headerlink" title="2.7 Task 7：使用 strace 和 ltrace 跟踪系统调用和库文件调用"></a>2.7 Task 7：使用 strace 和 ltrace 跟踪系统调用和库文件调用</h3><p>​        为了取得进展，我们通过查看 ctf 退出前的行为来调查 exit 显示错误代码的原因。这里有多种方法， 其中一种方法是使用名为 strace 和 ltrace 的两个工具。这两个工具分别显示二进制文件执行时的系统 调用和库文件调用。</p>
+<p>​    可以看到大部分是库文件加载设置相关的，可以重点分析最后3个系统调用</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323103412504.png" alt="image-20230323103412504" style="zoom: 50%;" /></p>
+<h5 id="Q：这-3-个系统调用分别是做什么的？"><a href="#Q：这-3-个系统调用分别是做什么的？" class="headerlink" title="Q：这 3 个系统调用分别是做什么的？"></a>Q：这 3 个系统调用分别是做什么的？</h5><p> 第一个系统调用是write，用来输出checking ‘show_me_the_flag’，应该是对输入参数的检查</p>
+<p>第二个系统调用是write，用来输出ok</p>
+<p>第三个系统调用是exit_group()就是退出进程中的所有线程，以状态1退出</p>
+<p>​    查看 ctf 的系统调用行为没有太多帮助，所以我们将目光转向库文件调用。为了查看 ctf 执行的库文件 调用，我们要用到 ltrace ，ltrace的输出更具有可读性，因为并没有进程设置的相关代码，分析输出 结果，可以看到初始化了加密函数，该函数位于之前提取的库文件中；接着为一个 C++ 字符串赋值，大概 是用加密消息对其进行初始化；然后调用解密函数解密此消息，并将解密后的消息分配到新的 C++ 字符 串。 最后调用 getenv，该函数是用于查找环境变量的标准库函数。可以看到 ctf 需要一个名为 GUESSME 的环境变量，该名称很可能就是之前解密的字符串。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323103740918.png" alt="image-20230323103740918" style="zoom: 50%;" /></p>
+<p>​    尝试将GUSSME环境变量设置为虚拟值，看ctf的行为是否发生变化，发现输出guess again也就是期望再猜一次</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323104041727.png" alt="image-20230323104041727" style="zoom:50%;" /></p>
+<p>​    设置其它值，情况相同，从解密操作到“guess again”输出 到屏幕的那一瞬间，看不到有关 GUESSME 的任何提示，还需要继续分析</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323104519415.png" alt="image-20230323104519415" style="zoom:50%;" /></p>
+<h3 id="2-8-Task-8：使用-objdump-检查指令级别的行为"><a href="#2-8-Task-8：使用-objdump-检查指令级别的行为" class="headerlink" title="2.8 Task 8：使用 objdump 检查指令级别的行为"></a>2.8 Task 8：使用 objdump 检查指令级别的行为</h3><p>​    使用objdump分析ctf的.rodata节，可以看到“guess again”</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323105515450.png" alt="image-20230323105515368" style="zoom:50%;" /></p>
+<h5 id="Q：“guess-again”存放的地址位置是什么？"><a href="#Q：“guess-again”存放的地址位置是什么？" class="headerlink" title="Q：“guess again”存放的地址位置是什么？"></a>Q：“guess again”存放的地址位置是什么？</h5><p>​    这个问题首先看g字符在的那一行，起始地址是0x4011a0,然后g在最后一个字节，那也就是0x 4011af的位置。</p>
+<p>​    下一步我们对ctf进行反汇编分析查看指令，使用Intel语法风格输出</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323110056683.png" alt="image-20230323110056683" style="zoom:50%;" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323110127978.png" alt="image-20230323110127978" style="zoom:50%;" /></p>
+<p>​    指令在 0x400dcd 处加载 guess again 字符串，然后使用 puts 将其输出，这是一个失败分支，从这 里往回看，失败分支是起始地址为 0x400dc0 的循环的一个分支，在每次循环中，它会将数组（可能是字符串） 的字节加载到 edx 中，rbx 寄存器指向数组的基址（base），rax 对其进行索引（index）。如果载入的字节结果为 NULL ，那么地址 0x400dc6 的指令就会跳转到失败分支。这里与 NULL 进行比较其实是对字符串结 尾的检查，如果这里已经到达字符串的结尾，说明字符串太短，没办法进行匹配。这里test是与运算，根据结果设置标志位。dl是低8位</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323110838132.png" alt="image-20230323110838132" style="zoom:50%;" /></p>
+<p>​    如果载入的字节结果不为 NULL ，那么 je 跳转到下一条指令，地址 0x400dc8 的指令将 edx 中的低字节与另一个字符串中的字节进行比较，该字符串以 rcx 为指向数组的基址（base）、rax 为索引（index）。如 果比较的两字节相匹配，那么程序将跳转到地址 0x400de0 。在这里对字符串索引 +1 ，并检查当前 rax 的 值（即字符串的长度）是否等于 0x15。如果相等，那么字符串比较完成，否则程序跳转到另一个迭代中。</p>
+<p>​    那么通过分析就可以发现cmp操作是基于rcx寄存器进行的，因此重点分析rcx寄存器</p>
+<h3 id="2-9-Task-9：使用-GDB-转存动态字符串缓冲区"><a href="#2-9-Task-9：使用-GDB-转存动态字符串缓冲区" class="headerlink" title="2.9 Task 9：使用 GDB 转存动态字符串缓冲区"></a>2.9 Task 9：使用 GDB 转存动态字符串缓冲区</h3><p>​    使用gdb动态分析，首先设置程序在cmp处断点，也就是比较位置0x400dc8，下面设置环境变量，设置输入参数，程序运行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323112140055.png" alt="image-20230323112140055" style="zoom:50%;" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323112157439.png" alt="image-20230323112157439" style="zoom:50%;" /></p>
+<p>打印寄存器rcx的值，发现和输入进行比较的内容，将内容作为参数输入，得到结果</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230323112607844.png" alt="image-20230323112607844"></p>
+<p><strong>flag = 84b34c124b2ba5ca224af8e33b077e9e</strong></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">Strider</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/03/23/Reserve2/">http://example.com/2023/03/23/Reserve2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/">逆向工程</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=null" async="async"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/04/06/Reverse3/"><img class="prev-cover" src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Reverse3</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/09/Reverse1/"><img class="next-cover" src="https://cdn.pixabay.com/photo/2022/08/03/13/09/moon-7362632_640.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Reverse1</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/04/06/Reverse3/" title="Reverse3"><img class="cover" src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-06</div><div class="title">Reverse3</div></div></a></div><div><a href="/2023/03/09/Reverse1/" title="Reverse1"><img class="cover" src="https://cdn.pixabay.com/photo/2022/08/03/13/09/moon-7362632_640.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-09</div><div class="title">Reverse1</div></div></a></div><div><a href="/2023/04/20/Reverse4/" title="Reverse4"><img class="cover" src="https://cdn.pixabay.com/photo/2023/04/11/16/11/ocean-7917678__480.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-20</div><div class="title">Reverse4</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/header.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Strider</div><div class="author-info__description">A blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:lc_lzq@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/1036472882" target="_blank" title="qq"><i class="QQ"></i></a><a class="social-icon" href="https://github.com/sdu-lzq" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is Strider's Blog.You can find an interesting soul here.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B"><span class="toc-text">逆向工程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="toc-text">一、 实验目的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4%E5%92%8C%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="toc-text">二、实验步骤和实验结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Task-1%EF%BC%9A%E4%BD%BF%E7%94%A8file%E8%A7%A3%E5%86%B3%E7%B1%BB%E5%9E%8B%E9%97%AE%E9%A2%98"><span class="toc-text">2.1 Task 1：使用file解决类型问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Q%EF%BC%9A%E6%96%87%E4%BB%B6%E4%BD%BF%E7%94%A8%E4%BA%86%E4%BB%80%E4%B9%88%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="toc-text">Q：文件使用了什么编码方式？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Q-%E8%BF%99%E4%B8%A4%E4%B8%AA%E6%96%87%E4%BB%B6%E5%88%86%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="toc-text">Q:这两个文件分别是什么类型？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Task-2%EF%BC%9A%E4%BD%BF%E7%94%A8ldd%E6%8E%A2%E7%B4%A2%E4%BE%9D%E8%B5%96%E6%80%A7"><span class="toc-text">2.2 Task 2：使用ldd探索依赖性</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Q%EF%BC%9A%E8%BF%99%E4%B8%AA%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E5%93%AA%E4%BA%9B%E6%9C%AA%E8%A7%A3%E6%9E%90%E7%9A%84%E4%BE%9D%E8%B5%96%E9%A1%B9%EF%BC%9F"><span class="toc-text">Q：这个文件存在哪些未解析的依赖项？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-Task-3%EF%BC%9A%E4%BD%BF%E7%94%A8-xxd-%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-text">2.3  Task 3：使用 xxd 查看文件内容</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Q%EF%BC%9Axxd%E9%BB%98%E8%AE%A4%E6%AF%8F%E8%A1%8C%E6%98%BE%E7%A4%BA%E5%A4%9A%E5%B0%91%E5%AD%97%E8%8A%82%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">Q：xxd默认每行显示多少字节的内容</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-Task-4%EF%BC%9A%E4%BD%BF%E7%94%A8readelf%E8%A7%A3%E6%9E%90%E5%B9%B6%E6%8F%90%E5%8F%96ELF%E6%96%87%E4%BB%B6"><span class="toc-text">2.4 Task 4：使用readelf解析并提取ELF文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Q%EF%BC%9A%E6%98%AF%E5%90%A6%E4%B8%80%E5%AE%9A%E8%A6%81%E5%8E%BB%E9%99%A4%E9%9A%90%E8%97%8F%E7%9A%84ELF-%E6%96%87%E4%BB%B6%E7%9A%84%E5%B0%BE%E9%83%A8%E6%97%A0%E6%95%88%E9%83%A8%E5%88%86%EF%BC%9F%E4%B8%8D%E5%8E%BB%E9%99%A4%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E8%BF%99%E4%B8%AA%E5%BA%93%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E8%BF%98%E6%9C%89%E6%95%88%EF%BC%9F"><span class="toc-text">Q：是否一定要去除隐藏的ELF 文件的尾部无效部分？不去除的情况下这个库文件是否还有效？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-Task-5%EF%BC%9A%E4%BD%BF%E7%94%A8nm%E8%A7%A3%E6%9E%90%E7%AC%A6%E5%8F%B7"><span class="toc-text">2.5 Task 5：使用nm解析符号</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Q%EF%BC%9A%E6%98%AF%E5%93%AA%E4%B8%AA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%EF%BC%9F%E5%8C%85%E5%90%AB%E4%BA%86%E8%BF%99%E4%B8%AA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E7%9A%84%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%9F"><span class="toc-text">Q：是哪个加密算法？包含了这个加密算法的什么功能？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-Task-6%EF%BC%9A%E4%BD%BF%E7%94%A8strings%E6%9F%A5%E6%89%BEHints"><span class="toc-text">2.6 Task 6：使用strings查找Hints</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-Task-7%EF%BC%9A%E4%BD%BF%E7%94%A8-strace-%E5%92%8C-ltrace-%E8%B7%9F%E8%B8%AA%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%92%8C%E5%BA%93%E6%96%87%E4%BB%B6%E8%B0%83%E7%94%A8"><span class="toc-text">2.7 Task 7：使用 strace 和 ltrace 跟踪系统调用和库文件调用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Q%EF%BC%9A%E8%BF%99-3-%E4%B8%AA%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%88%86%E5%88%AB%E6%98%AF%E5%81%9A%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-text">Q：这 3 个系统调用分别是做什么的？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-Task-8%EF%BC%9A%E4%BD%BF%E7%94%A8-objdump-%E6%A3%80%E6%9F%A5%E6%8C%87%E4%BB%A4%E7%BA%A7%E5%88%AB%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="toc-text">2.8 Task 8：使用 objdump 检查指令级别的行为</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Q%EF%BC%9A%E2%80%9Cguess-again%E2%80%9D%E5%AD%98%E6%94%BE%E7%9A%84%E5%9C%B0%E5%9D%80%E4%BD%8D%E7%BD%AE%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">Q：“guess again”存放的地址位置是什么？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-9-Task-9%EF%BC%9A%E4%BD%BF%E7%94%A8-GDB-%E8%BD%AC%E5%AD%98%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-text">2.9 Task 9：使用 GDB 转存动态字符串缓冲区</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/04/innovation/" title="innovation"><img src="https://cdn.pixabay.com/photo/2023/04/15/15/16/house-7927916__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="innovation"/></a><div class="content"><a class="title" href="/2023/05/04/innovation/" title="innovation">innovation</a><time datetime="2023-05-04T13:28:59.000Z" title="Created 2023-05-04 21:28:59">2023-05-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码"><img src="https://cdn.pixabay.com/photo/2023/04/05/09/44/landscape-7901065__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="后量子密码"/></a><div class="content"><a class="title" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码">后量子密码</a><time datetime="2023-04-26T08:17:06.000Z" title="Created 2023-04-26 16:17:06">2023-04-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/20/Reverse4/" title="Reverse4"><img src="https://cdn.pixabay.com/photo/2023/04/11/16/11/ocean-7917678__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse4"/></a><div class="content"><a class="title" href="/2023/04/20/Reverse4/" title="Reverse4">Reverse4</a><time datetime="2023-04-20T00:24:39.000Z" title="Created 2023-04-20 08:24:39">2023-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/06/Reverse3/" title="Reverse3"><img src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse3"/></a><div class="content"><a class="title" href="/2023/04/06/Reverse3/" title="Reverse3">Reverse3</a><time datetime="2023-04-06T00:42:40.000Z" title="Created 2023-04-06 08:42:40">2023-04-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/23/Reserve2/" title="Reserve2"><img src="https://cdn.pixabay.com/photo/2023/04/10/10/19/mountain-7913365_640.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reserve2"/></a><div class="content"><a class="title" href="/2023/03/23/Reserve2/" title="Reserve2">Reserve2</a><time datetime="2023-03-23T00:24:46.000Z" title="Created 2023-03-23 08:24:46">2023-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Strider</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

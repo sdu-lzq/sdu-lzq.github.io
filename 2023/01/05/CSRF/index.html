@@ -1,0 +1,306 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>seedlab(四) | Strider's blog</title><meta name="author" content="Strider"><meta name="copyright" content="Strider"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Cross site request forgery一、实验目的​    本实验的目的是了解跨站请求伪造(CSRF)攻击。CSRF攻击涉及一个受害用户、一个受信任的网站和一个恶意网站。受害用户访问恶意站点时，正在与受信任的网站保持活动会话，这时候恶意网站就会将可信网站的HTTP请求注入到受害者用户会话中，造成损害。 ​    在本实验中，我们将通过CSRF攻击来攻击一个社交网络应用。本实验将覆盖">
+<meta property="og:type" content="article">
+<meta property="og:title" content="seedlab(四)">
+<meta property="og:url" content="http://example.com/2023/01/05/CSRF/index.html">
+<meta property="og:site_name" content="Strider&#39;s blog">
+<meta property="og:description" content="Cross site request forgery一、实验目的​    本实验的目的是了解跨站请求伪造(CSRF)攻击。CSRF攻击涉及一个受害用户、一个受信任的网站和一个恶意网站。受害用户访问恶意站点时，正在与受信任的网站保持活动会话，这时候恶意网站就会将可信网站的HTTP请求注入到受害者用户会话中，造成损害。 ​    在本实验中，我们将通过CSRF攻击来攻击一个社交网络应用。本实验将覆盖">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images.pexels.com/photos/618833/pexels-photo-618833.jpeg?auto=compress&cs=tinysrgb&w=1600">
+<meta property="article:published_time" content="2023-01-05T10:04:40.000Z">
+<meta property="article:modified_time" content="2023-01-06T03:24:09.871Z">
+<meta property="article:author" content="Strider">
+<meta property="article:tag" content="seedlab">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.pexels.com/photos/618833/pexels-photo-618833.jpeg?auto=compress&cs=tinysrgb&w=1600"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/01/05/CSRF/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'seedlab(四)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-06 11:24:09'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://images.pexels.com/photos/618833/pexels-photo-618833.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Strider's blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">seedlab(四)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-01-05T10:04:40.000Z" title="Created 2023-01-05 18:04:40">2023-01-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-01-06T03:24:09.871Z" title="Updated 2023-01-06 11:24:09">2023-01-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/seedlab/">seedlab</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="seedlab(四)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><hr>
+<h2 id="Cross-site-request-forgery"><a href="#Cross-site-request-forgery" class="headerlink" title="Cross site request forgery"></a><center>Cross site request forgery</center></h2><h2 id="一、实验目的"><a href="#一、实验目的" class="headerlink" title="一、实验目的"></a>一、实验目的</h2><p>​    本实验的目的是了解跨站请求伪造(CSRF)攻击。CSRF攻击涉及一个受害用户、一个受信任的网站和一个恶意网站。受害用户访问恶意站点时，正在与受信任的网站保持活动会话，这时候恶意网站就会将可信网站的HTTP请求注入到受害者用户会话中，造成损害。</p>
+<p>​    在本实验中，我们将通过CSRF攻击来攻击一个社交网络应用。本实验将覆盖以下主题：</p>
+<p>1.跨站请求伪造攻击</p>
+<p>2.CSRF对抗措施：秘密令牌(secret token)和同站cookie(same-site cookie)</p>
+<p>3.HTTP GET和POST请求</p>
+<p>4.JavaScript和Ajax</p>
+<h2 id="二、实验步骤和实验结果"><a href="#二、实验步骤和实验结果" class="headerlink" title="二、实验步骤和实验结果"></a>二、实验步骤和实验结果</h2><h3 id="2-1环境设置"><a href="#2-1环境设置" class="headerlink" title="2.1环境设置"></a>2.1环境设置</h3><p>​        首先使用dockbuild和dcup将容器环境建立起来，其中容器环境中包含我们要攻击的网络应用和恶意服务器，下面为了实现通过相应的URL对网页的访问，我们需要在/etc/hosts文件中更改相应的主机名映射规则，相应的修改内容如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125105006253.png" alt="image-20221125105006253" style="zoom:80%;" /></p>
+<h3 id="2-2-Task-1：观察HTTP请求"><a href="#2-2-Task-1：观察HTTP请求" class="headerlink" title="2.2 Task 1：观察HTTP请求"></a>2.2 Task 1：观察HTTP请求</h3><p>​    在CSRF中，我们需要伪造HTTP请求，因此我们需要对合法的HTTP请求进行观察，我们下面使用两种方式来实现对HTTP请求的报文进行观察，首先我们可以通过一个名为“HTTP Header Live”的浏览器插件，当我们在网页上点击链接时，链接发出的请求将被捕获，双击可以获取报文的具体信息吗，如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125105549472.png" alt="image-20221125105549472"></p>
+<p>​    我们还可以使用Web Developer Tool来对HTTP头进行观察，可以通过F12打开网页开发者工具，可以在network中查看当前通信的HTTP报文和内容。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125105750901.png" alt="image-20221125105750901"  /></p>
+<h3 id="2-3-Task-2：使用GET请求的CSRF攻击"><a href="#2-3-Task-2：使用GET请求的CSRF攻击" class="headerlink" title="2.3 Task 2：使用GET请求的CSRF攻击"></a>2.3 Task 2：使用GET请求的CSRF攻击</h3><p>​    在这个任务中，我们需要 Elgg 社交网络中的两个账户 Alice 和 Samy。Samy 想成为 Alice 的朋友，但 Alice 拒绝添加他为好友。Samy 决定使用 CSRF 攻击来实现他的目标。他向 Alice 发送了一个 URL（通过 电子邮件或在发布在 Elgg 上）。Alice 对这个网址很好奇，点击了这个网址，这就把她带到了 Samy 的 网站 www.attacker32.com。假设你是 Samy，描述你如何构建网页的内容，以便当 Alice 访问该网页时， Samy 能够被添加到 Alice 的好友列表中（假设 Alice 有一个活跃的 Elgg 会话）。</p>
+<p>​    首先，为了实现这个攻击，我们需要先确定一个合法的添加好友的HTTP请求(GET请求)内容是怎样的，作为攻击一方Samy可以先使用”HTTP Header Live“工具来查看加Alice好友的HTTP请求的内容，首先介绍GET和POST请求的区别，GET请求主要是将参数放在URL中，POST则通过Request Body来传递参数，post一般用于修改和写入数据，而get则目的是资源的获取和读取数据。从下图中可以看到，执行了action/friends/add的操作，并提供了firend的id是56，也就是alice的id，其中HTTP header中还含有cookie字段，这个字段会由浏览器自动进行附加，另外我们可以发现在URL中有两个额外的字段：__elgg_ts和__elgg_token，这是应对CSFR攻击的对策，由于已经将其关闭，因此就这里攻击过程中我们不需要进行考虑。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125111802759.png" alt="image-20221125111802759"></p>
+<p>​    下面我们需要进行跨站请求伪造，伪造的URL中一个重要的字段就是用户的id，上面是Samy添加Alice的过程，可以从获取到的URL中找到Alice的id，如果Alice想要添加Samy为好友则需要Samy的id。通过查看member界面的html，通过查看Samy的信息可以在源代码中发现Samy的id。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125112247809.png" alt="image-20221125112247809"></p>
+<p>​    下面需要修改恶意网站的代码，当受害者点击恶意网站的代码时，恶意网站会自动发出ULR请求，因为URL被放在了img标签中，当浏览器在显示网页中遇到img标签时，会自动的向src属性指定的URL发送一个HTTP GET请求，这个URL可以是任意的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125113407200.png" alt="image-20221125113407200"></p>
+<p>​    下面登录到Alice，Alice点击跨站请求伪造的网站，这里注意elgg网站要在后台运行，Alice需要和elgg网站之间有一个活跃的会话，否则Elgg不会处理Samy的伪造请求。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125113607687.png" alt="image-20221125113607687"></p>
+<p>​    首先Samy给Alice发送一个邮件，邮件内容是恶意网站，Alice点击恶意网站后，可以发现在Alice的网站显示已经成功添加的Samy为friend，说明攻击成功。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221126225451146.png" alt="image-20221126225451146"></p>
+<p><img src="image-20221125113744109.png" alt=""></p>
+<h3 id="2-4-Task-4：使用POST请求的CSFR攻击"><a href="#2-4-Task-4：使用POST请求的CSFR攻击" class="headerlink" title="2.4 Task 4：使用POST请求的CSFR攻击"></a>2.4 Task 4：使用POST请求的CSFR攻击</h3><p>​    把自己加入 Alice 的朋友名单后，Samy 想进行更多的攻击。他想让 Alice 在她的个人资料中写 上”Samy is my Hero”，使得所有人都能够看到。当然，Alice 不喜欢 Samy，更不用说把这个声明写进她的 个人资料中。Samy 计划使用 CSRF 攻击来实现这一目标，也就是这个 Task 的目标。</p>
+<p>​    攻击目标是修改受害者的个人资料。详细说来，攻击者需要伪造一个请求来修改 Elgg 的受害者 用户的资料信息。允许用户修改他们的个人资料是 Elgg 的一个功能。而当用户想修改他们的个人资料 时，他们进入 Elgg 的个人资料页面，填写一个表单，然后提交该表单，发送一个 POST 请求到服务器端的 脚本/profile/edit.php，该脚本处理请求并进行个人资料修改。</p>
+<p>​    本任务要求我们使用POST请求完成，首先我们还是需要观察请求的结构，使用”HTTP Header Live”工具，我们查看修改资料的POST请求，可以在图中看出请求的URL，在HTTP的消息体中是对资料的修改内容。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125153338700.png" alt="image-20221125153338700"></p>
+<p>​    下面将HTTP报文的内容进行完整的展示，可以从数据字段中看出，name是用户的名称，descrption是用户的个人描述，我们需要将攻击的内容填入到这个位置，通过对修改网页对比可以发现accesslevel[description]是否将内容进行公开，2代表设置public属性，我们还可以发现最后包含一个$guid字段，很可能这个字段用来对用户的身份进行验证，我们将在后面的实验中验证这一点。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">http://www.seed-server.com/action/profile/edit</span><br><span class="line"></span><br><span class="line"><span class="keyword">POST</span> <span class="string">/action/profile/edit</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>www.seed-server.com</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:83.0) Gecko/20100101 Firefox/83.0</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>en-US,en;q=0.5</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>multipart/form-data; boundary=---------------------------35743212122710470715708447295</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>2963</span><br><span class="line"><span class="attribute">Origin</span><span class="punctuation">: </span>http://www.seed-server.com</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">Referer</span><span class="punctuation">: </span>http://www.seed-server.com/profile/samy/edit</span><br><span class="line"><span class="attribute">Cookie</span><span class="punctuation">: </span>Elgg=shv66515e5tt424u9bdqaqdidd</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span><span class="punctuation">: </span>1</span><br><span class="line">__elgg_token=ZHNiosR48XeGCyeZCDPyw&amp;__elgg_ts=1669361819</span><br><span class="line">&amp;name=Samy</span><br><span class="line">&amp;description=</span><br><span class="line">&amp;accesslevel[description]=2</span><br><span class="line">&amp;briefdescription=</span><br><span class="line">&amp;accesslevel[briefdescription]=2</span><br><span class="line">&amp;location=</span><br><span class="line">&amp;accesslevel[location]=2</span><br><span class="line">&amp;interests=</span><br><span class="line">&amp;accesslevel[interests]=2</span><br><span class="line">&amp;skills=</span><br><span class="line">&amp;accesslevel[skills]=2</span><br><span class="line">&amp;contactemail=</span><br><span class="line">&amp;accesslevel[contactemail]=2</span><br><span class="line">&amp;phone=</span><br><span class="line">&amp;accesslevel[phone]=2</span><br><span class="line">&amp;mobile=</span><br><span class="line">&amp;accesslevel[mobile]=2</span><br><span class="line">&amp;website=</span><br><span class="line">&amp;accesslevel[website]=2</span><br><span class="line">&amp;twitter=&amp;accesslevel[twitter]=2</span><br><span class="line">&amp;guid=59</span><br></pre></td></tr></table></figure>
+<p>​    下面我们将通过JavaScript代码来生成请求，下面的代码动态加载了一个表单，它的各个条被fields字符串所指定，类型被设置为POST，值得注意的是，每个表单条目都是hidden隐藏，说明此条目对用户不可见，action字段表明这个表单要提交到的URL地址，最终当程序执行到p.submit()是这个表单将被自动发送。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125154918986.png" alt="image-20221125154918986"></p>
+<p>​    在javascript脚本中，处理攻击内容，我们需要填入Alice的gid，这里Alice的gid可以通过Samy加Alice好友的过程中获取，可以从下图中看出，Samy发送加好友请求的URL中包含有Alice的gid。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125154624182.png" alt="image-20221125154624182"></p>
+<p>​    Alice点击恶意网站后，将自动执行网站中嵌入的javascript脚本，将一个跨站伪造的请求发送到elgg，和task 1中一样，同样通过一个邮件吸引Alice点击恶意网站，在执行攻击时同样需要维持一个活跃的连接，攻击成功后会跳转到elgg网页，可以看到个人资料已经被修改，说明攻击成功。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221126225745492.png" alt="image-20221126225745492"></p>
+<p><img src="image-20221125155313175.png" alt="image-20221125155313175"></p>
+<p><strong>问题 1: 伪造的 HTTP 请求需要 Alice 的用户 ID （guid）才能正常工作。如果 Boby 专门针对 Alice 做攻击准备，他可以找到方法来获得 Alice 的用户 ID。Boby 不知道 Alice 的 Elgg 口令，所以他不能登录到 Alice 的账户来获取信息。请描述 Boby 如何解决这个问题。</strong></p>
+<p>​    我们在task1和task2中已经做过相关的工作，Boby首先是可以通过对http报文的抓取来查看http报文中的内容是不是含有Alice的Guid，例如在task2中，我们通过Samy加Alice好友的操作可以从http GET的URL中看到Alice的Guid，也可以通过其他互动的操作来查看。另外，Boby还可以查看网页的HTML代码是不是含有Alice的Guid，在一些含有Alice的网页上，Alice的Guid有可能以明文的形式展示在HTML代码中。</p>
+<p><strong>问题 2: 如果 Boby 想向任何访问他的恶意网页的人发动攻击。在这种情况下，他事先不知道谁在访问该网页。那么他还能发动 CSRF 攻击来修改受害者的 Elgg 资料吗？请解释原因。</strong></p>
+<p>​    如果网站只使用cookie来验证修改主页用户的身份的话，而不对Guid和name等其它字段进行校验的话，是可以对任何用户的资料进行修改的。但是如果网站对Guid或者name等字段进行校验的话，这时候我们就需要修改代码，加入暴力枚举等措施来寻找正确的相应字段，最后也可以进行成功的攻击。</p>
+<p>​    针对这个问题，可以做下面的一个实验，首先不对攻击的网页代码进行修改，切换到boby用户来点击攻击者的网页，看是不是boby的网页信息被成功修改。可以从下图中看出javascript程序执行后网页返回undefined，boby的elgg网页则返回no permission，说明攻击没有成功。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125160842869.png" alt="image-20221125160842869"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125161005123.png" alt="image-20221125161005123"></p>
+<p>​    </p>
+<p>​    下面将name修改为Boby，guid不变，点击恶意网页，发现和上面情况相同，不能够成功的修改。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125160913083.png" alt="image-20221125160913083"></p>
+<p>​    下面我们通过html源代码获取到boby的guid，加入到代码中，重复攻击过程，发现修改成功，可以看出guid在修改网页中充当了验证功能。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125161121341.png" alt="image-20221125161121341"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125161151547.png" alt="image-20221125161151547"></p>
+<h3 id="2-5-Task-4：开启-Elgg-的防御措施"><a href="#2-5-Task-4：开启-Elgg-的防御措施" class="headerlink" title="2.5 Task 4：开启 Elgg 的防御措施"></a>2.5 Task 4：开启 Elgg 的防御措施</h3><p>​    为了防御 CSRF 攻击，Web 应用程序可以在其页面中嵌入一个秘密令牌。所有来自页面的请求必须携 带这个令牌，否则它们将被视为跨站请求，和同站请求所拥有的权限不同。攻击者将无法得到这个秘密令 牌，所以他们的请求很容易被识别为跨站请求。</p>
+<p>​     Elgg 使用这种秘密令牌方法作为其内置的措施来防御 CSRF 攻击。我们已经禁用了这些防御措施，因 此之前攻击能够成功。Elgg 在请求中嵌入了两个参数 __elgg_ts 和 __elgg_token。这两个参数被添加 到 POST 请求的 HTTP 消息体，以及 HTTP GET 请求的 URL 字符串中。服务器在处理一个请求之前将会先 验证这两个字段。</p>
+<p>​    <strong>Task：开启防御措施 </strong></p>
+<p>​    打开防御措施，首先要进入 Elgg 容器的/var/www/elgg/vendor/elgg/elgg/ engine/classes/Elgg/Security 文件夹，从 Csrf.php 中删除 return 语句。(这里我们注释掉)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125162828015.png" alt="image-20221125162828015"></p>
+<p>​    在测试之前，我们首先要消除之前的攻击结果，取消Alice的好友，并将个人描述里的内容删除，然后我们按照Task 1中的代码进行跨站脚本攻击，可以看到提示下图的错误提示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125163226406.png" alt="image-20221125163226406"></p>
+<p>​    加入HTTP URL中的额外token字段，修改代码，发现攻击依然失败。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125163415314.png" alt="image-20221125163415314"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125163447709.png" alt="image-20221125163447709"></p>
+<p>​    使用Task 2中修改Alice资料的攻击代码，通过点击恶意网站进行攻击，发现同样失败提示Form is missing token or ts field.当我们发起编辑资料攻击的时候，失败的尝试将导致攻击者的页面被重新加载。这将会再次触发伪造的 POST 请求，从而导致另一次失败的尝试，那么页面又将再次被重新加载，再次触发伪造的 POST 请求。因此我们会看到多个重试信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125163609121.png" alt="image-20221125163609121"></p>
+<p><strong>解释为什么攻击者为什么不能在 CSRF 攻击中发送这些秘密令牌； 是什么阻止了他们从网页上发现秘密令牌？</strong></p>
+<p>​    我们可以从秘密令牌生成代码中看出，Elgg 的秘密令牌是一个哈希值（MD5 信息摘要），这个哈希值是由该网站上的秘密值（从数据库检索得到）、时间戳、用户会话 ID 和随机生成的会话字符串所共同生成。这些秘密值的信息攻击者并不能获取，因此无法伪造秘密令牌。</p>
+<h3 id="2-6-Task-5：测试同站-Cookie-方法"><a href="#2-6-Task-5：测试同站-Cookie-方法" class="headerlink" title="2.6 Task 5：测试同站 Cookie 方法"></a>2.6 Task 5：测试同站 Cookie 方法</h3><p>​    大多数浏览器现在已经实现了一种叫做同站 cookie 的机制，这是一个与 cookie 相关联的属性。当发出请求时，浏览器将检查 cookie 这个属性，并决定是否在跨站请求中附加这个 cookie。当 web 应用程序 认为某个 cookie 不应该被附加到跨站请求中时，可以将 cookie 设置为同站 cookie。例如，可以将会话 ID cookie 标记为同站 cookie，因此没有任何跨站请求可以使用该会话 ID，从而将无法发起 CSRF 攻击。</p>
+<p>​    我们将使用www.example32.com网站对这一点进行测试，当访问该网站时，浏览器上会设置三个cookie，分别是：cookie-normal、cookie-lax和cookie-strict。 正如其名称所示，第一个 cookie 只是一个普通的 cookie，第二个和第三个 cookie 是两种不同类型的同站 cookie（Lax 和 Strict）。</p>
+<p><strong>请描述你所看到的情况，并解释为什么在某些情况下不发送一些 cookie。</strong></p>
+<p>​    首先点击第一个Link可以发现三个cookie都被发送，可以从referer字段看出，这个link是一个同站请求link。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125172518105.png" alt="image-20221125172518105"></p>
+<p>​    利用GET请求发送数据，可以看到数据被放在URL中，并且三个cookie都被发送。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125172831541.png" alt="image-20221125172831541"></p>
+<p>​    使用POST请求方式，同样三个cookie都被发送。<br><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125172744716.png" alt="image-20221125172744716"></p>
+<p>​    打开第二个Link，可以看到没有cookie进行携带，并且从referer字段看出，这里请求来自attacker。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125173038304.png" alt="image-20221125173038304"></p>
+<p>​    使用GET请求发送数据，可以看到Lax和normal的cookie被发送。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125172924028.png" alt="image-20221125172924028"></p>
+<p>​    使用POST请求进行发送，可以看到只有normal的cookie被发送。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125172949004.png" alt="image-20221125172949004"></p>
+<p><strong>下面解释上述现象的原因：</strong></p>
+<p>这里SameSite的三个属性控制Cookie的等级</p>
+<p>1.Strict</p>
+<p>​    Strict最为严格，完全禁止第三方 Cookie，跨站点时，任何情况下都不会发送 Cookie。换言之，只有当前网页的 URL 与请求目标一致，才会带上 Cookie。但是有可能造成不好的用户体验，点击某个网站对另一个网站的连接，跳转过去总是未登录状态。因此在使用attack进行跨站请求时，strick属性的cookie总不会被携带。</p>
+<p>2.Lax</p>
+<p>​    Lax规则稍稍放宽，大多数情况也是不发送第三方 Cookie，但是导航到目标网址的 Get 请求除外。导航到目标网址的 GET 请求，只包括三种情况：链接，预加载请求，GET 表单。因此在使用attack进行跨站请求时，只有GET请求的cookie会被携带。</p>
+<p>3.Normal</p>
+<p>​    Normal相当于None，不对跨站请求处理，因此在所有跨站请求的报文中都会携带。</p>
+<p><img src="image-20221125215517513.png" alt="image-20221125215517513"></p>
+<p><strong>根据你的理解，请描述同站 cookies 如何帮助服务器检测一个请求是跨站还是同站请求。</strong></p>
+<p>​    对于本题而言，我感觉服务器首先会对cookie的属性进行设置，比如服务器设置了cookie的属性为strict，那么浏览器发送的请求中如果带有这个cookie则是同站请求，如果不带有这个cookie那么就是跨站请求。</p>
+<p>​    扩展一点浏览器如何判断是不是同站请求，浏览器一般使用一种Public suffix list的机制：只要两个 URL 的 eTLD+1 相同即可，不需要考虑协议和端口。其中，eTLD 表示有效顶级域名，注册于 Mozilla 维护的公共后缀列表（Public Suffix List）中，例如，.com、.co.uk、.github.io 等。eTLD+1 则表示，有效顶级域名+二级域名，例如 taobao.com 等。</p>
+<p>​    也就是说两个域名的公共后缀需要在公共后缀列表里面，如果两个域名的后缀是有效顶级域名，也就是加上一个前面的不同子域名两个域名就属于两个网站，而不是同一网站下面的子域名，这样就不属于同站。</p>
+<p><strong>请描述你将如何使用同站 cookie 机制来帮助 Elgg 防御 CSRF 攻击。只需要描述思路，无需实现</strong></p>
+<p>​    用户在他们的浏览器上开启同站cookie的机制，这样浏览器就可以根据cookie的属性来确定是不是将cookie加入到跨站请求中。另外elgg服务器应该对不同的cookie设置不同的属性，以满足不同的用途，这样能告诉浏览器是不是这个cookie可以被跨站使用。</p>
+<p>ps：</p>
+<p>下面是firefox浏览器设置同站cookie的机制，设置<strong><code>network.cookie.sameSite.laxByDefault</code></strong>和<strong><code>network.cookie.sameSite.noneRequiresSecure</code></strong>为true</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221125180057444.png" alt="image-20221125180057444"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">Strider</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/01/05/CSRF/">http://example.com/2023/01/05/CSRF/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/seedlab/">seedlab</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=null" async="async"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/05/race_condition/"><img class="prev-cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">seedlab(三)</div></div></a></div><div class="next-post pull-right"><a href="/2023/01/05/SQL%E6%B3%A8%E5%85%A5/"><img class="next-cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">seedlab(二)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/01/05/SQL%E6%B3%A8%E5%85%A5/" title="seedlab(二)"><img class="cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(二)</div></div></a></div><div><a href="/2023/01/05/bufferoverflow/" title="seedlab(一)"><img class="cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(一)</div></div></a></div><div><a href="/2023/01/05/race_condition/" title="seedlab(三)"><img class="cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(三)</div></div></a></div><div><a href="/2023/01/05/%E5%AF%86%E7%A0%81/" title="seedlab(六)"><img class="cover" src="https://images.pexels.com/photos/671658/pexels-photo-671658.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(六)</div></div></a></div><div><a href="/2023/01/05/%E9%9A%8F%E6%9C%BA%E6%95%B0/" title="seedlab(五)"><img class="cover" src="https://images.pexels.com/photos/933054/pexels-photo-933054.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(五)</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/header.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Strider</div><div class="author-info__description">A blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:lc_lzq@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/1036472882" target="_blank" title="qq"><i class="QQ"></i></a><a class="social-icon" href="https://github.com/sdu-lzq" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is Strider's Blog.You can find an interesting soul here.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cross-site-request-forgery"><span class="toc-text">Cross site request forgery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="toc-text">一、实验目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4%E5%92%8C%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="toc-text">二、实验步骤和实验结果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE"><span class="toc-text">2.1环境设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Task-1%EF%BC%9A%E8%A7%82%E5%AF%9FHTTP%E8%AF%B7%E6%B1%82"><span class="toc-text">2.2 Task 1：观察HTTP请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-Task-2%EF%BC%9A%E4%BD%BF%E7%94%A8GET%E8%AF%B7%E6%B1%82%E7%9A%84CSRF%E6%94%BB%E5%87%BB"><span class="toc-text">2.3 Task 2：使用GET请求的CSRF攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-Task-4%EF%BC%9A%E4%BD%BF%E7%94%A8POST%E8%AF%B7%E6%B1%82%E7%9A%84CSFR%E6%94%BB%E5%87%BB"><span class="toc-text">2.4 Task 4：使用POST请求的CSFR攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-Task-4%EF%BC%9A%E5%BC%80%E5%90%AF-Elgg-%E7%9A%84%E9%98%B2%E5%BE%A1%E6%8E%AA%E6%96%BD"><span class="toc-text">2.5 Task 4：开启 Elgg 的防御措施</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-Task-5%EF%BC%9A%E6%B5%8B%E8%AF%95%E5%90%8C%E7%AB%99-Cookie-%E6%96%B9%E6%B3%95"><span class="toc-text">2.6 Task 5：测试同站 Cookie 方法</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/04/innovation/" title="innovation"><img src="https://cdn.pixabay.com/photo/2023/04/15/15/16/house-7927916__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="innovation"/></a><div class="content"><a class="title" href="/2023/05/04/innovation/" title="innovation">innovation</a><time datetime="2023-05-04T13:28:59.000Z" title="Created 2023-05-04 21:28:59">2023-05-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码"><img src="https://cdn.pixabay.com/photo/2023/04/05/09/44/landscape-7901065__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="后量子密码"/></a><div class="content"><a class="title" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码">后量子密码</a><time datetime="2023-04-26T08:17:06.000Z" title="Created 2023-04-26 16:17:06">2023-04-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/20/Reverse4/" title="Reverse4"><img src="https://cdn.pixabay.com/photo/2023/04/11/16/11/ocean-7917678__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse4"/></a><div class="content"><a class="title" href="/2023/04/20/Reverse4/" title="Reverse4">Reverse4</a><time datetime="2023-04-20T00:24:39.000Z" title="Created 2023-04-20 08:24:39">2023-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/06/Reverse3/" title="Reverse3"><img src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse3"/></a><div class="content"><a class="title" href="/2023/04/06/Reverse3/" title="Reverse3">Reverse3</a><time datetime="2023-04-06T00:42:40.000Z" title="Created 2023-04-06 08:42:40">2023-04-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/23/Reserve2/" title="Reserve2"><img src="https://cdn.pixabay.com/photo/2023/04/10/10/19/mountain-7913365_640.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reserve2"/></a><div class="content"><a class="title" href="/2023/03/23/Reserve2/" title="Reserve2">Reserve2</a><time datetime="2023-03-23T00:24:46.000Z" title="Created 2023-03-23 08:24:46">2023-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Strider</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

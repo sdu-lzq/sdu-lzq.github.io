@@ -1,0 +1,281 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>seedlab(二) | Strider's blog</title><meta name="author" content="Strider"><meta name="copyright" content="Strider"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="SQL注入1      实验目的​    SQL 注入是一种代码注入技术，利用 Web 应用程序和数据库服务器之间接口的漏洞。当用户的输入 没有被 Web 应用程序正确检查就被发送到后端数据库服务器时，就会出现 SQL 注入漏洞。本次实验需要我们熟悉SQL语句，了解如何进行SQL注入共计，并且能够掌握一些防范此类共计的方法。 本实验覆盖以下主题： 1.SQL语句：SELECT与UPDATA 2.S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="seedlab(二)">
+<meta property="og:url" content="http://example.com/2023/01/05/SQL%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="Strider&#39;s blog">
+<meta property="og:description" content="SQL注入1      实验目的​    SQL 注入是一种代码注入技术，利用 Web 应用程序和数据库服务器之间接口的漏洞。当用户的输入 没有被 Web 应用程序正确检查就被发送到后端数据库服务器时，就会出现 SQL 注入漏洞。本次实验需要我们熟悉SQL语句，了解如何进行SQL注入共计，并且能够掌握一些防范此类共计的方法。 本实验覆盖以下主题： 1.SQL语句：SELECT与UPDATA 2.S">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&cs=tinysrgb&w=1600">
+<meta property="article:published_time" content="2023-01-05T10:04:40.000Z">
+<meta property="article:modified_time" content="2023-01-05T12:10:41.345Z">
+<meta property="article:author" content="Strider">
+<meta property="article:tag" content="seedlab">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&cs=tinysrgb&w=1600"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/01/05/SQL%E6%B3%A8%E5%85%A5/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'seedlab(二)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-05 20:10:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Strider's blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">seedlab(二)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-01-05T10:04:40.000Z" title="Created 2023-01-05 18:04:40">2023-01-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-01-05T12:10:41.345Z" title="Updated 2023-01-05 20:10:41">2023-01-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/seedlab/">seedlab</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="seedlab(二)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><h3 id="1-实验目的"><a href="#1-实验目的" class="headerlink" title="1      实验目的"></a>1      实验目的</h3><p>​    SQL 注入是一种代码注入技术，利用 Web 应用程序和数据库服务器之间接口的漏洞。当用户的输入 没有被 Web 应用程序正确检查就被发送到后端数据库服务器时，就会出现 SQL 注入漏洞。本次实验需要我们熟悉SQL语句，了解如何进行SQL注入共计，并且能够掌握一些防范此类共计的方法。</p>
+<p>本实验覆盖以下主题：</p>
+<p>1.SQL语句：SELECT与UPDATA</p>
+<p>2.SQL注入</p>
+<p>3.语句预处理</p>
+<h3 id="2-实验步骤与结果"><a href="#2-实验步骤与结果" class="headerlink" title="2     实验步骤与结果"></a>2     实验步骤与结果</h3><h4 id="2-1-环境设置"><a href="#2-1-环境设置" class="headerlink" title="2.1    环境设置"></a>2.1    环境设置</h4><p>​    此次实验使用一个已经开发好的 Web 应用程序，并使用容器1来设置这个 Web 应用程序。实验使用 两个容器，一个用于托管 Web 应用程序，另一个用于托管 Web 应用程序的数据库。我们需要将主机名映射到容器的IP地址，这里我们需要在root权限下修改/etc/hosts文件，将SQL注入网址映射到托管Web应用程序的容器IP。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014212525418.png" alt="image-20221014212525418" style="zoom: 67%;" /></p>
+<p>​    然后我们需要使用dcbuild和dcup命令创建并运行容器，然后熟悉SQL语句的基本用法。</p>
+<h4 id="2-2-Task-1：熟悉SQL语句"><a href="#2-2-Task-1：熟悉SQL语句" class="headerlink" title="2.2 Task 1：熟悉SQL语句"></a>2.2 Task 1：熟悉SQL语句</h4><p>​    Task 1 的目标是通过使用提供的数据库来熟悉 SQL 命令。Web 应用程序所使用的数据存储在 MySQL 数据库中，由 MySQL 容器托管。这里有一个名为 sqllab_users 的数据库，其中包含一个名为 credential 的表。先使用dockps命令列出所有的容器，然后使用dosksh命令进入托管web应用的数据库容器，通过mysql程序登录数据库系统，出现mysql&gt;表示登录成功。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014110846011.png" alt="image-20221014110846011" style="zoom: 67%;" /></p>
+<p>​    登录客户端以后，由于我们已经创建了 sqllab_users 数据库，只需使用 use 命令加载这个已有的数据库。可以使用show tables打印出所选数据库中的表，如图可以看到所选数据库中有一个名为credential的表。</p>
+<p>​    接下来是使用一条SQL语句返回Alice的资料信息，这里我们使用SELECT命令,这里注意一定要加上；否则语句无法执行。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> credential <span class="keyword">where</span> Name<span class="operator">=</span><span class="string">&#x27;Alice&#x27;</span>;</span><br><span class="line">#从表中Name<span class="operator">=</span><span class="string">&#x27;Alice&#x27;</span>的项返回全部数据</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014111517950.png" alt="image-20221014111517950" style="zoom:67%;" /></p>
+<h4 id="2-3-Task-2：基于SELECT语句的SQL注入攻击"><a href="#2-3-Task-2：基于SELECT语句的SQL注入攻击" class="headerlink" title="2.3 Task 2：基于SELECT语句的SQL注入攻击"></a>2.3 Task 2：基于SELECT语句的SQL注入攻击</h4><h5 id="Task-2-1-基于网页的SQL注入攻击"><a href="#Task-2-1-基于网页的SQL注入攻击" class="headerlink" title="Task 2.1:基于网页的SQL注入攻击"></a>Task 2.1:基于网页的SQL注入攻击</h5><p>​        位于目录/var/www/SQL_Injection 下的 PHP 代码 unsafe_home.php 为进行用户认证的代码。下面的代码片段显示了用户是如何被认证的。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> $input_uname <span class="operator">=</span> $_GET[ ’ username ’ ];</span><br><span class="line"><span class="number">2</span> $input_pwd <span class="operator">=</span> $_GET[ ’ Password ’ ];</span><br><span class="line"><span class="number">3</span> $hashed_pwd <span class="operator">=</span> sha1($input_pwd);</span><br><span class="line"><span class="number">4</span> ...</span><br><span class="line"><span class="number">5</span> $<span class="keyword">sql</span> <span class="operator">=</span> &quot;SELECT id, name , eid, salary , birth , ssn, address , email ,</span><br><span class="line">6 nickname , Password</span><br><span class="line">7 FROM credential</span><br><span class="line">8 WHERE name= ’ $input_uname ’ and Password= ’ $hashed_pwd ’ &quot;;</span><br><span class="line"><span class="number">9</span> $<span class="keyword">result</span> <span class="operator">=</span> $conn <span class="operator">-</span><span class="operator">&gt;</span> query($<span class="keyword">sql</span>);</span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">11</span> <span class="operator">/</span><span class="operator">/</span> The following <span class="keyword">is</span> Pseudo Code</span><br><span class="line"><span class="number">12</span> if(id <span class="operator">!=</span> <span class="keyword">NULL</span>) &#123;</span><br><span class="line"><span class="number">13</span> if(name<span class="operator">=</span><span class="operator">=</span> ’ admin ’ ) &#123;</span><br><span class="line"><span class="number">14</span> <span class="keyword">return</span> <span class="keyword">All</span> employees information;</span><br><span class="line"><span class="number">15</span> &#125; <span class="keyword">else</span> if (name <span class="operator">!=</span><span class="keyword">NULL</span>)&#123;</span><br><span class="line"><span class="number">16</span> <span class="keyword">return</span> employee information;</span><br><span class="line"><span class="number">17</span> &#125;</span><br><span class="line"><span class="number">18</span> &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"><span class="number">19</span> Authentication Fails;</span><br><span class="line"><span class="number">20</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>​        从代码中分析可知，用户需要输入用户名和密码，然后php脚本将采用SELECT语句中的where子句进行匹配。因此，可以通过在Username中输入数据和代码相混合使后面的语句被注释而无法执行，这样就达到了只匹配用户名的效果，从而绕过了对口令的验证。</p>
+<p>​    这里我们在USERNAME中输入admin’;#,相当于执行了下面的语句。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> id, name , eid, salary , birth , ssn, address , email ,nickname , Password</span><br><span class="line"><span class="keyword">FROM</span> credential</span><br><span class="line"><span class="keyword">WHERE</span> name<span class="operator">=</span> ’ admin ’;# <span class="keyword">and</span> Password<span class="operator">=</span> ’ $hashed_pwd ’;</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014112100657.png" alt="image-20221014112100657" style="zoom:67%;" /></p>
+<p>​    攻击结果如下图所示，我们已经成功获取了User Details</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014112119031.png" alt="image-20221014112119031"></p>
+<h5 id="Task-2-2-基于命令行的SQL注入攻击"><a href="#Task-2-2-基于命令行的SQL注入攻击" class="headerlink" title="Task 2.2:基于命令行的SQL注入攻击"></a>Task 2.2:基于命令行的SQL注入攻击</h5><p>​    在不使用网页的情况下完成 Task 2.1 的目标。你可以使用命令 行工具，如 curl，它可以发送 HTTP 请求。在 HTTP 请求中包含多个参数，需要把 URL 和参数用一 对单引号括起来。否则，用于分隔参数的特殊字符 (如 &amp;) 会被 shell 曲解，造成命令歧义。在用户名和口令字段中包含特殊字符，特殊字符需要进行编码，否则可能会造成命令歧义。</p>
+<p>​    我们可以按照示例将username中的参数改成Task 2.1中参数的http编码形式，也可以在命令行输入框中查看输入username后的状态。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014220104300.png" alt="image-20221014220104300" style="zoom:67%;" /></p>
+<p>​     按照URL编码形式，我们将admin’;#转化为admin%27%3b%23,然后shell中输入以下的命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl &#x27;www.seed-server.com/unsafe_home.php?username=admin%27%3b%23&#x27;</span><br></pre></td></tr></table></figure>
+<p>​     可以看到成功发送了HTTP Request请求，并获得了web服务器返回的html内容，可以看出里面包含了表单的相关内容。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221015111240404.png" alt="image-20221015111240404" style="zoom:67%;" /></p>
+<p>​     将返回的内容存入.html文件，并放入web浏览器进行解析，可以看到所有员工的Datails被打印出来。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014114314180.png" alt="image-20221014114314180"></p>
+<h5 id="Task-2-3-增加一条新的SQL语句"><a href="#Task-2-3-增加一条新的SQL语句" class="headerlink" title="Task 2.3:增加一条新的SQL语句"></a>Task 2.3:增加一条新的SQL语句</h5><p>​    在上面的任务中，我们只能在数据库中窃取信息，但是却无法更改表单的内容，在下面的SQL语句中，我们将注释内容替换为一条update语句，目的是将Alice的Salary进行更改。（两条语句之间用；隔开）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin<span class="string">&#x27;;update credential set Salary=0 where Name=&#x27;</span>Alice<span class="string">&#x27;;#</span></span><br></pre></td></tr></table></figure>
+<p>​     输入username的位置，可以发现web服务器返回下面的内容，SQL语句出现了语法错误。查找原因发现，这种攻击对mysql无效，因为PHP中mysqli扩展的query()函数禁止执行多条语句。如果需要一次执行多条SQL命令，就必须使用mysqli对象中的 multi_query()方法。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014160820005.png" alt="image-20221014160820005" style="zoom:67%;" /></p>
+<h4 id="2-4-Task-3：基于SELECT语句的SQL注入攻击"><a href="#2-4-Task-3：基于SELECT语句的SQL注入攻击" class="headerlink" title="2.4 Task 3：基于SELECT语句的SQL注入攻击"></a>2.4 Task 3：基于SELECT语句的SQL注入攻击</h4><h5 id="Task-3-1-修改自己的工资"><a href="#Task-3-1-修改自己的工资" class="headerlink" title="Task 3.1:修改自己的工资"></a>Task 3.1:修改自己的工资</h5><p>​    登录Alice的系统，可以看到如下编辑界面，其中可以修改员工的昵称、电子邮件、地址、电话号码和口令，但是工资等敏感信息无法被修改。查看代码可以知道，修改方式是通过一条简单的update语句进行执行，将对应用户id下的相关内容更改为输入内容。</p>
+<p><img src="C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20221014162048324.png" alt="image-20221014162048324" style="zoom:67%;" /></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$hashed_pwd <span class="operator">=</span> sha1($input_pwd);</span><br><span class="line">$<span class="keyword">sql</span> <span class="operator">=</span> &quot;UPDATE credential SET</span><br><span class="line">	nickname=&#x27;$input_nickname&#x27;,</span><br><span class="line">	email=&#x27;$input_email&#x27;,</span><br><span class="line">	address=&#x27;$input_address&#x27;,</span><br><span class="line">	Password=&#x27;$hashed_pwd&#x27;,</span><br><span class="line">	PhoneNumber=&#x27;$input_phonenumber&#x27;</span><br><span class="line">	WHERE ID=$id;&quot;;</span><br><span class="line">$conn<span class="operator">-</span><span class="operator">&gt;</span>query($<span class="keyword">sql</span>);</span><br></pre></td></tr></table></figure>
+<p>​     实现对Salary的更改，我们只需要将相关更新语句输入到第一个输入框中，并将后面不关心的内容注释掉即可。这里注意单纯输入Salary字段是不行的，因为我们要在输入框构造对应位置的注入，需要提供对应字段的值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AL<span class="string">&#x27;,Salary = &#x27;</span><span class="number">100000</span><span class="string">&#x27; where ID = 1#;</span></span><br></pre></td></tr></table></figure>
+<p>​     执行后可以发现Salary字段已经被更改成了100000，注入位置Nickname被改成了AL。</p>
+<p>​                                          <img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221015161109276.png" alt="image-20221015161109276" style="zoom:67%;" />    </p>
+<pre><code>  当然也可以选择不同的注入位置，下面我们可以在Email位置进行注入，相当于执行了下面的SQL语句。
+</code></pre><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> credential <span class="keyword">SET</span></span><br><span class="line">	nickname<span class="operator">=</span><span class="string">&#x27;AL&#x27;</span>,</span><br><span class="line">	email<span class="operator">=</span><span class="string">&#x27;a.com&#x27;</span>,</span><br><span class="line">	Salary <span class="operator">=</span> <span class="string">&#x27;30000&#x27;</span></span><br><span class="line">	<span class="keyword">WHERE</span> Name <span class="operator">=</span> <span class="string">&#x27;Alice&#x27;</span>;#.........</span><br></pre></td></tr></table></figure>
+<p>​        对上面的注入语句进行执行，可以发现Salary字段已经成功被修改成了30000，并且注入位置的Email也已经被更改。</p>
+<p>​                       </p>
+<h5 id="Task-3-2-修改他人的工资"><a href="#Task-3-2-修改他人的工资" class="headerlink" title="Task 3.2:修改他人的工资"></a>Task 3.2:修改他人的工资</h5><p>​        这个任务要求我们能够修改其它人的工资数额，上面在PHP代码中我们可以看到，代码并不对用户输入的身份进行password的检查，仅仅是通过where字句匹配到相应的表格内容进行修改，那么我们只需要修改where语句即可完成任务。这里我们还是选择在NickName的位置进行代码注入。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stupic boss<span class="string">&#x27;,Salary=&#x27;</span><span class="number">1</span><span class="string">&#x27; where Name = &#x27;</span>Boby<span class="string">&#x27;;#</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014164529535.png" alt="image-20221014164529535" style="zoom:67%;" /></p>
+<p>​             将数据混合代码输入后，我们可以通过绕过password的方式检查注入攻击是否成功，我们进入Boby的Profile界面，可以看到Salary已经改成了1，并且NickName已经改为了注入位置填入的stupid boss。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014164700582.png" alt="image-20221014164700582" style="zoom:67%;" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014164825818.png" alt="image-20221014164825818" style="zoom:67%;" /></p>
+<h4 id="Task-3-3-修改他人的口令"><a href="#Task-3-3-修改他人的口令" class="headerlink" title="Task 3.3:修改他人的口令"></a>Task 3.3:修改他人的口令</h4><p>​        这里要对Boby的口令进行进一步的修改，这里的难点是数据库存储的并非明文形式的口令，而是口令的哈希值。在更改Profile的PHP代码中可以看出，在输入password后需要进行一步hash运算，如果直接注入明文语句则无法完成这一步，因此我们可以事先将这一步完成，再将Hash后的口令注入。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014165545847.png" alt="image-20221014165545847" style="zoom:67%;" /></p>
+<p>​        使用python中的hashlib库来完成sha1运算，并将hashvalue以16进制串进行显示，下面将hashvalue作为password进行注入攻击，注入位置还是在NickName。（这里将Alice作为Boby的口令）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stupic boss<span class="string">&#x27;,Password = &#x27;</span><span class="number">35318264</span>c9a98faf79965c270ac80c5606774df1<span class="string">&#x27; where Name = &#x27;</span>Boby<span class="string">&#x27;;#</span></span><br></pre></td></tr></table></figure>
+<p>​        实施攻击后我们输入Boby的用户名和修改后的口令，发现登录成功。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221015164652914.png" alt="image-20221015164652914" style="zoom:67%;" /></p>
+<p>​        我们也可以进入到数据库，使用mysql中的select语句打印出Boby的password，可以看到已经变成了上面运算后的Hashvalue。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014170309216.png" alt="image-20221014170309216"></p>
+<h3 id="2-5-Task4：对策：语句预处理"><a href="#2-5-Task4：对策：语句预处理" class="headerlink" title="2.5    Task4：对策：语句预处理"></a>2.5    Task4：对策：语句预处理</h3><p>​        语句预处理可以防止代码和数据进行混淆，在输入之前，代码就已经编译完成，SQL语句将被预编译为二进制形式。语句中只 存在数据的占位符，不存在真实的数据。真实数据将会作为纯数据（不经过编译） 与语句绑定。</p>
+<p>​        我们需要对PHP代码进行修改，使用语句预处理机制来修复SQL注入漏洞，首先我们进入相应的URL页面进行访问，我们仍然采用Alice’;#的方式进行绕过，发现可以获取到相应内容。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221014190016700.png" alt="image-20221014190016700" style="zoom:67%;" /></p>
+<p>​            接下来对相应的PHP语句进行修改，加入语句预处理机制，这里由于SQL注入攻击只存在Query阶段，因此只修改Query段代码即可。这里我们要按照源代码的形式进行修改，并且与页面html代码进行对应。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// do the query</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$stmt</span> = <span class="variable">$conn</span>-&gt;<span class="title function_ invoke__">prepare</span>(<span class="string">&quot;SELECT id,name,eid, salary,ssn</span></span><br><span class="line"><span class="string">FROM credential</span></span><br><span class="line"><span class="string">WHERE name = ? and Password = ? &quot;</span>);</span><br><span class="line"><span class="comment">//从credential表里提取信息，需要对用户名和口令进行匹配</span></span><br><span class="line"><span class="comment">// Bind parameters to the query</span></span><br><span class="line"><span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">bind_param</span>(<span class="string">&quot;ss&quot;</span>, <span class="variable">$input_uname</span>, <span class="variable">$hashed_pwd</span>);</span><br><span class="line"><span class="comment">//ss表示两个字段都是字符串类型</span></span><br><span class="line"><span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">execute</span>();</span><br><span class="line"><span class="comment">//运行sql语句</span></span><br><span class="line"><span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">bind_result</span>(<span class="variable">$id</span>,<span class="variable">$name</span>,<span class="variable">$eid</span>,<span class="variable">$salary</span>,<span class="variable">$ssn</span>);</span><br><span class="line"><span class="comment">//绑定结果到变量</span></span><br><span class="line"><span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">fetch</span>();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>​            修改过后重新进行dcbulid和dcup操作，进入web页面输入相应的SQL注入语句，发现无信息返回，攻击防范成功。</p>
+<p>​                            <img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221015170623426.png" alt="image-20221015170623426" style="zoom:67%;" /></p>
+<h3 id="4-思考题"><a href="#4-思考题" class="headerlink" title="4    思考题"></a>4    思考题</h3><p>​    假设数据库只存储 password 和 eid 两列的 SHA256 值。使用下面 SQL 语句与数据库交互，其中 $passwd 和 $eid 变量的值由用户提供。这个程序是否存在 SQL 注入问题？如果没有，请解释原因；如果 有，请给出构造范例。</p>
+<p>​    显然这个还是可以进行SQL注入的，因为hash的语句是在SQL语句中的，参数还是可以进行拼接的,可以在eid位置注入1，256)’and 1=1#,使代码完成下面的操作。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM employee</span></span><br><span class="line"><span class="string">WHERE eid=&#x27;SHA2(1, 256)&#x27; and 1=1 #password=&#x27;SHA2(<span class="subst">$passwd</span>, 256)&#x27;&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>​        如果想要防御这样的攻击，可以将sql语句和hash运算分离，使代码首先完成hash运算，这样恶意输入不会影响sql语句。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$hashed_eid</span> = <span class="title function_ invoke__">hash</span>(<span class="string">&#x27;sha256&#x27;</span>, <span class="variable">$eid</span>);</span><br><span class="line"><span class="variable">$hashed_passwd</span> = <span class="title function_ invoke__">hash</span>(<span class="string">&#x27;sha256&#x27;</span>, <span class="variable">$passwd</span>);</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM employee WHERE id= &#x27; $ hashhed_eid &#x27; and password= &#x27;$ hashhed_passwd&#x27;&quot;</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">Strider</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/01/05/SQL%E6%B3%A8%E5%85%A5/">http://example.com/2023/01/05/SQL%E6%B3%A8%E5%85%A5/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/seedlab/">seedlab</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=null" async="async"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/05/CSRF/"><img class="prev-cover" src="https://images.pexels.com/photos/618833/pexels-photo-618833.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">seedlab(四)</div></div></a></div><div class="next-post pull-right"><a href="/2023/01/05/bufferoverflow/"><img class="next-cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">seedlab(一)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/01/05/CSRF/" title="seedlab(四)"><img class="cover" src="https://images.pexels.com/photos/618833/pexels-photo-618833.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(四)</div></div></a></div><div><a href="/2023/01/05/bufferoverflow/" title="seedlab(一)"><img class="cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(一)</div></div></a></div><div><a href="/2023/01/05/race_condition/" title="seedlab(三)"><img class="cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(三)</div></div></a></div><div><a href="/2023/01/05/%E5%AF%86%E7%A0%81/" title="seedlab(六)"><img class="cover" src="https://images.pexels.com/photos/671658/pexels-photo-671658.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(六)</div></div></a></div><div><a href="/2023/01/05/%E9%9A%8F%E6%9C%BA%E6%95%B0/" title="seedlab(五)"><img class="cover" src="https://images.pexels.com/photos/933054/pexels-photo-933054.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(五)</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/header.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Strider</div><div class="author-info__description">A blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:lc_lzq@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/1036472882" target="_blank" title="qq"><i class="QQ"></i></a><a class="social-icon" href="https://github.com/sdu-lzq" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is Strider's Blog.You can find an interesting soul here.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="toc-text">SQL注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="toc-text">1      实验目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4%E4%B8%8E%E7%BB%93%E6%9E%9C"><span class="toc-text">2     实验步骤与结果</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE"><span class="toc-text">2.1    环境设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-Task-1%EF%BC%9A%E7%86%9F%E6%82%89SQL%E8%AF%AD%E5%8F%A5"><span class="toc-text">2.2 Task 1：熟悉SQL语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-Task-2%EF%BC%9A%E5%9F%BA%E4%BA%8ESELECT%E8%AF%AD%E5%8F%A5%E7%9A%84SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB"><span class="toc-text">2.3 Task 2：基于SELECT语句的SQL注入攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Task-2-1-%E5%9F%BA%E4%BA%8E%E7%BD%91%E9%A1%B5%E7%9A%84SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB"><span class="toc-text">Task 2.1:基于网页的SQL注入攻击</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Task-2-2-%E5%9F%BA%E4%BA%8E%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%9A%84SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB"><span class="toc-text">Task 2.2:基于命令行的SQL注入攻击</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Task-2-3-%E5%A2%9E%E5%8A%A0%E4%B8%80%E6%9D%A1%E6%96%B0%E7%9A%84SQL%E8%AF%AD%E5%8F%A5"><span class="toc-text">Task 2.3:增加一条新的SQL语句</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-Task-3%EF%BC%9A%E5%9F%BA%E4%BA%8ESELECT%E8%AF%AD%E5%8F%A5%E7%9A%84SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB"><span class="toc-text">2.4 Task 3：基于SELECT语句的SQL注入攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Task-3-1-%E4%BF%AE%E6%94%B9%E8%87%AA%E5%B7%B1%E7%9A%84%E5%B7%A5%E8%B5%84"><span class="toc-text">Task 3.1:修改自己的工资</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Task-3-2-%E4%BF%AE%E6%94%B9%E4%BB%96%E4%BA%BA%E7%9A%84%E5%B7%A5%E8%B5%84"><span class="toc-text">Task 3.2:修改他人的工资</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Task-3-3-%E4%BF%AE%E6%94%B9%E4%BB%96%E4%BA%BA%E7%9A%84%E5%8F%A3%E4%BB%A4"><span class="toc-text">Task 3.3:修改他人的口令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-Task4%EF%BC%9A%E5%AF%B9%E7%AD%96%EF%BC%9A%E8%AF%AD%E5%8F%A5%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">2.5    Task4：对策：语句预处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%80%9D%E8%80%83%E9%A2%98"><span class="toc-text">4    思考题</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/04/innovation/" title="innovation"><img src="https://cdn.pixabay.com/photo/2023/04/15/15/16/house-7927916__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="innovation"/></a><div class="content"><a class="title" href="/2023/05/04/innovation/" title="innovation">innovation</a><time datetime="2023-05-04T13:28:59.000Z" title="Created 2023-05-04 21:28:59">2023-05-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码"><img src="https://cdn.pixabay.com/photo/2023/04/05/09/44/landscape-7901065__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="后量子密码"/></a><div class="content"><a class="title" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码">后量子密码</a><time datetime="2023-04-26T08:17:06.000Z" title="Created 2023-04-26 16:17:06">2023-04-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/20/Reverse4/" title="Reverse4"><img src="https://cdn.pixabay.com/photo/2023/04/11/16/11/ocean-7917678__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse4"/></a><div class="content"><a class="title" href="/2023/04/20/Reverse4/" title="Reverse4">Reverse4</a><time datetime="2023-04-20T00:24:39.000Z" title="Created 2023-04-20 08:24:39">2023-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/06/Reverse3/" title="Reverse3"><img src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse3"/></a><div class="content"><a class="title" href="/2023/04/06/Reverse3/" title="Reverse3">Reverse3</a><time datetime="2023-04-06T00:42:40.000Z" title="Created 2023-04-06 08:42:40">2023-04-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/23/Reserve2/" title="Reserve2"><img src="https://cdn.pixabay.com/photo/2023/04/10/10/19/mountain-7913365_640.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reserve2"/></a><div class="content"><a class="title" href="/2023/03/23/Reserve2/" title="Reserve2">Reserve2</a><time datetime="2023-03-23T00:24:46.000Z" title="Created 2023-03-23 08:24:46">2023-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Strider</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

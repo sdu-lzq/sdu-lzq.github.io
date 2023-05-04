@@ -1,0 +1,363 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>RNN | Strider's blog</title><meta name="author" content="Strider"><meta name="copyright" content="Strider"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="RNN1.引入先从一个智能机器人的例子开始，理解一段文字的一种方法是标记那些对句子有意义的单词或者记号，在自然语言处理领域，这个问题被称为槽填充(Slot Filling),此时机器人会找出input句子有用的信息（destination,time of arrival)，然后输出要回答的答案。  先使用 普通的神经网络完成以下，看有什么问题，input是拆分的一个单词，但是单词无法直接被计算机使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RNN">
+<meta property="og:url" content="http://example.com/2023/01/18/RNN/index.html">
+<meta property="og:site_name" content="Strider&#39;s blog">
+<meta property="og:description" content="RNN1.引入先从一个智能机器人的例子开始，理解一段文字的一种方法是标记那些对句子有意义的单词或者记号，在自然语言处理领域，这个问题被称为槽填充(Slot Filling),此时机器人会找出input句子有用的信息（destination,time of arrival)，然后输出要回答的答案。  先使用 普通的神经网络完成以下，看有什么问题，input是拆分的一个单词，但是单词无法直接被计算机使">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.pixabay.com/photo/2022/11/20/09/43/moorea-7603918__340.jpg">
+<meta property="article:published_time" content="2023-01-18T09:34:03.000Z">
+<meta property="article:modified_time" content="2023-05-04T12:53:16.305Z">
+<meta property="article:author" content="Strider">
+<meta property="article:tag" content="Mechine Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.pixabay.com/photo/2022/11/20/09/43/moorea-7603918__340.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/01/18/RNN/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'RNN',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-04 20:53:16'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.pixabay.com/photo/2022/11/20/09/43/moorea-7603918__340.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Strider's blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">RNN</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-01-18T09:34:03.000Z" title="Created 2023-01-18 17:34:03">2023-01-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-05-04T12:53:16.305Z" title="Updated 2023-05-04 20:53:16">2023-05-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Mechine-Learning/">Mechine Learning</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="RNN"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="RNN"><a href="#RNN" class="headerlink" title="RNN"></a>RNN</h2><h3 id="1-引入"><a href="#1-引入" class="headerlink" title="1.引入"></a>1.引入</h3><p>先从一个智能机器人的例子开始，理解一段文字的一种方法是标记那些对句子有意义的单词或者记号，在自然语言处理领域，这个问题被称为槽填充(Slot Filling),此时机器人会找出input句子有用的信息（destination,time of arrival)，然后输出要回答的答案。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230118174706394.png" alt="image-20230118174706394"></p>
+<p>先使用 普通的神经网络完成以下，看有什么问题，input是拆分的一个单词，但是单词无法直接被计算机使用，需要进行编码，那就可以使用1-of-N encoding.原理很简单，用一个lexicon（字典）将所有的单词列出来，在该单词出现的位置上置1，但是这个方法的问题是如果lexicon中没有记录的单词，就没法在所属的列上置1</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230118192137726.png" alt="image-20230118192137726"></p>
+<p>所以可以使用下面的方法改进</p>
+<ul>
+<li><strong>Dimension for “Other”</strong> ： 把没记录过的物品归到 other 类里。</li>
+<li><strong>Word hashing</strong> ： 用词汇的字母的n-gram来表示这个vector，也就是部分字母组合，如果使用3个字母组合的话，就得到了一个$26\times26\times26$的向量.</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230118192825056.png" alt="image-20230118192825056"></p>
+<p>刚才说了几种转化word为vector的方法，可以输入了以后就是获得输出，这里输入代表一个词的向量，然后回输出这个词属于slots的概率，这里输入了Taipei属于哪个slot（destination，time of arrival）的几率</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230118192903815.png" alt="image-20230118192903815"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/20200302142915654.png" alt="img"></p>
+<p>如果network的input是一样的，那output应该也是一样的，但现在面临个问题：</p>
+<p> 现在有两个句子：</p>
+<p>11月2号到达台北（台北是目的地）<br>11月2号离开台北（台北是出发地）<br>对于刚才的network来说，input只有台北，它要么就一直认定台北是目的地，要么就一直认定台北市出发地。所以，我们就希望这个network是有记忆力的，能记住联系台北之前的词汇，来判断台北市目的地还是出发地。</p>
+<p>这种有记忆力的network就是循环神经网络（Recurrent Neural Network，RNN）。</p>
+<h3 id="2-Recurrent-Neural-Network-RNN"><a href="#2-Recurrent-Neural-Network-RNN" class="headerlink" title="2.Recurrent Neural Network(RNN)"></a>2.Recurrent Neural Network(RNN)</h3><p>最核心的功能就是实现记忆功能，将中间隐藏层的输出存起来，然后之前记忆的内容就会对下面的结果产生影响。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230118193826423.png" alt="image-20230118193826423"></p>
+<p>1.输入$x_1,x_2$后，神经元的输出结果会存储到内存中</p>
+<p>2.此时再输入$x_1,x_2$,神经元不仅会用此时的输入值，还会考虑到之前的输入</p>
+<p>下面是一个例子</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230118194340887.png" alt="image-20230118194340887"></p>
+<p>为了计算方便，假设<strong>weight都是1，没有bias，激活函数也是线性函数</strong>。</p>
+<ol>
+<li>先给memory那边初始值，假设都设置为0</li>
+<li>现在输入[1,1]</li>
+<li>绿色的神经元输出[2,2]，并把[2,2]存到memory中</li>
+<li>红色的神经元输出[4,4]</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230118194647232.png" alt="image-20230118194647232"></p>
+<ol>
+<li>此时输入[1,1]</li>
+<li>绿色的神经元会加上memory的值[2,2]，输出[6,6]，并把[6,6]存到memory中</li>
+<li>红色的神经元输出[12,12]</li>
+</ol>
+<p>可以看出和之前的神经网络不同，这里虽然输入不同，但是输出却不同，这里就可以看到RNN神经网络的作用，另外如果改变input的顺序，当然存储不同，最后的结果也是不同的，这和自然语言上是相同的，自然语言就是和上下文词语和语序是有关的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230118195505660.png" alt="image-20230118195505660"></p>
+<p>把network改为RNN。</p>
+<ol>
+<li>输入Taipei</li>
+<li>网络就会考虑上前面的词语是arrive还是leave。</li>
+<li>此时就能输出Taipei是目的地还是出发地的几率。</li>
+</ol>
+<p><strong>上图不是指有三个network，而是一个network被用了3次。</strong></p>
+<p>之前举的RNN的例子，都只有一层hidden layer，但是也可以和前面一样使用多个反馈存储，也就是增加隐藏层。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230118195625863.png" alt="image-20230118195625863"></p>
+<ul>
+<li><strong>Elman Network：</strong>（就是刚才举例的RNN）把某一个hidden layer的output存起来，在下一次使用network的时候，这个hidden layer会考虑现在的input和之前存的值，综合后再得出output。</li>
+<li><strong>Jordan Network：</strong>它是把output的值存起来，下次用到再读出来。传说它的性能会好点，因为它存的是output的值，这个值和target比较有关系，所以此时我们知道存在memory的值大概会是怎样的。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230118200139419.png" alt="image-20230118200139419"></p>
+<p>假设一个句子的词语从前往后是$x^t、x^{t+1}、x_{t+2}$。</p>
+<p>Bidirectional RNN的做法：训练两个network，一个正向，一个逆向。把$x_t$所处的两个hidden layer都接给output layer$y_t$ 。</p>
+<p>Bidirectional RNN的好处：network产生output的时候，它考虑的范围比较广。比如输入句子中间的词语进去，之前RNN只考虑了这个词语前面句子的部分。而Bidirectional RNN是考虑了句子前面和句子后面的部分，所以它的准确率会更高。</p>
+<h3 id="3-LSTM"><a href="#3-LSTM" class="headerlink" title="3.LSTM"></a>3.LSTM</h3><p> 前面讲的各种RNN是比较简单的，下面有一个更加成熟的结构，叫做Long Short-term Memory(LST M)长(短时记忆网络</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119100637975.png" alt="image-20230119100637975"></p>
+<ul>
+<li>Memory Cell：保存神经元的output,记忆模块</li>
+<li>Input Gate:决定神经元的output要不要被保存到Memory Cell中，由network自己学习是否打开阀门</li>
+<li>Output Gate:决定神经元能不能从Memory Cell中读取之前保存的东西，由network自己学习是否打开阀门</li>
+<li>Forget Gate:决定Memory Cell里面的东西要不要删掉，由network自己学习并决定forget</li>
+</ul>
+<p>这里有4个input和一个output</p>
+<ul>
+<li>input的值</li>
+<li>操控Input Gate的信号</li>
+<li>操控Output Gate的信号</li>
+<li>操控Forget Gate的信号</li>
+<li>一个output是LSTM的输出值</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119103516920.png" alt="image-20230119103516920"></p>
+<p>这里是LSTM模型图，$Z_i、Z_o、Z_f$经过的激活函数均为sigmoid韩素华，代表门的开启程度，也就是数据通过程度</p>
+<ul>
+<li>输入z首先经过一个激活函数变成$g(z)$</li>
+<li>然后$z_i$代表是否开启Input Gate的信号，经过激活函数$f(z_i)$,数值1表示完全让数据通过</li>
+<li>$z_0$ 是否开启 Output Gate 的信号，经过激活函数后变成$f(z_o)$。数值为1代表完全让数据输出。</li>
+<li>$z_f$代表是否开启Forget Gate的信号，经过激活函数后变成$f(z_f)$,数值0代表完全忘掉数据的值</li>
+</ul>
+<p>假设memory初始值为c，$c’=g(z)f(z_i)+cf(z_f)$这个式子可以看出这几个信号如何操控gate，这个和之前的RNN区别就是还是使用记忆，但是加入了一些控制位能够更好的控制输入输出，增加非线性性，提升复杂度来解决更复杂的问题</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119104558726.png" alt="image-20230119104558726"></p>
+<p>举一个例子</p>
+<ul>
+<li>蓝色格子中代表memory的值</li>
+<li>$x_1$代表input</li>
+<li>$x_2=1$时代表input能够被写入memory</li>
+<li>$x_2=-1$时代表清空memory</li>
+<li>$x_3=1$代表，memory的值能够被输出</li>
+<li>红色格子代表输出的值</li>
+</ul>
+<p>可以看到上面的例子当$x_2$等于1时，就将$x_1$的值存储到了memory中，具体的我们看这个是如何实作的</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119105857511.png" alt="image-20230119105857511"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119110728144.png" alt="image-20230119110728144"></p>
+<p>可以看到</p>
+<ul>
+<li>$x_1$代表输入，input值为3，当乘上weight值去，实际输入input为3，bias的权重也为0</li>
+<li>接下来看input Gate，$x_2$代表input能不能进入memory，当$x_2$值为0时，也就是bias-10占主导，这时候我们根据sigmoid函数的性质函数值基本为0，也就是屏蔽了input输入，如果这里$x_2$为1，因为权重100很大，所以这里可以计算为90，也就是input可以进入memory</li>
+<li>接下来看Forget Gate，$x_2$为100是，bias是10，计算出的函数值约为1，也就是memory不会忘记，如果是-1那么就是0，就是清空memory</li>
+<li>接下来看Output Gate，$x_3$代表记忆的值能否出output，当$x_3=0$时，因为$x_3$的权重是100，bias=-10，那么函数值就约为0，就是不输出，当$x_3=1$，函数值约为1，就是输出，output打开</li>
+</ul>
+<p>这里注意memery的值是除非为0，是和当前值相加的，memory值控制上一轮</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119113155126.png" alt="image-20230119113155126"></p>
+<p>这其实LSTM就是把普通神经元替换成了一个LSTM单元，只是它所需要的输入是之前神经元的4倍</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119114816985.png" alt="image-20230119114816985"></p>
+<p>如上图，把LSTM排成一排，c这个vector就是这一整排LSTM的memeory cell的值，每个memory cell里面的值代表c的一个维度</p>
+<ol>
+<li>在时间点上输入一个$x^t$</li>
+<li>分别乘上4个matrix，把$x^t$转换成四个vector，分别是$z^f$（操控forget gate），$z_i$操控input gate，Z(LSTM的input)，$z^o$(操控output gate)，其中z的第一维就是第一个LSTM的输入，第二位就是第二个LSTM的输入，$z^f,z^i,z^o$同理</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119115711705.png" alt="image-20230119115711705"></p>
+<p>一个LSTM运算也可以描述为上面的样子</p>
+<h3 id="4-训练"><a href="#4-训练" class="headerlink" title="4.训练"></a>4.训练</h3><p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119120204643.png" alt="image-20230119120204643"></p>
+<p>首先，要想训练数据必须label的</p>
+<p>在这里： </p>
+<p>如果输入Taipei（Taipei是属于destination这个slot）。（这边输入的顺序和句子的顺序是一样的）<br>输入后，得到network的输出。这个输出是一个vector，这个vector的长度和slot的数目是一样的。如果network觉得Taipei是属于dest这个slot，则在dest这一维就会为1。得到output后，再和target算cross entropy 。这样就得到一个loss function。</p>
+<p>接下来要更新参数，使loss最小化。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119120518506.png" alt="image-20230119120518506"></p>
+<p>这里还是使用 gradient descent来更新参数，之前为了让gradient descent更有效率的进行，有使用了<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=反向传播&amp;spm=1001.2101.3001.7020">反向传播</a>（Backpropagation） 。</p>
+<p>不过这里需要考虑一个句子的顺序，所以需要改用Backpropagation的进阶版，Backpropagation through time (BPTT)。</p>
+<h5 id="RNN不好train"><a href="#RNN不好train" class="headerlink" title="RNN不好train"></a>RNN不好train</h5><p>可以从下图中看出，比较好的情况是训练过程中loss一直下降最终达到一个稳定，但是在RNN训练中可以看到loss曲线是很波动的</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119121215472.png" alt="image-20230119121215472"></p>
+<p>因为RNN的error surface是很崎岖的吗，平坦的范围很大，而且存在陡峭的悬崖，在平坦的surface上，由于gradient比较小，所以用比较大的learning rate。但是一旦突然遇到一个悬崖，此时gradient突然变大，而learning rate还没来得及变小，此时参数就会直接跑飞了。就像前面图的绿线，最后直接往上顶上去了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230119121523620.png" alt="image-20230119121523620"></p>
+<p>那么为什么RNN的error surface这样的崎岖，可以看到，下面一排network是代表不同时间点使用的，不是指有这么多个network，这个network很简单</p>
+<ul>
+<li>只有一个神经元，这个神经元的output也会作为下一个神经元的input，加上 洗一个书简点的input，一起被输入到下一个时间点的神经元中</li>
+<li>所有的weight都是1</li>
+</ul>
+<p>现在input是[1….0]除了第一个是1，其他都是0，那么时间点为1000的output就是$w^{999}$</p>
+<p>在这整个过程中，神经元的那个weight被使用了999次。所以，w的变化有两种影响：</p>
+<p>要么就是1变成1.01，造成gradient的巨大变化<br>要么就是0.99变成0，但是gradient约等于没变化<br>由于这里有两种变化情况，所以不能很死板地说，用大的learning rate或者小的learning rate就是好的。</p>
+<p>所以RNN不好train的原因是：它有时间顺序，同样的weight在不同的时间点会被反复使用多次。</p>
+<h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><p>解决悬崖问题就是梯度爆炸，可以使用cliping的策略，也就是通过限制最大的步长从而限制爆炸的现象</p>
+<p>使用LSTM可以解决gradient vanishing的问题：</p>
+<ul>
+<li><p>原始的RNN中，后一个时间点输入到memory cell的值会直接覆盖前一个时间点的memory cell的值，这相当于把前一个时间点的w对memory cell的 影响给消除掉了，所以容易产生梯度消失</p>
+</li>
+<li><p>而LSTM中，如果forget gate打开（即保留memory cell的值），memory cell值会是上一个时间点的memory cell的值加上现在 input的值。所以原来的 w 对 memory cell 造成的影响还保留着，没有被直接消除掉。所以训练的时候，可以给一个bias，使得forget gate在大多数时候都被开启。</p>
+</li>
+<li><p>另外，如果使用LSTM发生过拟合（由于LSTM有3个gate，参数比较多）。可以改用一个比LSTM简单的版本 ，Gated Recurrent Unit (GRU)，它只有2个gate（它把input gate和forget gate联动起来）：</p>
+<p>当input gate被打开，forget gate就会被自动关闭（即清除原来memory cell的值）。</p>
+</li>
+</ul>
+<p>RNN的变种的如下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230121102658882.png" alt="image-20230121102658882"></p>
+<p>之前RNN的使用是相同sequence的词语</p>
+<p>RNN也可以做到，输入是vector sequence，而输出只有一个vector。如上图，是一个情感分析的例子。</p>
+<p>输入一个句子到RNN中，最后输出这个句子包含的情感。 </p>
+<p><img src="https://img-blog.csdnimg.cn/20200304144446315.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0FDTF9saWhhbg==,size_16,color_FFFFFF,t_70" alt="img"></p>
+<p>输入是一个sequence（比较长），输出也是一个sequence（比较短）。以语音辨识为例子：</p>
+<p>输入是一连串语音，每一小段时间的语音就是一个vector（图中的蓝色柱子）。<br>每一小段语音的vector通过RNN后会得到各自的意思，即“好好好棒棒棒棒棒”。<br>使用Trimming操作去除掉重复的东西，最后输出这段语音的意思，即“好棒”。<br>但是这样做还是有问题，如果经过Trimming操作会去除重复的东西，那如果实际结果是“好棒棒”的话，就会出错。要知道“好棒”和“好棒棒”(yygq)是完全相反的两种意思。</p>
+<p>怎么办呢？用Connectionist Temporal Classification (CTC)。<br><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/20200304150005159.png" alt="img"></p>
+<p>这个简单看一下过程，这个方法输出一个$\empty$代表null的意思，如上图，如果input一段语言，它的output是上图，拿掉$\empty$以后就是好棒</p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/47642307/answer/106976649">(1 封私信 / 6 条消息) 谁给讲讲语音识别中的CTC方法的基本原理？ - 知乎 (zhihu.com)</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">Strider</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/01/18/RNN/">http://example.com/2023/01/18/RNN/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Mechine-Learning/">Mechine Learning</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=null" async="async"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/27/network1/"><img class="prev-cover" src="https://cdn.pixabay.com/photo/2022/10/24/11/55/autumn-7543217_640.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Network Security(二)</div></div></a></div><div class="next-post pull-right"><a href="/2023/01/18/MLQ/"><img class="next-cover" src="https://cdn.pixabay.com/photo/2022/12/15/20/08/curacao-7658440__340.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">机器学习问题整理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/01/18/MLQ/" title="机器学习问题整理"><img class="cover" src="https://cdn.pixabay.com/photo/2022/12/15/20/08/curacao-7658440__340.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-18</div><div class="title">机器学习问题整理</div></div></a></div><div><a href="/2023/01/18/Mlre/" title="ML review1"><img class="cover" src="https://cdn.pixabay.com/photo/2023/01/05/22/10/mountains-7699910__340.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-18</div><div class="title">ML review1</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/header.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Strider</div><div class="author-info__description">A blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:lc_lzq@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/1036472882" target="_blank" title="qq"><i class="QQ"></i></a><a class="social-icon" href="https://github.com/sdu-lzq" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is Strider's Blog.You can find an interesting soul here.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#RNN"><span class="toc-text">RNN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BC%95%E5%85%A5"><span class="toc-text">1.引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Recurrent-Neural-Network-RNN"><span class="toc-text">2.Recurrent Neural Network(RNN)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-LSTM"><span class="toc-text">3.LSTM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%AE%AD%E7%BB%83"><span class="toc-text">4.训练</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#RNN%E4%B8%8D%E5%A5%BDtrain"><span class="toc-text">RNN不好train</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-text">解决方法</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/04/innovation/" title="innovation"><img src="https://cdn.pixabay.com/photo/2023/04/15/15/16/house-7927916__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="innovation"/></a><div class="content"><a class="title" href="/2023/05/04/innovation/" title="innovation">innovation</a><time datetime="2023-05-04T13:28:59.000Z" title="Created 2023-05-04 21:28:59">2023-05-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码"><img src="https://cdn.pixabay.com/photo/2023/04/05/09/44/landscape-7901065__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="后量子密码"/></a><div class="content"><a class="title" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码">后量子密码</a><time datetime="2023-04-26T08:17:06.000Z" title="Created 2023-04-26 16:17:06">2023-04-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/20/Reverse4/" title="Reverse4"><img src="https://cdn.pixabay.com/photo/2023/04/11/16/11/ocean-7917678__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse4"/></a><div class="content"><a class="title" href="/2023/04/20/Reverse4/" title="Reverse4">Reverse4</a><time datetime="2023-04-20T00:24:39.000Z" title="Created 2023-04-20 08:24:39">2023-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/06/Reverse3/" title="Reverse3"><img src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse3"/></a><div class="content"><a class="title" href="/2023/04/06/Reverse3/" title="Reverse3">Reverse3</a><time datetime="2023-04-06T00:42:40.000Z" title="Created 2023-04-06 08:42:40">2023-04-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/23/Reserve2/" title="Reserve2"><img src="https://cdn.pixabay.com/photo/2023/04/10/10/19/mountain-7913365_640.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reserve2"/></a><div class="content"><a class="title" href="/2023/03/23/Reserve2/" title="Reserve2">Reserve2</a><time datetime="2023-03-23T00:24:46.000Z" title="Created 2023-03-23 08:24:46">2023-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Strider</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

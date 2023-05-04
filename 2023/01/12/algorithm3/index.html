@@ -1,0 +1,313 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Design and Analysis of Algorithms3 | Strider's blog</title><meta name="author" content="Strider"><meta name="copyright" content="Strider"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="lectrue41.Sequences and Series Summion​    这一部分是复习序列和序列求和的相关知识 Mathematics of Algorithm Complexity ​    这一部分关于算法复杂度的数学内容 算法通常由循环和迭代结构来组成  复杂性需要进行数列或者级数的求和  一些序列求和计算的方法  通项公式(general term formula)会得到一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Design and Analysis of Algorithms3">
+<meta property="og:url" content="http://example.com/2023/01/12/algorithm3/index.html">
+<meta property="og:site_name" content="Strider&#39;s blog">
+<meta property="og:description" content="lectrue41.Sequences and Series Summion​    这一部分是复习序列和序列求和的相关知识 Mathematics of Algorithm Complexity ​    这一部分关于算法复杂度的数学内容 算法通常由循环和迭代结构来组成  复杂性需要进行数列或者级数的求和  一些序列求和计算的方法  通项公式(general term formula)会得到一个">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989__340.jpg">
+<meta property="article:published_time" content="2023-01-12T12:59:17.000Z">
+<meta property="article:modified_time" content="2023-05-04T12:54:19.366Z">
+<meta property="article:author" content="Strider">
+<meta property="article:tag" content="Design and Analysis of Algorithm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989__340.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/01/12/algorithm3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Design and Analysis of Algorithms3',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-04 20:54:19'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989__340.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Strider's blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Design and Analysis of Algorithms3</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-01-12T12:59:17.000Z" title="Created 2023-01-12 20:59:17">2023-01-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-05-04T12:54:19.366Z" title="Updated 2023-05-04 20:54:19">2023-05-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Algorithm/">Algorithm</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Design and Analysis of Algorithms3"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="lectrue4"><a href="#lectrue4" class="headerlink" title="lectrue4"></a>lectrue4</h1><h3 id="1-Sequences-and-Series-Summion"><a href="#1-Sequences-and-Series-Summion" class="headerlink" title="1.Sequences and Series Summion"></a>1.Sequences and Series Summion</h3><p>​    这一部分是复习序列和序列求和的相关知识</p>
+<p><strong>Mathematics of Algorithm Complexity</strong></p>
+<p>​    这一部分关于算法复杂度的数学内容</p>
+<p>算法通常由循环和迭代结构来组成</p>
+<ul>
+<li>复杂性需要进行数列或者级数的求和</li>
+</ul>
+<p>一些序列求和计算的方法</p>
+<ul>
+<li>通项公式(general term formula)会得到一个准确的结果</li>
+<li>估算和的上下界会得到一个估约结果</li>
+</ul>
+<p>算法也许会包含递归的结构</p>
+<ul>
+<li>复杂度就和递推关系有关</li>
+</ul>
+<p>解决递归问题的方法</p>
+<ul>
+<li>递归关系简单：直接迭代+做替代后迭代</li>
+<li>递归关系复杂：化简+递归树</li>
+<li>通用：主定理</li>
+</ul>
+<p>下面是算数序列的求和，这个也是等差数列</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230112211317523.png" alt="image-20230112211317523"></p>
+<p>下面是几何序列的求和，也就是等比数列的求和，可以使用错位相减</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230112211427153.png" alt="image-20230112211427153"></p>
+<p>下面是调和级数的求和这里使用微积分方法来解决</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230112211556072.png" alt="image-20230112211556072"></p>
+<p>这些序列的一些性质，可以求两个数的中项</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230112212145632.png" alt="image-20230112212145632"></p>
+<p>这是一个使用替代方法求序列和的例子。这里将$2^{i-1}$进行拆项以后化简</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230112214732508.png" alt="image-20230112214732508"></p>
+<p>Amplification（扩增） method，这里使用了两种方所的方法，第一种将$a_i$统一到最大的$a_i$,第二种方法使用相邻两项之间的关系进行放缩</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230112214951383.png" alt="image-20230112214951383"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230112215043565.png" alt="image-20230112215043565"></p>
+<p><strong>Binary Search Algorithm</strong></p>
+<p>二分查找我们都知道是在$O(\log n)$时间内查找元素的算法</p>
+<p>Ideal case.$n=2^k-1$</p>
+<p>为什么是ideal的因为子问题的规模始终在$2^i-1$</p>
+<p>这里我们让$n=2^k-1$,假设x出现在每个位置的可能性相同，也就是出现在目标位置和空隙中的几率相等</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230112222327908.png" alt="image-20230112222327908"></p>
+<p>下面是n，k和查找次数t的关系</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230112222946285.png" alt="image-20230112222946285"></p>
+<h3 id="2-Rucurrence-Relation-and-Algorithm-Analysis"><a href="#2-Rucurrence-Relation-and-Algorithm-Analysis" class="headerlink" title="2.Rucurrence Relation and Algorithm Analysis"></a>2.Rucurrence Relation and Algorithm Analysis</h3><h4 id="2-1-Approach-1-Direct-Iteration"><a href="#2-1-Approach-1-Direct-Iteration" class="headerlink" title="2.1 Approach 1: Direct Iteration"></a>2.1 Approach 1: Direct Iteration</h4><p>当一个递归关系是简单的，$F(n)$只依赖$F(n-1)$,我们可以使用直接迭代。下面是汉诺塔的递归关系，汉诺塔是将A塔上的n个盘子挪到C盘，如果A盘上只有一个盘子那么就直接移动到C盘，如果A盘上不止一个盘子，那么步骤就是先将A盘上的n-1个盘子移动到B盘，然后再将最大的盘子移动到C，最后将B盘上n-1个盘子移动到C，下面是汉诺塔的伪代码和递归公式：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113112032277.png" alt="image-20230113112032277"></p>
+<p>那么就可以使用迭代法来求解</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113112129930.png" alt="image-20230113112129930"></p>
+<p><strong>插入排序</strong>：之前我们分析过插入排序的流程，下面进行时间复杂度的推导</p>
+<p>最坏的情况下是数组逆序，那么解决n的数组排序就先要解决n-1的数组排序然后再加入n-1次插入的比较</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113112510451.png" alt="image-20230113112510451"></p>
+<p>如果要证明之前的Proposition，就要使用Mathematical Induction的方法</p>
+<ul>
+<li><p>Basis:$n=1,W(1)=1\times(1-1)/2=0$</p>
+</li>
+<li><p>Induction step:$P(n)=1\rightarrow P(n+1)=1$:</p>
+<script type="math/tex; mode=display">
+W(n + 1) = W(n) + n\\
+= n(n − 1)/2 + n //premise\\
+= n((n − 1)/2 + 1) = n(n + 1)/2</script></li>
+</ul>
+<p>  当然这里要基于premise前提假设</p>
+<p><strong>先替代再迭代</strong>：</p>
+<ul>
+<li>将递推方程公式中n变成关于k的递归方程</li>
+<li>使用k进行迭代</li>
+<li>将关于k的式子然后转化为n</li>
+</ul>
+<p>下面是一个mergesort的过程，这里在不使用主定理的情况下分母将难以处理，于是我们可以使用$2^k$来进行代替</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113113720088.png" alt="image-20230113113720088"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113113743422.png" alt="image-20230113113743422"></p>
+<h4 id="2-2-Approach2：implification-then-Iteration"><a href="#2-2-Approach2：implification-then-Iteration" class="headerlink" title="2.2 Approach2：implification-then-Iteration"></a>2.2 Approach2：implification-then-Iteration</h4><p>一个例子是在使用quicksort的情况下，由于partition不同，子问题也不同，因此递归式很复杂</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113114016122.png" alt="image-20230113114016122"></p>
+<p>这里第n个情况和前面所有的情况都有关系，那么就十分复杂，因此就需要进行化简，这里使用错位相减的方法进行你化简</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113114254965.png" alt="image-20230113114254965"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113114315391.png" alt="image-20230113114315391"></p>
+<p>这里可以将红框的内容看作整体进行迭代</p>
+<script type="math/tex; mode=display">
+A(n)=A(n-1)+1/(n+1)\\=(1/(n+1)+1/n+...+1/3)+A(1)</script><h4 id="2-3-Approach-3-Recursion-Tree"><a href="#2-3-Approach-3-Recursion-Tree" class="headerlink" title="2.3 Approach 3:Recursion Tree"></a>2.3 Approach 3:Recursion Tree</h4><p>​    当$F(n)$依赖一些非连续的前面解，我们可以使用递归树来解决这个问题.</p>
+<p>​    递归树的构建步骤</p>
+<ul>
+<li>在一开始，只有一个根节点$T(n)$</li>
+<li>然后使用下面的结构逐步构建子树，直到最终情况下叶结点是初始化的值</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113163828735.png" alt="image-20230113163828735"></p>
+<p>下面是按照公式构建递归树的过程，这里需要计算每一层的值，找到规律然后进行求和，还要注意不同的路径到初始化值的速度是不同的</p>
+<ul>
+<li>到达速度快的深度可以估计下界</li>
+<li>到达速度慢的深度可以估计上界</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113164922195.png" alt="image-20230113164922195"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113164937826.png" alt="image-20230113164937826"></p>
+<h3 id="3-Master-Theorem"><a href="#3-Master-Theorem" class="headerlink" title="3.Master Theorem"></a>3.Master Theorem</h3><p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113165728638.png" alt="image-20230113165728638"></p>
+<p>上面是主定理的内容，具体的理解可以参照这篇文章</p>
+<p><a target="_blank" rel="noopener" href="https://blog.restkhz.com/post/how-master-theorem-works#:~:text=主定理%2C,简单的说就是用来快速计算存在递归的分治算法时间复杂度的一套公式.">深入浅出理解主定理原理(Master theorem)如何计算递归时间复杂度 | RESTKHZ</a></p>
+<p>现在简单来解释一下，一个递归树，最终可以被分成两个部分，上面都是由$f(n)$构成的，而最下面的节点都是$O(1)$,那么$T(n)=p\cdot f(n)+k\cdot O(1)$,这里k就是$a^{log_{b}n}$，这里可以使用换底公式进行化简,也就是$n^{log_ba}$,然后$T(n)=p\cdot f(n)+n^{log_ba}$,主定理就是比较这两项对复杂度的贡献.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113171604116.png" alt="image-20230113171604116"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113171613088.png" alt="image-20230113171613088"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113171706482.png" alt="image-20230113171706482"></p>
+<h3 id="4-主定理的应用"><a href="#4-主定理的应用" class="headerlink" title="4.主定理的应用"></a>4.主定理的应用</h3><p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113171910000.png" alt="image-20230113171910000"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113172105838.png" alt="image-20230113172105838"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113174022712.png" alt="image-20230113174022712"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113174047047.png" alt="image-20230113174047047"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113174058911.png" alt="image-20230113174058911"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230113174113315.png" alt="image-20230113174113315"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">Strider</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/01/12/algorithm3/">http://example.com/2023/01/12/algorithm3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Design-and-Analysis-of-Algorithm/">Design and Analysis of Algorithm</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=null" async="async"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/13/Algorithm4/"><img class="prev-cover" src="https://cdn.pixabay.com/photo/2016/10/18/21/22/beach-1751455__340.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Design and Analysis of Algorithm4</div></div></a></div><div class="next-post pull-right"><a href="/2023/01/11/algorithm2/"><img class="next-cover" src="https://cdn.pixabay.com/photo/2021/05/18/17/49/grass-6264039__340.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Design and Analysis of Algorithms2</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/01/09/algorithm1-1/" title="Design and Analysis of Algorithms1"><img class="cover" src="https://images.pexels.com/photos/808465/pexels-photo-808465.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-09</div><div class="title">Design and Analysis of Algorithms1</div></div></a></div><div><a href="/2023/01/11/algorithm2/" title="Design and Analysis of Algorithms2"><img class="cover" src="https://cdn.pixabay.com/photo/2021/05/18/17/49/grass-6264039__340.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-11</div><div class="title">Design and Analysis of Algorithms2</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/header.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Strider</div><div class="author-info__description">A blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:lc_lzq@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/1036472882" target="_blank" title="qq"><i class="QQ"></i></a><a class="social-icon" href="https://github.com/sdu-lzq" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is Strider's Blog.You can find an interesting soul here.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#lectrue4"><span class="toc-text">lectrue4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Sequences-and-Series-Summion"><span class="toc-text">1.Sequences and Series Summion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Rucurrence-Relation-and-Algorithm-Analysis"><span class="toc-text">2.Rucurrence Relation and Algorithm Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-Approach-1-Direct-Iteration"><span class="toc-text">2.1 Approach 1: Direct Iteration</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-Approach2%EF%BC%9Aimplification-then-Iteration"><span class="toc-text">2.2 Approach2：implification-then-Iteration</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-Approach-3-Recursion-Tree"><span class="toc-text">2.3 Approach 3:Recursion Tree</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Master-Theorem"><span class="toc-text">3.Master Theorem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%B8%BB%E5%AE%9A%E7%90%86%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">4.主定理的应用</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/04/innovation/" title="innovation"><img src="https://cdn.pixabay.com/photo/2023/04/15/15/16/house-7927916__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="innovation"/></a><div class="content"><a class="title" href="/2023/05/04/innovation/" title="innovation">innovation</a><time datetime="2023-05-04T13:28:59.000Z" title="Created 2023-05-04 21:28:59">2023-05-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码"><img src="https://cdn.pixabay.com/photo/2023/04/05/09/44/landscape-7901065__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="后量子密码"/></a><div class="content"><a class="title" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码">后量子密码</a><time datetime="2023-04-26T08:17:06.000Z" title="Created 2023-04-26 16:17:06">2023-04-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/20/Reverse4/" title="Reverse4"><img src="https://cdn.pixabay.com/photo/2023/04/11/16/11/ocean-7917678__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse4"/></a><div class="content"><a class="title" href="/2023/04/20/Reverse4/" title="Reverse4">Reverse4</a><time datetime="2023-04-20T00:24:39.000Z" title="Created 2023-04-20 08:24:39">2023-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/06/Reverse3/" title="Reverse3"><img src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse3"/></a><div class="content"><a class="title" href="/2023/04/06/Reverse3/" title="Reverse3">Reverse3</a><time datetime="2023-04-06T00:42:40.000Z" title="Created 2023-04-06 08:42:40">2023-04-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/23/Reserve2/" title="Reserve2"><img src="https://cdn.pixabay.com/photo/2023/04/10/10/19/mountain-7913365_640.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reserve2"/></a><div class="content"><a class="title" href="/2023/03/23/Reserve2/" title="Reserve2">Reserve2</a><time datetime="2023-03-23T00:24:46.000Z" title="Created 2023-03-23 08:24:46">2023-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Strider</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

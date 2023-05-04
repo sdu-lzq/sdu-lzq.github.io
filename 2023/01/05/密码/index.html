@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>seedlab(六) | Strider's blog</title><meta name="author" content="Strider"><meta name="copyright" content="Strider"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="密码学综合实验一、实验目的​    本实验的学习目标是熟悉密钥加密与单项散列函数相关的概念。完成实验后，我们应该能够获得有关加密算法、加密模式、单向散列函数的第一手经验。此外，能够使用工具和编写程序来加密&#x2F;解密消息，为给定的消息生成单向散列函数。该实验包含以下的主题： ​    1.密钥加密 ​    2.加密模式、初始向量(IV)和填充(Padding) ​    3.使用加密算法的常见错误">
+<meta property="og:type" content="article">
+<meta property="og:title" content="seedlab(六)">
+<meta property="og:url" content="http://example.com/2023/01/05/%E5%AF%86%E7%A0%81/index.html">
+<meta property="og:site_name" content="Strider&#39;s blog">
+<meta property="og:description" content="密码学综合实验一、实验目的​    本实验的学习目标是熟悉密钥加密与单项散列函数相关的概念。完成实验后，我们应该能够获得有关加密算法、加密模式、单向散列函数的第一手经验。此外，能够使用工具和编写程序来加密&#x2F;解密消息，为给定的消息生成单向散列函数。该实验包含以下的主题： ​    1.密钥加密 ​    2.加密模式、初始向量(IV)和填充(Padding) ​    3.使用加密算法的常见错误">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://images.pexels.com/photos/671658/pexels-photo-671658.jpeg?auto=compress&cs=tinysrgb&w=1600">
+<meta property="article:published_time" content="2023-01-05T10:04:40.000Z">
+<meta property="article:modified_time" content="2023-01-06T03:31:28.077Z">
+<meta property="article:author" content="Strider">
+<meta property="article:tag" content="seedlab">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.pexels.com/photos/671658/pexels-photo-671658.jpeg?auto=compress&cs=tinysrgb&w=1600"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/01/05/%E5%AF%86%E7%A0%81/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'seedlab(六)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-06 11:31:28'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://images.pexels.com/photos/671658/pexels-photo-671658.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Strider's blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">seedlab(六)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-01-05T10:04:40.000Z" title="Created 2023-01-05 18:04:40">2023-01-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-01-06T03:31:28.077Z" title="Updated 2023-01-06 11:31:28">2023-01-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/seedlab/">seedlab</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="seedlab(六)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><hr>
+<h1 id="密码学综合实验"><a href="#密码学综合实验" class="headerlink" title="密码学综合实验"></a><center>密码学综合实验</center></h1><h2 id="一、实验目的"><a href="#一、实验目的" class="headerlink" title="一、实验目的"></a>一、实验目的</h2><p>​    本实验的学习目标是熟悉密钥加密与单项散列函数相关的概念。完成实验后，我们应该能够获得有关加密算法、加密模式、单向散列函数的第一手经验。此外，能够使用工具和编写程序来加密/解密消息，为给定的消息生成单向散列函数。该实验包含以下的主题：</p>
+<p>​    1.密钥加密</p>
+<p>​    2.加密模式、初始向量(IV)和填充(Padding)</p>
+<p>​    3.使用加密算法的常见错误</p>
+<p>​    4.使用密码库进行编程</p>
+<p>​    </p>
+<h2 id="二、实验步骤和实验结果"><a href="#二、实验步骤和实验结果" class="headerlink" title="二、实验步骤和实验结果"></a>二、实验步骤和实验结果</h2><h4 id="2-1-Task-1：使用不同的密码算法和加密模式进行加密"><a href="#2-1-Task-1：使用不同的密码算法和加密模式进行加密" class="headerlink" title="2.1 Task 1：使用不同的密码算法和加密模式进行加密"></a>2.1 Task 1：使用不同的密码算法和加密模式进行加密</h4><p>​    在此任务中，我们将使用各种加密算法和模式。首先查看以下openssl enc所支持的加密类型，这里可以使用man enc进行查看，这里我们不对所支持的加密方式一一进行列举，下面是部分例子。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225205858127.png" alt="image-20221225205858127"></p>
+<p>​    首先我们使用des-cbc模式对明文进行加密，最后加入-p能够打印加密参数</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225212356472.png" alt="image-20221225212356472"></p>
+<p>​    同时使用解密算法验证正确性</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225212552007.png" alt="image-20221225212552007"></p>
+<p>再测试以下des-cbc模式，这里实际上des只需要64位的输入密钥和IV因此会出现进行忽略的提示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225212700574.png" alt="image-20221225212700574"></p>
+<p>解密验证情况</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225212921968.png" alt="image-20221225212921968"></p>
+<p>使用aes-128-cfb加密并进行解密的验证   </p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225220417808.png" alt="image-20221225220417808"></p>
+<h4 id="2-2-Task-2：加密模式：ECB-vs-CBC"><a href="#2-2-Task-2：加密模式：ECB-vs-CBC" class="headerlink" title="2.2 Task 2：加密模式：ECB vs. CBC"></a>2.2 Task 2：加密模式：ECB vs. CBC</h4><p>​    文件pic_original.bmp包含一个简单的图片。我们想加密这张图片，所以没有加密密钥的人无法知道图片的内容。请分别使用ECB和CBC模式加密文件。</p>
+<p>​    首先使用aes-128-cbc对pic_original.bmp进行加密，但是加密完图片并不能正常打开，会提示header data出错。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225221922621.png" alt="image-20221225221922621"></p>
+<p>​    接下来我们将原始图片的header data替换到新的加密后的header data中</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225223403342.png" alt="image-20221225223403342"></p>
+<p>​    然后再使用图片软件打开new.bmp,可以发现像素点十分混乱，基本提取不到和原始图像相关的任何信息</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225223612531.png" alt="image-20221225223612531"></p>
+<p>​    接下来使用ECB模式进行加密可以看到提示加密过程中没有使用到IV，用同样的方式处理图片，最终可以看出加密后的图片反映出原始图像的大概轮廓。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225223848141.png" alt="image-20221225223848141"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225223650599.png" alt="image-20221225223650599"></p>
+<p>​    这是由于ECB模式并没有使用IV，因此对相同的明文分组加密使用相同的Key，最终导致相同的明文分组会加密成相同的值，因此对于图片内相同的像素信息会在加密结果上反应出来。</p>
+<h4 id="2-3-Task-3-错误传播-被破坏的密文"><a href="#2-3-Task-3-错误传播-被破坏的密文" class="headerlink" title="2.3 Task 3: 错误传播-被破坏的密文"></a>2.3 Task 3: 错误传播-被破坏的密文</h4><p>​    为了理解各种工作模式的在错误传播上的性质，请做以下练习： </p>
+<ol>
+<li>创建一个至少 1000 字节长的文本文件。 </li>
+<li>使用 AES-128 算法加密文件。 </li>
+<li>不幸的是，加密文件中第 55 个字节的某一个 bit 已损坏。你可以使用 bless十六进制编辑器来破坏 该文件。 </li>
+<li>使用正确的密钥和 IV 解密损坏的密文文件。</li>
+</ol>
+<p>​    首先需要创建一个至少1000字节的文本文件，使用wc对plain.txt进行统计，发现该文件9行385个单词2628个字节，正好满足要求。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221225225510843.png" alt="image-20221225225510843"></p>
+<p>​    下面使用ECB和CBC模式分别对文件进行加密</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221226121944917.png" alt="image-20221226121944917"></p>
+<p>​    然后再使用bless工具将第55字节的内容进行更改,首先找到第55个字节73的位置，然后更改其中的一个bit位，这里我把73改成了71</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221226144548318.png" alt="image-20221226144548318"></p>
+<p>​    然后使用ECB对密文进行解密运算，查看解密文件的内容，从解密结果中可以看出，使用ECB模式最终影响了16个字节也就是一个明文分组的解密，这是由于ECB模式每一个密文分组的解密都是独立的，不会受到其它密文分组的影响。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221226155231394.png" alt="image-20221226155231394"></p>
+<p>​    下面对CBC模式加密后的密文进行处理，这里我将47改变一个bit值改为07。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221226155815227.png" alt="image-20221226155815227"></p>
+<p>​    然后重新使用解密模块对内容进行解密，可以看出使用CBC模式情况下，1bit的密文分组错误影响了两个明文分组的解密，这是由于密文分组的错误不仅影响对应明文的解密，而且由于下一组密文分组解密还需要和前一组进行异或，所以最终会影响两组的解密。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221226160650840.png" alt="image-20221226160650840"></p>
+<h4 id="2-5-Task-4-寻找密钥"><a href="#2-5-Task-4-寻找密钥" class="headerlink" title="2.5 Task 4: 寻找密钥"></a>2.5 Task 4: 寻找密钥</h4><p>​    你得到一个明文和一个密文，你知道 aes-128-cbc 用于从明文生成密文。你得到的另一条线索是， 加密此明文使用的密钥是一个少于 16 个字符的英语单词。这个单词可以从英语字典中找到。由于这个单词少于 16 个字符（即 128 bits ）1，在单词的结尾附加了一些井号（#：十六进制值是 0x23）构成一个 128 bits 的密钥。</p>
+<p>​    编写下面的程序来寻找密钥，密钥从word.txt中进行获取，首先对密钥 字节数进行判断，不满16字节的进行#填充。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line">Cipher = <span class="built_in">bytes</span>.fromhex(<span class="string">&quot;7827baf49c2464156528d99a0fcda1c714d7cb591fbed2364c41a9fc03596cc4&quot;</span>)</span><br><span class="line">Iv = <span class="built_in">bytes</span>.fromhex(<span class="string">&quot;010203040506070809000a0b0c0d0e0f&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&quot;words.txt&quot;</span>,<span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">    key = f.readline().strip(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    <span class="comment">#去掉每一个密钥后面的换行符</span></span><br><span class="line">    <span class="keyword">while</span> key:</span><br><span class="line">        <span class="comment">#key = key.encode()</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(key)&lt;<span class="number">16</span>:</span><br><span class="line">            key += <span class="string">&#x27;#&#x27;</span>*(<span class="number">16</span>-<span class="built_in">len</span>(key))</span><br><span class="line">            key = key.encode()</span><br><span class="line">            <span class="comment">#print(key,bytes.__len__(key))</span></span><br><span class="line">            aes = AES.new(key,AES.MODE_CBC,Iv)</span><br><span class="line">            plain = aes.decrypt(Cipher)</span><br><span class="line">            <span class="keyword">if</span> plain[:<span class="number">21</span>]  == <span class="string">&#x27;This is a top secret.&#x27;</span>.encode():</span><br><span class="line">                <span class="built_in">print</span>(key)</span><br><span class="line">        key = f.readline().strip(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    f.close()</span><br></pre></td></tr></table></figure>
+<p>​    这里我们使用了python程序进行求解，这里注意一点，由于明文并不是128个bit的整数倍，因此加密的时候会进行填充，但解密出的前21个字符一定是确定内容。运行程序，最终找到密钥wizard。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221226212114736.png" alt="image-20221226212114736"></p>
+<h4 id="2-6-Task-5-生成消息摘要"><a href="#2-6-Task-5-生成消息摘要" class="headerlink" title="2.6 Task 5: 生成消息摘要"></a>2.6 Task 5: 生成消息摘要</h4><p>​    这个任务中，我们将使用哈希算法生成文件的哈希值，可以使用man dgest进行手册查找</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221226213748361.png" alt="image-20221226213748361"></p>
+<p>​    下面我使用了-md5、-sha1、-sha256等三种方式对plain.txt进行哈希运算，可以看到使用命令后返回了哈希运算以后的值，不同的哈希算法的哈希值长度也不同。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221226214254066.png" alt="image-20221226214254066"></p>
+<h4 id="2-7-Task-6：哈希函数的输出特性"><a href="#2-7-Task-6：哈希函数的输出特性" class="headerlink" title="2.7 Task 6：哈希函数的输出特性"></a>2.7 Task 6：哈希函数的输出特性</h4><p>​    要了解哈希函数的输出性质，我们希望使用SHA1执行下面的练习</p>
+<p>1.使用SHA1算法为plain.txt生成哈希值$H_1$</p>
+<p>2.修改输入文件的一位</p>
+<p>3.为修改后的文件生成哈希值$H_2$</p>
+<p>​    这里我们使用bless将第一个bit 1修改为了bit 0，也就是将第一个字节49修改为了09.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221226215102390.png" alt="image-20221226215102390"></p>
+<p>​    将修改前后的文件进行哈希运算，可以看到$H_1$和$H_2$不仅不相同，而且每一个字节都不相等，这也说明了哈希函数的性质，哈希函数能够很好的隐藏明文，并且输出是足够随机和均匀的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221226215221096.png" alt="image-20221226215221096"></p>
+<h4 id="2-8-Task-7：单向性与抗碰撞性"><a href="#2-8-Task-7：单向性与抗碰撞性" class="headerlink" title="2.8 Task 7：单向性与抗碰撞性"></a>2.8 Task 7：单向性与抗碰撞性</h4><p>​    哈希函数的具有单向性与抗碰撞性。在这个实验里我们将使用暴力穷举方法来测试抗碰撞性，即找到具有相同哈希值的两个文件。你的目标是，在给定一个文件，编写一个程序来找出另一个具有相同哈希值的文件。这里我们只使用SHA1哈希值的前24位。</p>
+<p>​    首先先对消息的规模做大致的估算，由于这里我们只是用前24位，那我们也大概需要$2^{24}$个随机消息即可，这里我们使用10个数字和26个字母，大概需要长度5的随机字符就可以，这里我们可以增加字符串随机范围，也可以加入符号进行运算。我编写了下面的程序，通过生成随机字符串和写入文件进行哈希运算，然后将哈希运算结果和original.txt的运算结果进行比较，这里注意只要前24位相等即可，转化为16进制位也就是6位。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">generate_random_str</span>(<span class="params">length</span>):</span><br><span class="line">    random_str = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    Word = string.ascii_letters + string.digits + <span class="string">&quot;.?, &quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(length):</span><br><span class="line">        random_str += random.choice(Word)</span><br><span class="line">    <span class="keyword">return</span> random_str</span><br><span class="line"><span class="comment">#获得随机字符串</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    length = <span class="number">10</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;original.txt&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        origin = f.read()</span><br><span class="line">    h1 = hashlib.sha1()</span><br><span class="line">    h1.update(origin)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;The hash value of the original.txt is:&quot;</span>,h1.hexdigest())</span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    flag = h1.hexdigest()[:<span class="number">6</span>]</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">        content = generate_random_str(length)</span><br><span class="line">        fw = <span class="built_in">open</span>(<span class="string">&#x27;temp.txt&#x27;</span>,<span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">        fw.write(content)</span><br><span class="line">        fw.close()</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;temp.txt&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            value = f.read()</span><br><span class="line">        <span class="comment">#print(value)</span></span><br><span class="line">        h2 = hashlib.sha1()</span><br><span class="line">        h2.update(value)</span><br><span class="line">        <span class="keyword">if</span> h2.hexdigest()[:<span class="number">6</span>] == flag:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;The collision of the hash value is:&quot;</span>,h2.hexdigest())</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;The content of the file is:&quot;</span>,content)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Numbers of attempts:&quot;</span>,count)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>​    运行程序，在暴力尝试了14517620次以后，找到了一个前24位相同的文件temp.txt,文件的内容是字符串nX9fsZVnVm,具体结果如下图所示.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221227170557089.png" alt="image-20221227170557089"></p>
+<p>​    之后我又进行了多次实验，由于找寻随机串随机性的存在，尝试次数可能差距较大，但是10次实验中平均数据在12951435次，和$2^{24}$数据接近。下面展示了部分的实验结果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221227175555875.png" alt="image-20221227175555875"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20221228164015777.png" alt="image-20221228164015777"></p>
+<p><img src="C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20221228195948669.png" alt="image-20221228195948669"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">Strider</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/01/05/%E5%AF%86%E7%A0%81/">http://example.com/2023/01/05/%E5%AF%86%E7%A0%81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/seedlab/">seedlab</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=null" async="async"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/05/bufferoverflow/"><img class="prev-cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">seedlab(一)</div></div></a></div><div class="next-post pull-right"><a href="/2023/01/05/%E9%9A%8F%E6%9C%BA%E6%95%B0/"><img class="next-cover" src="https://images.pexels.com/photos/933054/pexels-photo-933054.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">seedlab(五)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/01/05/CSRF/" title="seedlab(四)"><img class="cover" src="https://images.pexels.com/photos/618833/pexels-photo-618833.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(四)</div></div></a></div><div><a href="/2023/01/05/SQL%E6%B3%A8%E5%85%A5/" title="seedlab(二)"><img class="cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(二)</div></div></a></div><div><a href="/2023/01/05/bufferoverflow/" title="seedlab(一)"><img class="cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(一)</div></div></a></div><div><a href="/2023/01/05/race_condition/" title="seedlab(三)"><img class="cover" src="https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(三)</div></div></a></div><div><a href="/2023/01/05/%E9%9A%8F%E6%9C%BA%E6%95%B0/" title="seedlab(五)"><img class="cover" src="https://images.pexels.com/photos/933054/pexels-photo-933054.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-05</div><div class="title">seedlab(五)</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/header.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Strider</div><div class="author-info__description">A blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:lc_lzq@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/1036472882" target="_blank" title="qq"><i class="QQ"></i></a><a class="social-icon" href="https://github.com/sdu-lzq" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is Strider's Blog.You can find an interesting soul here.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E5%AD%A6%E7%BB%BC%E5%90%88%E5%AE%9E%E9%AA%8C"><span class="toc-text">密码学综合实验</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="toc-text">一、实验目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4%E5%92%8C%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="toc-text">二、实验步骤和实验结果</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-Task-1%EF%BC%9A%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E5%92%8C%E5%8A%A0%E5%AF%86%E6%A8%A1%E5%BC%8F%E8%BF%9B%E8%A1%8C%E5%8A%A0%E5%AF%86"><span class="toc-text">2.1 Task 1：使用不同的密码算法和加密模式进行加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-Task-2%EF%BC%9A%E5%8A%A0%E5%AF%86%E6%A8%A1%E5%BC%8F%EF%BC%9AECB-vs-CBC"><span class="toc-text">2.2 Task 2：加密模式：ECB vs. CBC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-Task-3-%E9%94%99%E8%AF%AF%E4%BC%A0%E6%92%AD-%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E5%AF%86%E6%96%87"><span class="toc-text">2.3 Task 3: 错误传播-被破坏的密文</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-Task-4-%E5%AF%BB%E6%89%BE%E5%AF%86%E9%92%A5"><span class="toc-text">2.5 Task 4: 寻找密钥</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-Task-5-%E7%94%9F%E6%88%90%E6%B6%88%E6%81%AF%E6%91%98%E8%A6%81"><span class="toc-text">2.6 Task 5: 生成消息摘要</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-7-Task-6%EF%BC%9A%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%E7%9A%84%E8%BE%93%E5%87%BA%E7%89%B9%E6%80%A7"><span class="toc-text">2.7 Task 6：哈希函数的输出特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-8-Task-7%EF%BC%9A%E5%8D%95%E5%90%91%E6%80%A7%E4%B8%8E%E6%8A%97%E7%A2%B0%E6%92%9E%E6%80%A7"><span class="toc-text">2.8 Task 7：单向性与抗碰撞性</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/04/innovation/" title="innovation"><img src="https://cdn.pixabay.com/photo/2023/04/15/15/16/house-7927916__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="innovation"/></a><div class="content"><a class="title" href="/2023/05/04/innovation/" title="innovation">innovation</a><time datetime="2023-05-04T13:28:59.000Z" title="Created 2023-05-04 21:28:59">2023-05-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码"><img src="https://cdn.pixabay.com/photo/2023/04/05/09/44/landscape-7901065__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="后量子密码"/></a><div class="content"><a class="title" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码">后量子密码</a><time datetime="2023-04-26T08:17:06.000Z" title="Created 2023-04-26 16:17:06">2023-04-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/20/Reverse4/" title="Reverse4"><img src="https://cdn.pixabay.com/photo/2023/04/11/16/11/ocean-7917678__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse4"/></a><div class="content"><a class="title" href="/2023/04/20/Reverse4/" title="Reverse4">Reverse4</a><time datetime="2023-04-20T00:24:39.000Z" title="Created 2023-04-20 08:24:39">2023-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/06/Reverse3/" title="Reverse3"><img src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse3"/></a><div class="content"><a class="title" href="/2023/04/06/Reverse3/" title="Reverse3">Reverse3</a><time datetime="2023-04-06T00:42:40.000Z" title="Created 2023-04-06 08:42:40">2023-04-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/23/Reserve2/" title="Reserve2"><img src="https://cdn.pixabay.com/photo/2023/04/10/10/19/mountain-7913365_640.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reserve2"/></a><div class="content"><a class="title" href="/2023/03/23/Reserve2/" title="Reserve2">Reserve2</a><time datetime="2023-03-23T00:24:46.000Z" title="Created 2023-03-23 08:24:46">2023-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Strider</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

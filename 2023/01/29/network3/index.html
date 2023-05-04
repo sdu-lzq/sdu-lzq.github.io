@@ -1,0 +1,412 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Network Security(三) | Strider's blog</title><meta name="author" content="Strider"><meta name="copyright" content="Strider"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Network Security网络层协议分类 1.网络访问协议网络(network access protocol network)：端到端的网络，由一个单独的机构维护的封闭网络，基于电话网络 2.网际协议(internetwork protocol):一起工作的分布式网络 1.地址1.1 IP 地址 全球唯一  网络地址+主机地址    点分16进制写法，一共是32位    特殊IP地址网络地">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Network Security(三)">
+<meta property="og:url" content="http://example.com/2023/01/29/network3/index.html">
+<meta property="og:site_name" content="Strider&#39;s blog">
+<meta property="og:description" content="Network Security网络层协议分类 1.网络访问协议网络(network access protocol network)：端到端的网络，由一个单独的机构维护的封闭网络，基于电话网络 2.网际协议(internetwork protocol):一起工作的分布式网络 1.地址1.1 IP 地址 全球唯一  网络地址+主机地址    点分16进制写法，一共是32位    特殊IP地址网络地">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.pixabay.com/photo/2023/01/10/08/48/water-7709322__480.jpg">
+<meta property="article:published_time" content="2023-01-29T02:49:49.000Z">
+<meta property="article:modified_time" content="2023-02-07T08:01:09.153Z">
+<meta property="article:author" content="Strider">
+<meta property="article:tag" content="Network Security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.pixabay.com/photo/2023/01/10/08/48/water-7709322__480.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/01/29/network3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Network Security(三)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-07 16:01:09'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.pixabay.com/photo/2023/01/10/08/48/water-7709322__480.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Strider's blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Network Security(三)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-01-29T02:49:49.000Z" title="Created 2023-01-29 10:49:49">2023-01-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-02-07T08:01:09.153Z" title="Updated 2023-02-07 16:01:09">2023-02-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Network/">Network</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Network Security(三)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Network-Security"><a href="#Network-Security" class="headerlink" title="Network Security"></a>Network Security</h2><h3 id="网络层协议"><a href="#网络层协议" class="headerlink" title="网络层协议"></a>网络层协议</h3><p>分类</p>
+<p>1.网络访问协议网络(network access protocol network)：端到端的网络，由一个单独的机构维护的封闭网络，基于电话网络</p>
+<p>2.网际协议(internetwork protocol):一起工作的分布式网络</p>
+<h3 id="1-地址"><a href="#1-地址" class="headerlink" title="1.地址"></a>1.地址</h3><h4 id="1-1-IP-地址"><a href="#1-1-IP-地址" class="headerlink" title="1.1 IP 地址"></a>1.1 IP 地址</h4><ul>
+<li><p>全球唯一</p>
+</li>
+<li><p>网络地址+主机地址</p>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230131173645340.png" alt="image-20230131173645340"></p>
+<p>点分16进制写法，一共是32位</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230131173826332.png" alt="image-20230131173826332"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230131173942062.png" alt="image-20230131173942062"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230131174034585.png" alt="image-20230131174034585"></p>
+<h5 id="特殊IP地址"><a href="#特殊IP地址" class="headerlink" title="特殊IP地址"></a>特殊IP地址</h5><h6 id="网络地址"><a href="#网络地址" class="headerlink" title="网络地址"></a>网络地址</h6><p>因特网上的每个网络都有一个IP地址，其主机号部分为“0”。</p>
+<p>网络地址的一般表达式为：</p>
+<p>{<Network-number>，<Host-number>}={<Network-number>，0}</p>
+<p>该地址用于标识网络，不能分配给主机，因此不能作为数据的源地址和目的地址</p>
+<h6 id="直接广播地址"><a href="#直接广播地址" class="headerlink" title="直接广播地址"></a>直接广播地址</h6><p>直接广播（Direct Broadcast Address）：向某个网络上所有的主机发送报文。TCP/IP规定，主机号各位全部为“1”的IP地址用于广播，叫作广播地址。路由器在目标网络处将IP直接广播地址映射为物理网络的广播地址，以太网的广播地址为6个字节的全“1”二进制位，即：ff:ff:ff:ff:ff:ff 。</p>
+<p>直接广播地址的一般表达式为：</p>
+<p>{<Network-number>，<Host-number>}={<Network-number>, -1}</p>
+<p>这里的“-1”表示全“1”。 </p>
+<p>直接广播地址只能作为目的地址</p>
+<h6 id="受限广播地址"><a href="#受限广播地址" class="headerlink" title="受限广播地址"></a>受限广播地址</h6><p>直接广播要求发送方必须知道信宿网络的网络号。但有些主机在启动时，往往并不知道本网络的网络号，这时候如果想要向本网络广播，只能采用受限广播地址（Limited Broadcast Address）。</p>
+<p>受限广播地址是在本网络内部进行广播的一种广播地址。TCP/IP规定，32比特全为“1”的IP地址用于本网络内的广播。</p>
+<p>受限广播地址的一般表达式为：</p>
+<p>{<Network-number>，<Host-umber>}={-1, -1}</p>
+<p>其点分十进制表示为：255.255.255.255。</p>
+<p>受限广播地址只能作为目的地址。</p>
+<p>路由器隔离受限广播，不对受限广播分组进行转发。也就是说因特网不支持全网络范围的广播。</p>
+<h6 id="本网络地址"><a href="#本网络地址" class="headerlink" title="本网络地址"></a>本网络地址</h6><p>TCP/IP协议规定，网络号各位全部为“0”时表示的是本网络。本网络地址分为两种情况：本网络特定主机地址和本网络本主机地址。</p>
+<p>本网络特定主机地址的一般表达式为：</p>
+<p>{<Network-number>,<Host-number>}={0, <Host-number>}</p>
+<p>本网络特定主机地址只能作为源地址。</p>
+<p>本网络本主机地址的一般表达式为：</p>
+<p>{<Network-number>，<Host-number>}={0, 0}</p>
+<p>本网络本主机地址的点分十进制表示为：0.0.0.0。</p>
+<p>本网络本主机地址只能作为源地址。</p>
+<p>无盘工作站启动时没有IP地址，此时采用网络号和主机号都为“0”的本网络本主机地址作为源地址。</p>
+<h6 id="环回地址"><a href="#环回地址" class="headerlink" title="环回地址"></a>环回地址</h6><p>环回地址（Loopback Address）是用于网络软件测试以及本机进程之间通信的特殊地址。 </p>
+<p>A类网络地址127.X.X.X被用作环回地址。</p>
+<p>环回地址的一般表达式为：</p>
+<p>{<Network-number>,<Host-number>}={127, <any>}</p>
+<p>习惯上采用127.0.0.1作为环回地址，命名为localhost。</p>
+<p>当使用环回地址作为目标地址发送数据时，数据将不会被发送到网络上，而是在数据离开网络层时将其回送给本机的有关进程。</p>
+<h4 id="1-2-路由"><a href="#1-2-路由" class="headerlink" title="1.2 路由"></a>1.2 路由</h4><p>所有的主机和网关都存储着路由表，</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230201114511493.png" alt="image-20230201114511493"></p>
+<p>这里举例H1想把数据包发送给H2，那么目的地址位192.168.1.25，使用掩码后也就是从本机的端口发送，匹配H1路由表的第一条，那么如何找到H2的硬件地址，需要ARP(Address Resolution Protocol)协议，也就是地址解析协议，这个协议会发送广播数据包到网络上的所有设备，去查询本地网络上的所有设备是否有请求的IP地址，当设备收到ARP请求时，会检查请求的IP地址，如果地址匹配，那么就用它的硬件地址进行回复。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230201115301690.png" alt="image-20230201115301690"></p>
+<h4 id="1-3-数据包格式"><a href="#1-3-数据包格式" class="headerlink" title="1.3 数据包格式"></a>1.3 数据包格式</h4><p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230201120314043.png" alt="image-20230201120314043"></p>
+<ul>
+<li>VER版本号（4比特）：IP协议的版本号，值为4或者6</li>
+<li>IHL头部长度（4bit）：这是4个字节表示的IP头部的长度，默认值为5</li>
+<li>TYPE服务类型（8bit）：设置这个字段是用来标记各个类型服务等级的网络，通常使用0</li>
+<li>总长度（16比特）：这个字段用来表示首部长度和数据之和，单位为字节，通常总长度16位，</li>
+<li>所以数据报的最大长度为 $2^{16}-1=65 535$字节.在IP层下面的每一种数据链路层都有自己的帧格式,其中包括帧格式中的数据字段的最大长度,即最大传送单元 MTU (Maximum Transfer Unit).当一个数据报封装成链路层的帧时,此数据报的总长度 (即首部加上数据部分)一定不能超过下面的数据链路层的MTU值,否则要分片.</li>
+<li>ID(16bit):这个字段包含一个识别标志ID，用于唯一识别由设备发送的每一个数据包，这个字段支持拆分和重组，相同的标识字段的值使分片后的各</li>
+<li>Flag(标志)3bit：第一位保留并设置为0，第二位是不拆分D标志DF，1表示不分片，0表示分片；最低位MF，1表示后面还有分片，0表示后面没有分片</li>
+<li>offset片偏移（13bit）：单位8字节，相对数据部分起点的偏移，可以知道每个分片的数据部分长度一定是8字节的整数倍</li>
+<li>生存时间TTL：表示数据包在网络中的寿命，单位是跳hop，每个路由减1，直到0的时候被抛弃</li>
+<li>协议8bit:运输层使用的协议，方便IP层直到应将数据包部分上交到哪一个协议栈处理</li>
+<li>首部检验和：16bit，每经过一个路由器，都需要重新计算一下首部检验和，比如生存时间等首部区域的值可能变化，不检验数据部分可以减少工作量</li>
+<li>源地址和目的地址都是32bit</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230201192332292.png" alt="image-20230201192332292"></p>
+<h3 id="2-ARP"><a href="#2-ARP" class="headerlink" title="2.ARP"></a>2.ARP</h3><p>因为请求的设备不知道目标的硬件地址，所以它必须使用以太广播包给网络上的每一台设备发送ARP请求，当一台设备收到一个ARP请求数据包时，它用它自己的IP地址与头部的IP地址进行比较。如果匹配，如果匹配，这个设备就会给发送IP请求的设备发送一个ARP回应数据包，ARP的回应数据包并不是广播数据包.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/v2-313f6f543e1ee58083aa829150887177_b.jpg" alt="img"></p>
+<ul>
+<li>硬件类型16：ARP协议起作用的物理网络类型，以太网协议的值为1</li>
+<li>协议类型16：表示三层协议地址类型，一般为ip值为0x800</li>
+<li>硬件长度8：在头部硬件地址段以字节表示的长度，以太网协议使用的6</li>
+<li>协议长度：上层协议地址的长度，IPV4的值是4</li>
+<li>运算16：该字段指出是请求数据包1，还是回应数据包2</li>
+<li>发送方硬件地址</li>
+<li>发送方协议地址，也就是发送方的IP地址</li>
+<li>目的硬件地址，当ARP请求的时候这个字段全是0</li>
+<li>目标协议地址：可变的也就是目标IP地址</li>
+</ul>
+<p>ARP的一个攻击是使用ARP回应来戏弄发送者，使他把数据包发送到错误的地址方向，这就称为ARP欺骗，或者ARP缓冲区中毒</p>
+<h3 id="3-ICMP"><a href="#3-ICMP" class="headerlink" title="3.ICMP"></a>3.ICMP</h3><p>ICMP用于对运行的Ip的设备的询问，并报告在IP数据包寻径和递交时出错的报告。ICMP数据包是IP协议的组成部分，它起到辅助IP的作用。ICMP数据包是作为载荷携带在IP数据包中的，从这个角度来讲，ICMP看起来是上层协议。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202101312672.png" alt="image-20230202101312672"></p>
+<p>类型代码 类型描述</p>
+<p>0 响应应答（ECHO-REPLY）</p>
+<p>3 不可到达</p>
+<p>4 源抑制</p>
+<p>5 重定向</p>
+<p>8 响应请求（ECHO-REQUEST）</p>
+<p>11 超时</p>
+<p>12 参数失灵</p>
+<p>13 时间戳请求</p>
+<p>14 时间戳应答</p>
+<p>15 信息请求（*已作废）</p>
+<p>16 信息应答（*已作废）</p>
+<p>17 地址掩码请求</p>
+<p>18 地址掩码应答</p>
+<p>下面是几种常见的ICMP报文：</p>
+<p>1.响应请求</p>
+<p>我们日常使用最多的ping，就是响应请求（Type=8）和应答（Type=0），一台主机向一个节点发送一个Type=8的ICMP报文，如果途中没有异常（例如被路由器丢弃、目标不回应ICMP或传输失败），则目标返回Type=0的ICMP报文，说明这台主机存在，更详细的tracert通过计算ICMP报文通过的节点来确定主机与目标之间的网络距离。</p>
+<p>2.ICMP目标不可达</p>
+<p>目标不可到达报文（Type=3）在路由器或主机不能传递数据报时使用，例如我们要连接对方一个不存在的系统端口（端口号小于1024）时，将返回Type=3、Code=3的ICMP报文，，常见的不可到达类型还有网络不可到达（Code=0）、主机不可到达（Code=1）、协议不可到达（Code=2）等。</p>
+<p>3.ICMP时间戳请求</p>
+<p>时间戳请求报文（Type=13）和时间戳应答报文（Type=14）用于测试两台主机之间数据报来回一次的传输时间。传输时，主机填充原始时间戳，接收方收到请求后填充接收时间戳后以Type=14的报文格式返回，发送方计算这个时间差。一些系统不响应这种报文。</p>
+<p>4.ICMP超时 11</p>
+<p>如果编码字段为0，则超时信息表明存活时间减少到了0，且数据包被删除了，如果编码字段是1，则数据包被拆分了但接收设备在时钟过期后没有接收到所有片段。源抑制则充当一个控制流量的角色，它通知主机减少数据报流量，由于ICMP没有恢复传输的报文，所以只要停止该报文，主机就会逐渐恢复传输速率。最后，无连接方式网络的问题就是数据报会丢失，或者长时间在网络游荡而找不到目标，或者拥塞导致主机在规定时间内无法重组数据报分段，这时就要触发ICMP超时报文的产生。超时报文的代码域有两种取值：Code=0表示传输超时，Code=1表示重组分段超时。</p>
+<p>5.ICMP重定向 5</p>
+<p>路由器使用重定向消息告知本地同一网络中的主机，有到达目标的更好路由存在，</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202213436681.png" alt="image-20230202213436681"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202213353330.png" alt="image-20230202213353330"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202213536553.png" alt="image-20230202213536553"></p>
+<p>ARP请求是封装在以太网帧中的，因此并没有IP地址的描述</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202213845504.png" alt="image-20230202213845504"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202213905508.png" alt="image-20230202213905508"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202213915004.png" alt="image-20230202213915004"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202213925123.png" alt="image-20230202213925123"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202213934859.png" alt="image-20230202213934859"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202213943620.png" alt="image-20230202213943620"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202213952258.png" alt="image-20230202213952258"></p>
+<p>这里H1的局域网中并没有H6这个主机，因此H1发送了几次ARP请求后，H1不再尝试，且表明主机H6是不可达的，这个通知发送到试图发送这个数据包的应用中，大部分应用收到这个通知后，停止发送这个数据包</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202214648875.png" alt="image-20230202214648875"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202215052097.png" alt="image-20230202215052097"></p>
+<p>​    如图6.19所示，主机HI以H7为目标地址，以主机H1的IP地址为源地址,封装一个ICMP回应请求(假定主机H7的地址在网络2中，但并没有地址是H7的设备)。主机H1查找它的路由表,发现下一跳是路由器R1(默认路由)。主机HI检查它的ARP表，从表中得到路由器Rl的硬件地址。主机H1将路由器RI的硬件地址设为ICMP回应数据包的目标地址，并且将这个数据包发送到路由器R1(数据包1)。</p>
+<p>​    路由器Rl收到这个ICMP回应请求数据包，根据目标IP地址确定这个数据包不是发往路由器Rl的，因此应该将这个数据包路由到其他地方。路由器R1将存活时间字段减小，并判断数据包是否已经达到它的最大跳数。假定存活时间没有过期,路由器RI检查它的路由表，确定要将数据包发往何处。路由表表明主机H7直接连接在网络2中，路由器RI可以使用接口2访问网络2。路由器R1检查它接口2的ARP表，确定它需要向网络2中的主机发送一个ARP请求(数据包2)，询问主机H7的硬件地址。当路由器RI没有收到对这个ARP请求的回应时(经过一段时间)，路由器R1重新尝试传递这个ARP请求。经过几次重试(数据包2和数据包3),路由器R1表明主机H7是不可达的。</p>
+<p>​    路由器RI可以创建一个ICMP目标不可达的数据包，并将其发送回主机H1(数据包4)。并不是所有路由器都配置有返回ICMP目标不可达数据包，在这种情况下发送者可能不停地发送数据包。如果主机H收到一个ICMP目标不可达数据包，应用通常停止发送数据包。</p>
+<p>​    在这个场景中，我们看到单一的ICMP回应数据包和ICMP目标不可达数据包在网络1中传递。我们看到在路由器Rl确定主机H7不存在前，有4个ARP请求数据包在网络2中传递。从安全角度来讲，这个问题和场景5一样，不一样的是引起ARP请求数据包产生的设备(主机H1 )是在一个不同的网络中。这个场景表明，一个远程计算机能够向一个网络发送数据包，并且引起多个广播的产生。由于路由的ARP表从未填充，因此每一个来自外界的请求都将产生一个ARP请求。</p>
+<p>​    当多个攻击者向一个网络中多个不存在的主机发送数据包时，这确实能成为一个问题。比如，如果一个攻击者使用公开地址遍扫一个网络中少量主机地址，则将产生数量巨大的ARP请求数据包。如果多个攻击者瞄向同一个网络,结果可能是一个网络中的ARP雪崩。</p>
+<h3 id="4-基于头部的攻击"><a href="#4-基于头部的攻击" class="headerlink" title="4.基于头部的攻击"></a>4.基于头部的攻击</h3><p>​    从安全角度来讲，可以将IP头部字段分成两类。第一类(端点字段)主要由端点使用的端点字段构成，端点字段在传递过程中是不进行检测的。第二类(传递字段)主要由各个路由器进行检测，并且在传递过程中可能被修改的字段构成。端点字段包括长度、标识.标志、偏移、协议和源P地址。即使路由器能够改变长度、标志和偏移值字段的值,如果数据包需要拆分，它们也被认为是端点字段。因为大多数攻击使用这些字段瞄向端点。对传递字段的攻击经常引起路由器对数据包的丢弃。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202220307276.png" alt="image-20230202220307276"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202220430515.png" alt="image-20230202220430515"></p>
+<p>traceroute还可以用于图形网络管理工具，cheops-ng工作在网络环境中的底层，它会拦截所有正在网络上传送的数据，通过借助相应的软件进行处理。嗅探器可以实时分析这些数据的内容，进而可以帮助网络管理员分析整个网络的状态、性能或故障。正因如此，在检测、管理Linux网络故障时，cheops-ng对管理员来说是一种不可或缺的强力工具。</p>
+<p>很少的基于ARP和ICMP头部的攻击</p>
+<h3 id="5-基于协议的攻击"><a href="#5-基于协议的攻击" class="headerlink" title="5.基于协议的攻击"></a>5.基于协议的攻击</h3><p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230202221828891.png" alt="image-20230202221828891"></p>
+<p>大多数针对IP和ICMP的攻击瞄向数据包的路由，并且设法引起数据包错误路由，路由表</p>
+<p>路由跟踪程序可看作一种针对协议的攻击，traceroute，因为使用ttl来确定路径是不好减灾的</p>
+<p>有些攻击中，是通过嗅探和伪造，使用错误信息引起服务拒绝或者将流量定位到错误的地方</p>
+<p>还有ARP的相关攻击</p>
+<h3 id="6-基于认证的攻击"><a href="#6-基于认证的攻击" class="headerlink" title="6.基于认证的攻击"></a>6.基于认证的攻击</h3><p>IP地址欺骗：创建一个src IP地址与自身IP地址不同的数据包</p>
+<ul>
+<li>从一个攻击者或者多个攻击者发送多个请求，或者直接发送广播数据包</li>
+<li>减灾：<font color='blue'>设置路由器不允许内部转发，或者不允许某些ICMP协议从外部进入进行减灾</font></li>
+</ul>
+<p>还有一种攻击是会话欺骗攻击：通过同时对路由表或者ARP缓存进行攻击，让回送数据包到达攻击者主机上</p>
+<h3 id="7-基于流量的攻击"><a href="#7-基于流量的攻击" class="headerlink" title="7.基于流量的攻击"></a>7.基于流量的攻击</h3><h4 id="1-IP协议"><a href="#1-IP协议" class="headerlink" title="1.IP协议"></a>1.IP协议</h4><p>嗅探：对数据包的嗅探最常见的地方是在无线网络中</p>
+<p>消除方法：IP载荷加密</p>
+<p>雪崩：</p>
+<p>1.发送远程IP数据广播包，攻击者向远程的网络发送一个广播包并请求应答，减灾：禁止广播</p>
+<h4 id="2-ARP协议"><a href="#2-ARP协议" class="headerlink" title="2.ARP协议"></a>2.ARP协议</h4><p>另一种雪崩式ARP协议，攻击者远程制造一个ARP广播雪崩</p>
+<h3 id="8-BOOTP-DHCP"><a href="#8-BOOTP-DHCP" class="headerlink" title="8.BOOTP/DHCP"></a>8.BOOTP/DHCP</h3><h4 id="8-1BOOTP"><a href="#8-1BOOTP" class="headerlink" title="8.1BOOTP"></a>8.1BOOTP</h4><p>有两种分配IP地址的方式，第一种是静态的，一般是手工分配地址和网络掩码，第二种方法是动态的，这种情况下一般使用DHCP动态分配IP地址</p>
+<p>BOOTP基于请求设备的硬件地址，它每次将同一个IP地址分配给同一台设备。BOOTP协议要求有一个BOOTP服务器，有一个配置表，对应硬件地址和IP地址。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230207100241762.png" alt="image-20230207100241762"></p>
+<p>这里首先客户端IP设置为0.0.0.0本机IP，然后发送一个广播包，在67号端口运行BOOTP程序的服务器将接受这个数据包，并发送回复，目的硬件地址是客户端的硬件地址，这里是因为客户端主机还没有IP地址，BOOTP载荷将封装在UDP中</p>
+<p>可以使用BOOTP中继</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230207100749602.png" alt="image-20230207100749602"></p>
+<p>这里BOOTP中继起到了数据包转发的功能</p>
+<h4 id="8-2-DHCP"><a href="#8-2-DHCP" class="headerlink" title="8.2 DHCP"></a>8.2 DHCP</h4><p>BOOTP协议的IP地址和硬件地址之间的映射是静态的，仍然要求管理员配置服务器</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230207101008035.png" alt="image-20230207101008035"></p>
+<p>静态池和BOOTP一样的运行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230207101038507.png" alt="image-20230207101038507"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230207101331420.png" alt="image-20230207101331420"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230207101343461.png" alt="image-20230207101343461"></p>
+<h4 id="8-3-基于头部的攻击"><a href="#8-3-基于头部的攻击" class="headerlink" title="8.3 基于头部的攻击"></a>8.3 基于头部的攻击</h4><p>UDP载荷运载，头部设计的很简单，没有基于头部的攻击</p>
+<h4 id="8-4基于协议的攻击"><a href="#8-4基于协议的攻击" class="headerlink" title="8.4基于协议的攻击"></a>8.4基于协议的攻击</h4><p>1.BOOTP</p>
+<font color='blue'>攻击者假装成BOOTP服务器向攻击者发送虚假的信息，最好归于基于验证的攻击</font>
+
+<p>2.DHCP</p>
+<p>1.<font color='red'>DHCP Starvation attack</font> 攻击者使用多个虚拟的硬件地址来发送大量的DHCP查找数据包，其目的是消耗掉动态池中所有的IP地址，这种攻击很难进行消除，会造成服务器拒绝服务</p>
+<p>2.伪装成客户端，向服务器发送一个DHCP释放数据包</p>
+<ul>
+<li>敌手能力：访问网络，可以选择嗅探查找数据包，这样攻击更有针对性，不然只能根据地址池尝试</li>
+<li>攻击结果：网络混乱</li>
+<li>适用场所：公开的无线网络</li>
+<li>减灾：很难消除</li>
+</ul>
+<h4 id="8-5-基于验证的攻击"><a href="#8-5-基于验证的攻击" class="headerlink" title="8.5 基于验证的攻击"></a>8.5 基于验证的攻击</h4><p>BOOTP和DHCP是不进行验证的，会对任何请求进行回应</p>
+<p>1.对BOOTP和静态的DHCP来说，只关注未验证客户端地址的分配问题，可以增加访问控制</p>
+<p>2.一个欺骗性的DHCP服务器能够给一个客户端分配一个网络中无效的地址，攻击者需要看到来自客户端的DHCP数据包</p>
+<p>增加额外的验证：需要进行密码和密钥交换，验证在一个封闭的网络中能很好工作，但在开放的无线网络中不好办</p>
+<h4 id="8-6-基于流量的攻击"><a href="#8-6-基于流量的攻击" class="headerlink" title="8.6 基于流量的攻击"></a>8.6 基于流量的攻击</h4><p>非秘密信息，因此嗅探并不是一个很关键的点， 也没有很好的雪崩攻击的方式</p>
+<h3 id="通用的对抗措施"><a href="#通用的对抗措施" class="headerlink" title="通用的对抗措施"></a>通用的对抗措施</h3><p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230207112439362.png" alt="image-20230207112439362"></p>
+<p>IP过滤和网络地址转化用来保护网络不受攻击，另外两个提供端到端的数据包验证和加密</p>
+<h4 id="1-IP过滤"><a href="#1-IP过滤" class="headerlink" title="1.IP过滤"></a>1.IP过滤</h4><p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230207112929906.png" alt="image-20230207112929906"></p>
+<h4 id="2-NAT转换"><a href="#2-NAT转换" class="headerlink" title="2.NAT转换"></a>2.NAT转换</h4><p>静态NAT：外部地址和内部地址之间一一映射，没有减少所需公共地址的数量，适用于小型网络</p>
+<p>动态NAT：内部地址多于公共地址，适用于大型网络</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230207115226244.png" alt="image-20230207115226244"></p>
+<p>使用NAT一般内部都为客户端，因此不必仔细考虑第一个外部数据包到达时的情况，NAT的一个好处时当NAT的目标地址和目标端口不在隧道表中，它可能只是丢弃这个数据包，也可能发回一个ICMP目标不可达，无论是哪一种情况，这个数据包都不会进入私有的网络中</p>
+<h4 id="3-虚拟专用网VPN"><a href="#3-虚拟专用网VPN" class="headerlink" title="3.虚拟专用网VPN"></a>3.虚拟专用网VPN</h4><p>VPN用来提供通信双方的加密和验证通信信道，VPN分成三类：网络到网络、客户端到网络和客户端到客户端</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230207150915366.png" alt="image-20230207150915366"></p>
+<p>网络到网络和客户端到网络均有两种配置，一种是所有到主网络上的流量走VPN，所有不到主网络上的流量走互联网，另一种配置是将客户端/网络变成主网络的一部分，所有的流量都走VPN</p>
+<p>VPN的好处是能够避免嗅探和验证，VPN提供对受控网络的访问</p>
+<h4 id="4-IPSEC"><a href="#4-IPSEC" class="headerlink" title="4.IPSEC"></a>4.IPSEC</h4><p>IPSEC是一种为IPV6设计的支持加密和验证的协议，IPSEC一个头部支持验证，另一个头部支持加密和验证</p>
+<p>验证头部是一个扩展头部，能够验证数据没有被改动</p>
+<p>能够首先对数据进行哈希运算，然后再对哈希的值进行加密</p>
+<p>第二个头部支持载荷加密，并且支持验证，esp头部+载荷+esp尾部+验证数据，IPSEC能够减少嗅探和验证攻击，实现的真正问题是密钥的分发，需要使用PKI公钥基础设施</p>
+<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h4><p>ARP缓存还有一个特点是，每个条目是有有效期的；一段时间之后就过期了。这也是符合直觉的。因为IP地址和MAC地址的对应关系不是一成不变的。另外就是ARP缓存是无状态的；也即，它不是一定要自己发出请求只利用回复更新自己的表，只要能收到新的ARP信息，它就很开心地更新了。【更新：若收到应答包，目的mac地址是硬件广播地址或是者本机网卡地址，无论目的IP是不是本机网卡IP，只要缓存表中已经存在对应的ARP条目，且与收到的应答条目不一致，那么就要更新该条目。若缓存表中没有存在该条目，那么则忽略该应答。】</p>
+<p>【Gratuitous ARP也称为免费ARP。无故ARP。Gratuitous ARP不同于一般的ARP请求，它并不是期待得到IP相应的MAC地址，而是当主机启动的时候，将发送一个Gratuitous arp请求，即请求自己的IP地址的MAC地址。</p>
+<p>免费 ARP 数据包有以下 3 个作用：</p>
+<ul>
+<li>该类型报文起到一个宣告作用。它以广播的形式将数据包发送出去，不需要得到回应，只为了告诉其他计算机自己的 IP 地址和 MAC 地址。</li>
+<li>可用于检测 IP 地址冲突。当一台主机发送了免费 ARP 请求报文后，如果收到了 ARP 响应报文，则说明网络内已经存在使用该 IP 地址的主机。</li>
+<li>可用于更新其他主机的 ARP 缓存表。如果该主机更换了网卡，而其他主机的 ARP 缓存表仍然保留着原来的 MAC 地址。这时，可以发送免费的 ARP 数据包。其他主机收到该数据包后，将更新 ARP 缓存表，将原来的 MAC 地址替换为新的 MAC 地址。</li>
+</ul>
+<p>P层是没有超时重传机制的。如果IP层对一个数据包进行了分片，只要有一个分片丢失了，只能依赖于传输层进行重传，结果是所有的分片都要重传一遍</p>
+<p>ARP缓存中毒缓解技术<br>远程中毒ARP缓存有点困难，因为它需要物理访问网络或控制网络中的一台计算机。由于它并不总是那么容易，因此不经常听到ARP攻击。无论如何，采取预防措施总比吃药好。网络管理员应注意不要发生此类攻击。以下是一些缓解措施：</p>
+<p>对于小型网络，可以维护静态ARP条目。静态意味着不变，因此，顾名思义，这些条目不能更改，因此，黑客试图更改映射的任何尝试都会失败。这适用于小型网络，但不适用于大型网络，因为添加到网络中的每个新设备的映射都需要手动完成。<br>对于大型网络，可以探索网络交换机的端口安全功能。某些功能在打开时会强制交换机为交换机上的每个物理端口仅允许一个MAC地址。此功能可确保计算机无法更改其MAC地址，并且不能将多个MAC映射到其计算机，从而防止像“中间人”这样的攻击。<br>通常，可以部署某些监视工具（如ARPwatch）来在网络上发生某些恶意ARP活动时获取警报。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">Strider</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/01/29/network3/">http://example.com/2023/01/29/network3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Network-Security/">Network Security</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=null" async="async"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/07/network4/"><img class="prev-cover" src="https://cdn.pixabay.com/photo/2023/02/01/16/04/fog-7760708__340.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Network Security(四)</div></div></a></div><div class="next-post pull-right"><a href="/2023/01/28/network2/"><img class="next-cover" src="https://cdn.pixabay.com/photo/2022/11/14/10/49/mountains-7591326__340.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Network Security(一)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/01/27/network1/" title="Network Security(二)"><img class="cover" src="https://cdn.pixabay.com/photo/2022/10/24/11/55/autumn-7543217_640.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-27</div><div class="title">Network Security(二)</div></div></a></div><div><a href="/2023/01/28/network2/" title="Network Security(一)"><img class="cover" src="https://cdn.pixabay.com/photo/2022/11/14/10/49/mountains-7591326__340.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-28</div><div class="title">Network Security(一)</div></div></a></div><div><a href="/2023/02/07/network4/" title="Network Security(四)"><img class="cover" src="https://cdn.pixabay.com/photo/2023/02/01/16/04/fog-7760708__340.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-07</div><div class="title">Network Security(四)</div></div></a></div><div><a href="/2023/02/07/network5/" title="Network Security(五)"><img class="cover" src="https://cdn.pixabay.com/photo/2023/01/19/10/24/castle-7728772__340.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-07</div><div class="title">Network Security(五)</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/header.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Strider</div><div class="author-info__description">A blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:lc_lzq@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/1036472882" target="_blank" title="qq"><i class="QQ"></i></a><a class="social-icon" href="https://github.com/sdu-lzq" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is Strider's Blog.You can find an interesting soul here.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-Security"><span class="toc-text">Network Security</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="toc-text">网络层协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9C%B0%E5%9D%80"><span class="toc-text">1.地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-IP-%E5%9C%B0%E5%9D%80"><span class="toc-text">1.1 IP 地址</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%89%B9%E6%AE%8AIP%E5%9C%B0%E5%9D%80"><span class="toc-text">特殊IP地址</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80"><span class="toc-text">网络地址</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%B9%BF%E6%92%AD%E5%9C%B0%E5%9D%80"><span class="toc-text">直接广播地址</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%97%E9%99%90%E5%B9%BF%E6%92%AD%E5%9C%B0%E5%9D%80"><span class="toc-text">受限广播地址</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9C%AC%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80"><span class="toc-text">本网络地址</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%8E%AF%E5%9B%9E%E5%9C%B0%E5%9D%80"><span class="toc-text">环回地址</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E8%B7%AF%E7%94%B1"><span class="toc-text">1.2 路由</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E6%95%B0%E6%8D%AE%E5%8C%85%E6%A0%BC%E5%BC%8F"><span class="toc-text">1.3 数据包格式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ARP"><span class="toc-text">2.ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-ICMP"><span class="toc-text">3.ICMP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%9F%BA%E4%BA%8E%E5%A4%B4%E9%83%A8%E7%9A%84%E6%94%BB%E5%87%BB"><span class="toc-text">4.基于头部的攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%9F%BA%E4%BA%8E%E5%8D%8F%E8%AE%AE%E7%9A%84%E6%94%BB%E5%87%BB"><span class="toc-text">5.基于协议的攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%9F%BA%E4%BA%8E%E8%AE%A4%E8%AF%81%E7%9A%84%E6%94%BB%E5%87%BB"><span class="toc-text">6.基于认证的攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%9F%BA%E4%BA%8E%E6%B5%81%E9%87%8F%E7%9A%84%E6%94%BB%E5%87%BB"><span class="toc-text">7.基于流量的攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-IP%E5%8D%8F%E8%AE%AE"><span class="toc-text">1.IP协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-ARP%E5%8D%8F%E8%AE%AE"><span class="toc-text">2.ARP协议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-BOOTP-DHCP"><span class="toc-text">8.BOOTP&#x2F;DHCP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1BOOTP"><span class="toc-text">8.1BOOTP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-DHCP"><span class="toc-text">8.2 DHCP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-%E5%9F%BA%E4%BA%8E%E5%A4%B4%E9%83%A8%E7%9A%84%E6%94%BB%E5%87%BB"><span class="toc-text">8.3 基于头部的攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-4%E5%9F%BA%E4%BA%8E%E5%8D%8F%E8%AE%AE%E7%9A%84%E6%94%BB%E5%87%BB"><span class="toc-text">8.4基于协议的攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-5-%E5%9F%BA%E4%BA%8E%E9%AA%8C%E8%AF%81%E7%9A%84%E6%94%BB%E5%87%BB"><span class="toc-text">8.5 基于验证的攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-6-%E5%9F%BA%E4%BA%8E%E6%B5%81%E9%87%8F%E7%9A%84%E6%94%BB%E5%87%BB"><span class="toc-text">8.6 基于流量的攻击</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E7%9A%84%E5%AF%B9%E6%8A%97%E6%8E%AA%E6%96%BD"><span class="toc-text">通用的对抗措施</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-IP%E8%BF%87%E6%BB%A4"><span class="toc-text">1.IP过滤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-NAT%E8%BD%AC%E6%8D%A2"><span class="toc-text">2.NAT转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%99%9A%E6%8B%9F%E4%B8%93%E7%94%A8%E7%BD%91VPN"><span class="toc-text">3.虚拟专用网VPN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-IPSEC"><span class="toc-text">4.IPSEC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="toc-text">注意点</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/04/innovation/" title="innovation"><img src="https://cdn.pixabay.com/photo/2023/04/15/15/16/house-7927916__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="innovation"/></a><div class="content"><a class="title" href="/2023/05/04/innovation/" title="innovation">innovation</a><time datetime="2023-05-04T13:28:59.000Z" title="Created 2023-05-04 21:28:59">2023-05-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码"><img src="https://cdn.pixabay.com/photo/2023/04/05/09/44/landscape-7901065__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="后量子密码"/></a><div class="content"><a class="title" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码">后量子密码</a><time datetime="2023-04-26T08:17:06.000Z" title="Created 2023-04-26 16:17:06">2023-04-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/20/Reverse4/" title="Reverse4"><img src="https://cdn.pixabay.com/photo/2023/04/11/16/11/ocean-7917678__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse4"/></a><div class="content"><a class="title" href="/2023/04/20/Reverse4/" title="Reverse4">Reverse4</a><time datetime="2023-04-20T00:24:39.000Z" title="Created 2023-04-20 08:24:39">2023-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/06/Reverse3/" title="Reverse3"><img src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse3"/></a><div class="content"><a class="title" href="/2023/04/06/Reverse3/" title="Reverse3">Reverse3</a><time datetime="2023-04-06T00:42:40.000Z" title="Created 2023-04-06 08:42:40">2023-04-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/23/Reserve2/" title="Reserve2"><img src="https://cdn.pixabay.com/photo/2023/04/10/10/19/mountain-7913365_640.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reserve2"/></a><div class="content"><a class="title" href="/2023/03/23/Reserve2/" title="Reserve2">Reserve2</a><time datetime="2023-03-23T00:24:46.000Z" title="Created 2023-03-23 08:24:46">2023-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Strider</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

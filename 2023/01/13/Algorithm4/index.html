@@ -1,0 +1,475 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Design and Analysis of Algorithm4 | Strider's blog</title><meta name="author" content="Strider"><meta name="copyright" content="Strider"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Divide and Conquer (I)1.分治算法介绍 Divide(分开):将原始问题分成几个可以独立解决的子问题              Conquer(击破):递归或者迭代 解决子问题，当子问题很小时，就能够被彻底解决 Combine(结合):将子问题的解决方案结合成整体的解决方案,由算法的核心递归结构协调  Why Divide-and-Conquer 一般情况下比暴力算法要表现得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Design and Analysis of Algorithm4">
+<meta property="og:url" content="http://example.com/2023/01/13/Algorithm4/index.html">
+<meta property="og:site_name" content="Strider&#39;s blog">
+<meta property="og:description" content="Divide and Conquer (I)1.分治算法介绍 Divide(分开):将原始问题分成几个可以独立解决的子问题              Conquer(击破):递归或者迭代 解决子问题，当子问题很小时，就能够被彻底解决 Combine(结合):将子问题的解决方案结合成整体的解决方案,由算法的核心递归结构协调  Why Divide-and-Conquer 一般情况下比暴力算法要表现得">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.pixabay.com/photo/2016/10/18/21/22/beach-1751455__340.jpg">
+<meta property="article:published_time" content="2023-01-13T11:07:17.000Z">
+<meta property="article:modified_time" content="2023-05-04T12:54:37.819Z">
+<meta property="article:author" content="Strider">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.pixabay.com/photo/2016/10/18/21/22/beach-1751455__340.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/01/13/Algorithm4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Design and Analysis of Algorithm4',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-04 20:54:37'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/header.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.pixabay.com/photo/2016/10/18/21/22/beach-1751455__340.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Strider's blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Design and Analysis of Algorithm4</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-01-13T11:07:17.000Z" title="Created 2023-01-13 19:07:17">2023-01-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-05-04T12:54:37.819Z" title="Updated 2023-05-04 20:54:37">2023-05-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Algorithm/">Algorithm</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Design and Analysis of Algorithm4"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Divide-and-Conquer-I"><a href="#Divide-and-Conquer-I" class="headerlink" title="Divide and Conquer (I)"></a>Divide and Conquer (I)</h2><h3 id="1-分治算法介绍"><a href="#1-分治算法介绍" class="headerlink" title="1.分治算法介绍"></a>1.分治算法介绍</h3><ul>
+<li>Divide(分开):将原始问题分成几个可以独立解决的子问题             </li>
+<li>Conquer(击破):递归或者迭代 解决子问题，当子问题很小时，就能够被彻底解决</li>
+<li>Combine(结合):将子问题的解决方案结合成整体的解决方案,由算法的核心递归结构协调</li>
+</ul>
+<p><strong>Why Divide-and-Conquer</strong></p>
+<p>一般情况下比暴力算法要表现得好</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114180457864.png" alt="image-20230114180457864"></p>
+<p>分治算法的基本结构如下所示</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114180713938.png" alt="image-20230114180713938"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114180830941.png" alt="image-20230114180830941"></p>
+<p>下面将介绍两种典型的递归结构</p>
+<p><strong>Case 1: Subproblems Reduce Size by a Constant</strong></p>
+<p>第一种情况是子问题的大小减少常数大小</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114184450984.png" alt="image-20230114184450984"></p>
+<p><strong>Case 2: Subproblems Reduce Size Linearly</strong></p>
+<p>第二种情况是线性的减少子问题大小，那么复杂度计算就可以使用递归树或者主定理来解决</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114190426918.png" alt="image-20230114190426918"></p>
+<h4 id="examples"><a href="#examples" class="headerlink" title="examples"></a>examples</h4><p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114191224102.png" alt="image-20230114191224102"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114191240653.png" alt="image-20230114191240653"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114191253866.png" alt="image-20230114191253866"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114191327485.png" alt="image-20230114191327485"></p>
+<h3 id="2-Chip-Test（芯片测试）"><a href="#2-Chip-Test（芯片测试）" class="headerlink" title="2.Chip Test（芯片测试）"></a>2.Chip Test（芯片测试）</h3><p>基本测试方法：将A和B两个芯片放在测试床上，进行mutual(相互)测试</p>
+<p>假设：好芯片的报告一定是正确的，但是差芯片的报告就不确定的</p>
+<p>这是两个芯片报告的所有情况和判断，这里就注意当两个芯片中有一个坏芯片时，那么一定会出现坏的报告</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114192307545.png" alt="image-20230114192307545"></p>
+<font  color='blue'>Input:</font> n chips, #(good) − #(bad) ≥ 1
+
+<font  color='blue'>Question:</font>Devise(设计) a test method to choose one good chip from n chips
+
+<font  color='blue'>Requirement:</font>相互测试的次数尽可能的小
+
+<font  color='blue'>Starting point:</font>. Given a chip A, how to check if A is good or bad
+
+方法：使用其它n-1个芯片测试A，也就是利用n的奇偶性
+
+当n=7，其中好芯片的数量大于4
+
+- A是好芯片-----至少剩下6个中3个报告是好的
+- A是坏芯片------至少剩下的6个中4个报告是坏的
+
+推广，n是一个奇数，那么好芯片的数量大于等于$(n+1)/2$
+
+- A是好芯片-----至少剩下n-1个中$(n+1)/2-1$个报告好的
+- A是坏芯片-----至少剩下n-1个中$(n+1)/2$个报告坏的
+
+如果n是偶数，那么好芯片的数量大于$n/2+1$
+
+- A是好芯片-------至少$n/2$个报告好
+- A是坏芯片-------至少$n/2+1$个报告坏
+
+结论：n-1份报告中，至少一半报好，那么A是好芯片，超过一半报坏，那就是坏芯片
+
+**暴力算法**
+
+方法：随机选择一个芯片，应用上述的测试方法，如果它是一个好的，那么测试结束。如果不是，那么就discard(丢弃)它并且随机的选择另外一个芯片，直到得到一个好芯片。
+
+正确性：因为丢弃的是坏芯片，一直能够保证好芯片的数量大于一半
+
+- 第一轮：随机选择一个坏芯片，最多n-1测试
+
+- 第二轮：随机选择一个坏芯片，最多n-2测试
+
+  <font color='red'>因为第一轮已经丢弃了一个坏芯片，举个例子7个芯片，4个好的，第一轮选择一个坏的，剩下6个4好两坏，要超过半数说坏芯片那么就测试6次，但是第二轮再选一个坏的，其实问题已经变成了6个里面选择，那么只需超过一半，其实只需要测5个也就是n-2个就可以，因为5个里就是1个坏，4个好</font>
+
+<p>这里还有一个更加好的方法，也就是在i&gt;1轮中，也就是每轮再随机丢掉一个，这样也可以保证芯片数大于一半，那么最多需要$n-1-2i$</p>
+<p>总体来说这样最坏情况下的时间复杂度是$n^2$级别的</p>
+<p><strong>分治算法:</strong>这里假设n是偶数，那么就可以将n个芯片分成两组进行相互测试，剩下的芯片形成一个子问题并开始下一轮测试</p>
+<p>测试和消除的规则：</p>
+<ul>
+<li>如果都是“好”：那么就随机选择一个进入下一轮</li>
+<li>如果是其它情况就全部扔掉</li>
+</ul>
+<p>递归结束的情况是$n\le3$</p>
+<ul>
+<li>3个芯片测试一次就够了，前提是好芯片数量还是多于坏芯片<ul>
+<li>如果都是好，那么说明都是好芯片，那么就随机选一个</li>
+<li>如果一好一坏，说明有一个坏芯片，那么选剩下的一个</li>
+<li>如果都是坏，也是说明一个坏芯片，选择剩下那个</li>
+</ul>
+</li>
+<li>一个或者两个芯片，那么都是好芯片</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114203243448.png" alt="image-20230114203243448"></p>
+<p>这是证明为什么按照规则好芯片一定比坏芯片多，其实由上面的也可以理解，如果都为好，随机挑选一个，其它情况丢弃，丢弃的都是一好一坏或者都坏的，这样一定丢弃的坏的大于等于好的，如果都是好的就选一个，因为偶数情况下好的一定比坏的对多一个，所有选一个情况也对好的有利</p>
+<p>当n是奇数的情况下，将会有一个芯片被剩下，那么就使用原始的芯片测试方法</p>
+<ul>
+<li></li>
+<li><p>如果是好芯片那么算法就结束了</p>
+</li>
+<li>如果是坏芯片就消除它进入下一轮</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114211021098.png" alt="image-20230114211021098"></p>
+<p>复杂度分析</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114211153539.png" alt="image-20230114211153539"></p>
+<h3 id="3-Selection-Problem"><a href="#3-Selection-Problem" class="headerlink" title="3.Selection Problem"></a>3.Selection Problem</h3><h4 id="3-1-选择最大和最小"><a href="#3-1-选择最大和最小" class="headerlink" title="3.1 选择最大和最小"></a>3.1 选择最大和最小</h4><p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114211451336.png" alt="image-20230114211451336"></p>
+<p>中位数是一个表征数据序列的值，它是一个数据值和平均数不一样，也不受异常数据的影响</p>
+<p>找最大值就扫描一遍数组，复杂度为$O(n)$</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114212810740.png" alt="image-20230114212810740"></p>
+<p>分组算法：将数列分为高数列和低数列</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114213932475.png" alt="image-20230114213932475"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114214102487.png" alt="image-20230114214102487"></p>
+<p>复杂度计算</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230114214151005.png" alt="image-20230114214151005"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230115095619389.png" alt="image-20230115095619389"></p>
+<h4 id="3-2-选择第二大的元素"><a href="#3-2-选择第二大的元素" class="headerlink" title="3.2 选择第二大的元素"></a>3.2 选择第二大的元素</h4><p>朴素的想法就是先遍历一遍找到最大的元素，然后将最大的元素剔除，然后再遍历一遍找到第二大的元素</p>
+<p>时间复杂度：$W(n)=(n-1)+(n-2)=2n-3$</p>
+<p>Idea:用时间换空间</p>
+<ul>
+<li>将在找最大值过程种被最大值打败的值记录下来为L</li>
+<li>在L中选择最大的元素</li>
+</ul>
+<p><strong>Tournament(锦标赛) Algorithm for Second Largest</strong></p>
+<p>1.将元素分为两组</p>
+<p>2.在每一组中，两个元素进行比较，较大的元素进入下一级，只在列表中记录被打败的元素</p>
+<p>3.重复上述过程直到只有一个元素剩下</p>
+<p>4.在最大数集中选最大元素</p>
+<p>这个名字来自于单场淘汰赛：球员参加双边比赛，胜者晋级下一级。等级制度一直持续到最后一场比赛确定最终获胜者。锦标赛决定了最佳球员，但在最后一场比赛中被击败的球员可能不是第二名，他可能比获胜者击败的其他球员差。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230115105633630.png" alt="image-20230115105633630"></p>
+<p>上面是算法的直观表示，首先进行两两的分组，然后算出每组赢的元素并记录击败的元素，之后在最大元素的击败列表中选择第二大元素，这时候就是第二大元素，因为最大元素要成为最大的元素，一定在竞争中打败了第二大元素。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230115110308362.png" alt="image-20230115110308362"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230115211333225.png" alt="image-20230115211333225"></p>
+<p>那么时间复杂度由两部分组成，一方面是总体比较数$n/2+n/4+\dots+1$，最终淘汰元素数等于n-1，因为比较一次淘汰一个元素。另外还有一部分是打败集中的元素，从上面的分析中可以得到这个数字等于淘汰的轮数，最终</p>
+<script type="math/tex; mode=display">
+W(n)=n-1+\lceil\log n\rceil-1</script><h4 id="3-3通用元素选择"><a href="#3-3通用元素选择" class="headerlink" title="3.3通用元素选择"></a>3.3通用元素选择</h4><p>计算中位数有广泛的应用</p>
+<ul>
+<li>朴素算法：排序并且找$W(n)=n\log n$</li>
+<li>理想情况下文明想要线性的复杂度</li>
+<li>其实对于排序已经超出了我们的需求，因为我们并不关系元素之间的相对位置</li>
+</ul>
+<p><strong>朴素算法：</strong></p>
+<p>算法一：</p>
+<ul>
+<li>将选择最小元素的算法运行k次</li>
+<li>时间复杂度是:$O(kn)$</li>
+</ul>
+<p>算法二：</p>
+<ul>
+<li>排序然后输出第k小的元素</li>
+<li>时间复杂度$O(n\log n)$</li>
+</ul>
+<p>下面使用分治算法来完成这一点：</p>
+<ul>
+<li>使用一些$m^<em>$作为枢轴元素，用m来划分小于m的元素S1和大于$m^</em>$的元素S2<ol>
+<li>If$k ≤ |S1|$, then find the k-smallest in S</li>
+<li>If $k = |S1| + 1$, then m∗ is the k-smallest</li>
+<li>If $k &gt; |S1| + 1$, then find the k − |S1| − 1-smallest in S2</li>
+</ol>
+</li>
+</ul>
+<font color='blue'>Question.</font>如何选择$m^*$来控制子问题的大小
+
+<font color='red'>理想情况：</font>找到准确的中位数，但是这意味着我们需要首先解决一个相同规模的问题
+
+真实情况：使用准中位数代替
+
+![image-20230115231032110](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230115231032110.png)
+
+这是算法的基本结构，首先按5个一组对所有数据进行分组，对每组进行排序，然后找到中位数，然后按中位数大小对数组进行重新排序，这样就划分出了4个区域。C区域就是左上区域一定小于m\*，B是右上区域一定大于m\*，另外两个区域大小不确定需要进一步的比较.
+
+下面是一个例子，由于这里k是6，左下只有5个元素，因此需要将左侧整体来看
+
+![image-20230115231610139](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230115231610139.png)
+
+![image-20230115231619975](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230115231619975.png)
+
+下面是伪代码，4-5行是将子问题分割，7-9行是递归解决
+
+![image-20230115231944779](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230115231944779.png)
+
+复杂度计算，复杂度计算被分割的质量所决定
+
+，我们可以想一种极端的情况，也就是A和D区域在一边，也就是恰好选择了最大或者最小的中位数
+
+![image-20230115232941485](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230115232941485.png)
+
+这里将n带入，得到下面的公式
+
+![image-20230116120035922](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116120035922.png)
+
+然后就可以写出递归方程，$W(n)$由三部分组成，一部分是在每个5分组中找中位数是n，然后在这些中位数中再找中位数又是一个小规模问题$W(n/5)$,使用$m^*$将S分组又是一遍遍历然后得到n复杂度，最后递归最大子问题
+
+![image-20230116120620484](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116120620484.png)
+
+<font color='green'>像这样的，一个问题和前面多个子问题有关系，可以使用递归树来解决，通过最大深度和层之间的关系解决：</font>
+
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116120813930.png" alt="image-20230116120813930"></p>
+<font color='blue'>Question.</font>为什么选择5作为每一个分组的大小
+
+分析：分组大小会影响整体的复杂度，分组的选择会影响在每组中位数中选择，也会影响子问题的规模，这里实际是一个tradeoff
+
+下面是计算在n=3的时候
+
+![image-20230116121222596](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116121222596.png)
+
+这里的关键就是要使递归树层之间的递归关系尽量是小于1的关系逐步减小
+
+这里对时间复杂度计算做总结
+
+![image-20230116121353266](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116121353266.png)
+
+#### 3.4选择中位数的应用：优化管道设计
+
+<font color='blue'>Problem.</font>假设由n个油井，任务是要在n个油井之间建立一个管道系统，其中有一个横着的主管道，最短路径
+
+![image-20230116121638844](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116121638844.png)
+
+这里可以让油井看作有纵轴坐标的一些点，这里也就是找到坐标的中间值，下面来证明这件事，首先假设这个中位坐标向下移动了一些的距离：
+
+![image-20230116122010416](C:\Users\lc-lzq\AppData\Roaming\Typora\typora-user-images\image-20230116122010416.png)
+
+下面是证明，可以发现在奇数或者偶数的情况下，中间的主管道移动部分长度，最终的总和长度总是增加或者不变
+
+![image-20230116170751519](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116170751519.png)
+
+### 4.最近点对问题
+
+![image-20230116170850714](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116170850714.png)
+
+![image-20230116170923393](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116170923393.png)
+
+上面有一个非退化假设，也就是没有两个点拥有相同的x坐标或者y坐标
+
+**Divide and Conquer**
+
+- 分开：画一条垂直的线$l$因此两边各有$n/2$个点：$P_L,P_R$
+- 击破：递归的在每一侧找到最近的点对
+- <font color='red'>合并：</font>这里合并时一个最大的问题，因为可能最近的点对是穿过两侧的
+
+下面是n=10的例子
+
+![image-20230116171627706](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116171627706.png)
+
+下面是伪代码：
+
+1. 当问题规模小于3的时候就直接计算
+2. 将坐标集X和Y进行排序
+3. 然后根据排序来画一条中分线
+4. 递归的在中分线两侧来找min
+5. 下面是合并操作，将左右集最小值和跨线的值比较
+
+![image-20230116171908186](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116171908186.png)
+
+很大的问题：如何找到跨线的点对
+
+这里我们想找到的是跨线比左右集小值还小的值，那么其实只需要上下左右延$\delta$，并将两侧切分为6个长方形，因为最小是$\delta$,而对角线小于$\delta$
+
+![image-20230116172521237](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116172521237.png)
+
+第二个问题，如何来找到相对应的六个点，这里面有一个问题是从已经排序好的$Y$中只需要卡纵轴范围就可以找到值
+
+![image-20230116191632525](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116191632525.png)
+
+![image-20230116191717660](https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116191717660.png)
+
+<font color='blue'>Recap</font>
+
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116192041812.png" alt="image-20230116192041812"></p>
+<ul>
+<li>生成一个指示表也就是哈希表大小为n，$H[i]=0$暗示点在左侧，$H[i]=1$暗示点在右侧</li>
+<li>时间复杂度为n</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116192437032.png" alt="image-20230116192437032"></p>
+<p>这里优化以后就是先sort然后再进行分割</p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116192949691.png" alt="image-20230116192949691"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/sdu-lzq/image_box@main/image_blog/image-20230116193018454.png" alt="image-20230116193018454"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">Strider</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2023/01/13/Algorithm4/">http://example.com/2023/01/13/Algorithm4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Algorithm/">Algorithm</a></div><div class="post_share"><div class="addthis_inline_share_toolbox"></div><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=null" async="async"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/01/16/algorithm5/"><img class="prev-cover" src="https://cdn.pixabay.com/photo/2022/11/07/20/23/new-york-7577186__340.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Design and Analysis Algoritm5</div></div></a></div><div class="next-post pull-right"><a href="/2023/01/12/algorithm3/"><img class="next-cover" src="https://cdn.pixabay.com/photo/2013/07/18/20/26/sea-164989__340.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Design and Analysis of Algorithms3</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/02/27/Leetcode2/" title="Leetcode(二)"><img class="cover" src="https://cdn.pixabay.com/photo/2023/01/21/02/40/cat-7732877__340.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-27</div><div class="title">Leetcode(二)</div></div></a></div><div><a href="/2023/02/23/Leetcode/" title="Leetcode(一)"><img class="cover" src="https://cdn.pixabay.com/photo/2023/02/11/13/43/building-7782841__340.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-23</div><div class="title">Leetcode(一)</div></div></a></div><div><a href="/2023/01/16/algorithm5/" title="Design and Analysis Algoritm5"><img class="cover" src="https://cdn.pixabay.com/photo/2022/11/07/20/23/new-york-7577186__340.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-16</div><div class="title">Design and Analysis Algoritm5</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/header.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Strider</div><div class="author-info__description">A blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:lc_lzq@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/1036472882" target="_blank" title="qq"><i class="QQ"></i></a><a class="social-icon" href="https://github.com/sdu-lzq" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is Strider's Blog.You can find an interesting soul here.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Divide-and-Conquer-I"><span class="toc-text">Divide and Conquer (I)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%88%86%E6%B2%BB%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="toc-text">1.分治算法介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#examples"><span class="toc-text">examples</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Chip-Test%EF%BC%88%E8%8A%AF%E7%89%87%E6%B5%8B%E8%AF%95%EF%BC%89"><span class="toc-text">2.Chip Test（芯片测试）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Selection-Problem"><span class="toc-text">3.Selection Problem</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E9%80%89%E6%8B%A9%E6%9C%80%E5%A4%A7%E5%92%8C%E6%9C%80%E5%B0%8F"><span class="toc-text">3.1 选择最大和最小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E9%80%89%E6%8B%A9%E7%AC%AC%E4%BA%8C%E5%A4%A7%E7%9A%84%E5%85%83%E7%B4%A0"><span class="toc-text">3.2 选择第二大的元素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3%E9%80%9A%E7%94%A8%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9"><span class="toc-text">3.3通用元素选择</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/04/innovation/" title="innovation"><img src="https://cdn.pixabay.com/photo/2023/04/15/15/16/house-7927916__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="innovation"/></a><div class="content"><a class="title" href="/2023/05/04/innovation/" title="innovation">innovation</a><time datetime="2023-05-04T13:28:59.000Z" title="Created 2023-05-04 21:28:59">2023-05-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码"><img src="https://cdn.pixabay.com/photo/2023/04/05/09/44/landscape-7901065__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="后量子密码"/></a><div class="content"><a class="title" href="/2023/04/26/%E5%90%8E%E9%87%8F%E5%AD%90%E5%AF%86%E7%A0%81/" title="后量子密码">后量子密码</a><time datetime="2023-04-26T08:17:06.000Z" title="Created 2023-04-26 16:17:06">2023-04-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/20/Reverse4/" title="Reverse4"><img src="https://cdn.pixabay.com/photo/2023/04/11/16/11/ocean-7917678__480.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse4"/></a><div class="content"><a class="title" href="/2023/04/20/Reverse4/" title="Reverse4">Reverse4</a><time datetime="2023-04-20T00:24:39.000Z" title="Created 2023-04-20 08:24:39">2023-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/06/Reverse3/" title="Reverse3"><img src="https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reverse3"/></a><div class="content"><a class="title" href="/2023/04/06/Reverse3/" title="Reverse3">Reverse3</a><time datetime="2023-04-06T00:42:40.000Z" title="Created 2023-04-06 08:42:40">2023-04-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/23/Reserve2/" title="Reserve2"><img src="https://cdn.pixabay.com/photo/2023/04/10/10/19/mountain-7913365_640.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Reserve2"/></a><div class="content"><a class="title" href="/2023/03/23/Reserve2/" title="Reserve2">Reserve2</a><time datetime="2023-03-23T00:24:46.000Z" title="Created 2023-03-23 08:24:46">2023-03-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Strider</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
